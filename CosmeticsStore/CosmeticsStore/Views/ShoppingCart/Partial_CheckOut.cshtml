@@ -1,0 +1,50 @@
+﻿@model CosmeticsStore.Models.OrderViewModel
+@using (Ajax.BeginForm("CheckOut", "Shoppingcart", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "load_data",
+    OnComplete = "OnSuccessCO",
+    OnFailure = "OnFailure"
+
+}, new { @Id = "myForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h3>Thông tin khách hàng</h3>
+    <div class="form-group">
+        <label>Họ tên khách hàng</label>
+        <input type="text" name="CustomerName" required class="form-control" autocomplete="off" />
+    </div>
+    <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" name="Phone" class="form-control" autocomplete="off" />
+    </div>
+    <div class="form-group">
+        <label>Địa chỉ</label>
+        <input type="text" name="Address" class="form-control" autocomplete="off" />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" name="Email" class="form-control" autocomplete="off" />
+    </div>
+    <div>
+        <label>Hình thức thanh toán</label>
+    </div>
+    <div class="form-group">
+        <input type="radio" name="TypePayment" value="1" checked="checked">
+        <img width="50" src="~/Content/assets/images/cod.jpg" /><label>COD</label><br>
+        <input type="radio" name="TypePayment" value="2">
+        <img width="50" src="~/Content/assets/images/chuyenkhoan.png" /><label>Chuyển Khoản</label><br>
+        <input type="radio" name="TypePayment" value="4">
+        <img width="50" src="~/Content/assets/images/vnpay.png" /><label>VNPay</label><br>
+        <input type="radio" name="TypePayment" value="3">
+        <img width="50" src="~/Content/assets/images/paypal.png" /><label>PayPal</label><br>
+        <input type="radio" name="TypePayment" value="5">
+        <img width="50" src="~/Content/assets/images/momo.png" /><label>Momo</label><br>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" style="background-color: #3CB371; color:#ffffff" class="btn btn-lg">Đặt hàng</button>
+    </div>
+
+
+}
