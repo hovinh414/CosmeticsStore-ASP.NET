@@ -106,11 +106,11 @@ a, a:hover, a:visited, a:active, a:link
 p a:active
 {
 	position: relative;
-	color: #3CB371;
+	color: #FF6347;
 }
 p a:hover
 {
-	color: #3CB371;
+	color: #FF6347;
 	background: #fde0db;
 }
 p a:hover::after
@@ -120,7 +120,7 @@ p a:hover::after
 ::selection
 {
 	background: #fde0db;
-	color: #3CB371;
+	color: #FF6347;
 }
 p::selection
 {
@@ -624,7 +624,7 @@ section
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background: #3CB371;
+	background: #fe4c50;
 	font-size: 12px;
 	color: #FFFFFF;
 }
@@ -812,7 +812,7 @@ section
 }
 .logo_container a span
 {
-	color: #3CB371;
+	color: #fe4c50;
 }
 
 /*********************************
@@ -855,7 +855,7 @@ section
 	align-items: center;
 	width: auto;
 	height: 40px;
-	background: #0094ff;
+	background: #fe4c50;
 	border-radius: 3px;
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
@@ -993,7 +993,7 @@ section
 .grid_sorting_button.active
 {
 	color: #FFFFFF;
-	background: #3CB371;
+	background: #fe4c50;
 }
 
 /*********************************
@@ -1074,7 +1074,7 @@ section
 .product_price
 {
 	font-size: 16px;
-	color: #3CB371;
+	color: #fe4c50;
 	font-weight: 600;
 }
 .product_price span
@@ -1124,7 +1124,7 @@ section
 }
 .product_bubble_red::after
 {
-	border-color: transparent transparent transparent #3CB371;
+	border-color: transparent transparent transparent #fe4c50;
 }
 .product_bubble_left::after
 {
@@ -1132,7 +1132,7 @@ section
 }
 .product_bubble_red
 {
-	background: #3CB371;
+	background: #fe4c50;
 }
 .product_bubble_green
 {
@@ -1196,7 +1196,7 @@ section
 {
 	font-family: 'FontAwesome';
 	content:'\f004';
-	color: #3CB371;
+	color: #fe4c50;
 }
 .favorite::after
 {
@@ -1205,7 +1205,7 @@ section
 }
 .favorite:hover::after
 {
-	color: #3CB371;
+	color: #fe4c50;
 }
 
 /*********************************
@@ -1252,7 +1252,7 @@ section
 	transform: translateX(-50%);
 	width: 60px;
 	height: 5px;
-	background: #3CB371;
+	background: #fe4c50;
 	content: '';
 }
 .timer
@@ -1276,7 +1276,7 @@ section
 {
 	font-size: 48px;
 	font-weight: 600;
-	color: #3CB371;
+	color: #fe4c50;
 	margin-top: 10px;
 }
 .timer_unit
@@ -1292,9 +1292,10 @@ section
 	background: #1e1e27;
 	margin-top: 52px;
 }
-	.deal_ofthe_week_button:hover {
-		background: #3CB371 !important;
-	}
+.deal_ofthe_week_button:hover
+{
+	background: #2b2b34 !important;
+}
 
 /*********************************
 7. Best Sellers
@@ -1413,7 +1414,7 @@ section
 .benefit_icon i
 {
 	font-size: 30px;
-	color: #3CB371;
+	color: #fe4c50;
 }
 .benefit_content
 {
@@ -1514,8 +1515,8 @@ section
 	font-size: 14px;
 	line-height: 16px;
 	font-weight: 500;
-	color: #3CB371;
-	border-bottom: solid 1px #3CB371;
+	color: #fe4c50;
+	border-bottom: solid 1px #fe4c50;
 	margin-top: 12px;
 }
 .blog_more:hover
@@ -1599,11 +1600,12 @@ section
 	font-weight: 400;
 	color: #b9b4c7 !important;
 }
-.newsletter_submit_btn {
+.newsletter_submit_btn
+{
 	width: 160px;
 	height: 46px;
 	border: none;
-	background: #3CB371;
+	background: #fe4c50;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 500;
@@ -1649,7 +1651,7 @@ section
 }
 .footer_nav li a:hover, .cr a, .cr i
 {
-	color: #3CB371;
+	color: #fe4c50;
 }
 .footer_social
 {
@@ -1680,5 +1682,5 @@ section
 }
 .footer_social ul li a:hover
 {
-	color: #3CB371;
+	color: #fe4c50;
 }
