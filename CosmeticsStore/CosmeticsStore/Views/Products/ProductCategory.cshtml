@@ -159,12 +159,12 @@
                                                     <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                                     @if (item.PriceScale > 0)
                                                     {
-                                                        <div class="product_price">@BookGrotto.Common.Common.FormatNumber(item.PriceScale, 0)<span>@BookGrotto.Common.Common.FormatNumber(item.Price, 0)</span></div>
+                                                        <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.PriceScale, 0)<span>@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</span></div>
                                                         @*<input type="hidden" value="@item.PriceSale" />*@
                                                     }
                                                     else
                                                     {
-                                                        <div class="product_price">@BookGrotto.Common.Common.FormatNumber(item.Price, 0)</div>
+                                                        <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</div>
                                                         <div style="display:none;" class="in_product_price"> @item.Price</div>
                                                     }
                                                 </div>
