@@ -48,7 +48,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Tổng tiền</label>
-                        <p class="form-control">@BookGrotto.Common.Common.FormatNumber(Model.TotalAmount, 0) đ</p>
+                        <p class="form-control">@CosmeticsStore.Common.Common.FormatNumber(Model.TotalAmount, 0) đ</p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -82,7 +82,19 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Trạng thái</label>
-                        <p class="form-control">@(Model.TypePayment ==1 ?"Chưa thanh toán":"Đã thanh toán")</p>
+                        @switch (Model.TypePayment)
+                        {
+                            case 1:
+                                <p class="form-control">Chờ Thanh Toán</p>
+                                break;
+                            case 6:
+                                <p class="form-control">Hủy Đơn Hàng</p>
+                                break;
+                            default:
+                                <p class="form-control">Đã Thanh Toán</p>
+                                break;
+                        }
+
                     </div>
                 </div>
 
@@ -92,15 +104,10 @@
                     <h2>Danh sách sản phẩm</h2>
                 </div>
                 <div class="col-12">
-                    @Html.Action("Partial_SanPham", "Order", new {id = Model.Id })
+                    @Html.Action("Partial_SanPham", "Order", new { id = Model.Id })
                 </div>
             </div>
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-            Footer
-        </div>
-        <!-- /.card-footer-->
     </div>
     <!-- /.card -->
 

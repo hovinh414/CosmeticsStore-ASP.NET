@@ -69,12 +69,23 @@
                                 <td>@item.CustomerName</td>
                                 <td>@item.Phone</td>
                                 <td>@CosmeticsStore.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
-                                <td>@(item.TypePayment==1? "Chờ thanh toán": "Đã thanh toán")</td>
+                                @*<td>@(item.TypePayment==1? "Chờ thanh toán": "Đã thanh toán")</td>*@
+                                @switch (item.TypePayment)
+                                {
+                                    case 1:
+                                        <td>Chờ Thanh Toán</td>
+                                        break;
+                                    case 6:
+                                        <td>Hủy Đơn Hàng</td>
+                                        break;
+                                    default:
+                                        <td>Đã Thanh Toán</td>
+                                        break;
+                                }
                                 <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
                                 <td>
                                     <a href="/admin/order/view/@item.Id" class="btn btn-sm btn-success">Chi tiết</a>
                                     <a href="#" class="btn btn-sm btn-primary btnCapNhat" data-id="@item.Id">Cập nhật</a>
-                                    <a href="#" class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">Huỷ đơn</a>
                                 </td>
                             </tr>
                             i++;
@@ -120,6 +131,9 @@
                         <option value="2 ">
                             Đã thanh toán
                         </option>
+                        <option value="6">
+                            Hủy Đơn Hàng
+                        </option>
                     </select>
                 </div>
             </div>
@@ -136,7 +150,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $('body').on('click', '.btnCapNhat', function () { 
+            $('body').on('click', '.btnCapNhat', function () {
                 var id = $(this).data("id");
                 $('#txtOrderId').val(id);
                 $('#modal-default').modal('show');
@@ -177,4 +191,4 @@
         });
 
     </script>
-} 
+}
