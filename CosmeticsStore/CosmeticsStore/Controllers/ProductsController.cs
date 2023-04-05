@@ -16,7 +16,7 @@ namespace CosmeticsStore.Controllers
         // GET: Products
         public ActionResult Index(string Searchtext, int? page)
         {
-            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
+            IEnumerable<Product> items = db.Products.OrderBy(x => x.Title);
             var pageSize = 12;
             if (page == null)
             {
