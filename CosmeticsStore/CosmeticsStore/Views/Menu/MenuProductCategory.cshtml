@@ -1,24 +1,28 @@
-﻿@*@model IEnumerable<CosmeticsStore.Models.EF.ProductCategory>
+﻿@model IEnumerable<CosmeticsStore.Models.EF.ProductCategory>
 
-    @if (Model != null && Model.Any())
-    {
-
-        <div class="banner">
-            <div class="container">
-                <div class="row">
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-md-4">
-                            <div class="banner_item align-items-center" style="background-image: url('')" >
-                                <div class="banner_category">
-                                    <a href="/danh-muc-san-pham/@item.Alias-@(item.Id)">@item.Title</a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
+@if (Model != null && Model.Any())
+{
+    <div style="padding-top:15px;" class="col text-center">
+        <div class="section_title">
+            <br />
+            <h2>Danh Mục Sản Phẩm</h2>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="container">
+            <div style="justify-content:center; display:flex;" class="row">
+                @foreach (var item in Model)
+                {
+                    <div style="padding: 15px;" class="col-md-2">
+                        <a href="/danh-muc-san-pham/@item.Alias-@(item.Id)">
+                            <span class="row" style="justify-content:center;"><img alt="Son Môi" src="@item.Icon"></span>
+                            <span class="row" style="justify-content:center;color:black;font-size:17px">@item.Title</span>
+                        </a>
+                    </div>
+                    
+                }
             </div>
         </div>
-    }
+    </div>
+}
 
-*@
