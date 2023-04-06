@@ -96,7 +96,7 @@ namespace CosmeticsStore.Controllers
                 ShoppingCart cart = (ShoppingCart)Session["cart"];
                 if (cart != null)
                 {
-                    
+
                     var order = new CosmeticsStore.Models.EF.Order();
                     order.CustomerName = req.CustomerName;
                     order.Phone = req.Phone;
@@ -118,21 +118,16 @@ namespace CosmeticsStore.Controllers
                     Random rd = new Random();
                     order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
                     // gui mail khach hang
-
-                    if (order.TypePayment == 3)
+                    switch (order.TypePayment)
                     {
-                        return RedirectToAction("PaymentWithPaypal");
-                        //tạo đơn hàng Paypal
-                    }
-                    if (order.TypePayment == 4)
-                    {
-                        return RedirectToAction("PaymentVNPay");
-                        //tạo hàng VNPay
-                    }
-                    if (order.TypePayment == 5)
-                    {
-                        return RedirectToAction("PaymentMomo");
-                        //tạo hàng VNPay
+                        case 3:
+                            return RedirectToAction("PaymentWithPaypal");
+                        case 4:
+                            return RedirectToAction("PaymentVNPay");
+                        case 5:
+                            return RedirectToAction("PaymentMomo");
+                        default:
+                            break;
                     }
                     SendMail(GetInfo.Email, cart, order);
                     return RedirectToAction("CheckOutSuccess");
@@ -176,29 +171,29 @@ namespace CosmeticsStore.Controllers
             contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code);
             contentCustomer = contentCustomer.Replace("{{SanPham}}", strSanPham);
             contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
-            contentCustomer = contentCustomer.Replace("{{TenKhachHang}}","Tên Người Nhận: " + order.CustomerName);
+            contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", "Tên Người Nhận: " + order.CustomerName);
             contentCustomer = contentCustomer.Replace("{{Phone}}", "Số Điện Thoại: " + order.Phone);
             contentCustomer = contentCustomer.Replace("{{Email}}", "Email: " + email);
             contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", "Địa Chỉ Nhận Hàng: " + order.Address);
-            if (order.TypePayment == 1)
+            switch (order.TypePayment)
             {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
-            }
-            if (order.TypePayment == 2)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
-            }
-            if (order.TypePayment == 3)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
-            }
-            if (order.TypePayment == 4)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
-            }
-            if (order.TypePayment == 5)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
+                case 1:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
+                    break;
+                case 2:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
+                    break;
+                case 3:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
+                    break;
+                case 4:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
+                    break;
+                case 5:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
+                    break;
+                default:
+                    break;
             }
             contentCustomer = contentCustomer.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
             contentCustomer = contentCustomer.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));

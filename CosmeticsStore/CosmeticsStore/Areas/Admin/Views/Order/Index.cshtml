@@ -75,11 +75,22 @@
                                     case 1:
                                         <td>Chờ Thanh Toán</td>
                                         break;
+                                    case 2:
+                                        <td>Đã Chuyển Khoản</td>
+                                        break;
+                                    case 3:
+                                        <td>Thanh Toán Paypal</td>
+                                        break;
+                                    case 4:
+                                        <td>Thanh Toán VNPay</td>
+                                        break;
+                                    case 5:
+                                        <td>Thanh Toán Momo</td>
+                                        break;
                                     case 6:
                                         <td>Hủy Đơn Hàng</td>
                                         break;
                                     default:
-                                        <td>Đã Thanh Toán</td>
                                         break;
                                 }
                                 <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
@@ -129,7 +140,16 @@
                             Chờ thanh toán
                         </option>
                         <option value="2 ">
-                            Đã thanh toán
+                            Đã chuyển khoản
+                        </option>
+                        <option value="3 ">
+                            Thanh toán Paypal
+                        </option>
+                        <option value="4 ">
+                            Thanh toán VNPay
+                        </option>
+                        <option value="5 ">
+                            Thanh Toán Momo
                         </option>
                         <option value="6">
                             Hủy Đơn Hàng
