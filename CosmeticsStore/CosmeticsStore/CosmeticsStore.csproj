@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
@@ -216,6 +217,10 @@
     <Compile Include="Migrations\202303292021238_CreateDatabase.cs" />
     <Compile Include="Migrations\202303292021238_CreateDatabase.designer.cs">
       <DependentUpon>202303292021238_CreateDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304061738499_UpdateIdUser.cs" />
+    <Compile Include="Migrations\202304061738499_UpdateIdUser.designer.cs">
+      <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3357,6 +3362,8 @@
     <Content Include="Views\Products\SortByNameZA.cshtml" />
     <Content Include="Views\Products\SortByPrice.cshtml" />
     <Content Include="Views\Products\SortByPriceGiam.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\ListOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3379,6 +3386,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202303292021238_CreateDatabase.resx">
       <DependentUpon>202303292021238_CreateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304061738499_UpdateIdUser.resx">
+      <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
