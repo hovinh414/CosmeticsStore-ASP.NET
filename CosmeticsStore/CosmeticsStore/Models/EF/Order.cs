@@ -30,6 +30,7 @@ namespace CosmeticsStore.Models.EF
 
         public decimal TotalAmount { get; set; }
         public int Quantity { get; set; }
+        public string IdUser { get; set; }
         public int TypePayment{ get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

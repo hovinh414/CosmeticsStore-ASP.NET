@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="~/Content/assets/images/Blue_and_Black_Simple_Bookstore_Logo-removebg-preview.png">
 
     @*@RenderSection("css", required: false)*@
@@ -68,6 +69,7 @@
                                             <ul class="account_selection">
                                                 <li><a href="/account/Profile/@User.Identity.Name"><i class="fa fa-user-plus" aria-hidden="true"></i>Profile</a></li>
                                                 <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                                                <li><a href="/orders/listorders"><i class="glyphicon glyphicon-list" aria-hidden="true"></i>Đơn Hàng</a></li>
                                             </ul>
 
 
@@ -103,7 +105,9 @@
                             <nav class="navbar">
                                 @Html.Action("MenuTop", "Menu")
                                 <ul class="navbar_user">
-
+                                    <li class="checkout">
+                                        <a href="/orders/index?Searchtext=null"><i class="fa fa-truck"></i></a>
+                                    </li>
                                     <li class="checkout">
                                         <a href="/gio-hang">
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>

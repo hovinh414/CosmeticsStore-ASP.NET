@@ -16,6 +16,7 @@ using Microsoft.Ajax.Utilities;
 using CosmeticsStore.Momo;
 using Newtonsoft.Json.Linq;
 using System.Security.Policy;
+using Microsoft.AspNet.Identity;
 
 namespace CosmeticsStore.Controllers
 {
@@ -110,6 +111,14 @@ namespace CosmeticsStore.Controllers
                     }));
                     order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
                     order.TypePayment = req.TypePayment;
+                    if (User.Identity.GetUserId() == null)
+                    {
+                        order.IdUser = null;
+                    }
+                    else
+                    {
+                        order.IdUser = User.Identity.GetUserId();
+                    }
                     order.CreatedDate = DateTime.Now;
                     order.ModifiedDate = DateTime.Now;
                     order.CreatedBy = req.Phone;
@@ -207,25 +216,25 @@ namespace CosmeticsStore.Controllers
             contentAdmin = contentAdmin.Replace("{{Phone}}", "Số Điện Thoại: " + order.Phone);
             contentAdmin = contentAdmin.Replace("{{Email}}", "Emaili: " + email);
             contentAdmin = contentAdmin.Replace("{{DiaChiNhanHang}}", "Địa Chỉ Nhận Hàng: " + order.Address);
-            if (order.TypePayment == 1)
+            switch (order.TypePayment)
             {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
-            }
-            if (order.TypePayment == 2)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
-            }
-            if (order.TypePayment == 3)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
-            }
-            if (order.TypePayment == 4)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
-            }
-            if (order.TypePayment == 5)
-            {
-                contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
+                case 1:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
+                    break;
+                case 2:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
+                    break;
+                case 3:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
+                    break;
+                case 4:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
+                    break;
+                case 5:
+                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
+                    break;
+                default:
+                    break;
             }
             contentAdmin = contentAdmin.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
             contentAdmin = contentAdmin.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));
