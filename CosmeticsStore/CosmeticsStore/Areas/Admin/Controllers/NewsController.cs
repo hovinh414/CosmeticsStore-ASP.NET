@@ -45,7 +45,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 // cái này chừng nào đủ danh mục thì sẽ thay đổi sau
-                model.CategoryId = 11;
+                model.CategoryId = 3;
                 model.ModifiedDate = DateTime.Now;
                 model.Alias = CosmeticsStore.Models.Common.Filter.FilterChar(model.Title);
                 db.News.Add(model);
