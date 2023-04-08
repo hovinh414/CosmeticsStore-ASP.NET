@@ -16,12 +16,18 @@ namespace CosmeticsStore.Controllers
         // GET: Orders
         public ActionResult Index(string Searchtext)
         {
-            IEnumerable<Order> items = db.Orders.OrderBy(x => x.Code);
-            if (!string.IsNullOrEmpty(Searchtext))
-            {
-                items = items.Where(x => x.Code.Contains(Searchtext));
-            }
+            IEnumerable<Order> items = db.Orders.OrderBy(x => x.Code == Searchtext);
             return View(items);
+        }
+        public ActionResult View(int id)
+        {
+            var item = db.Orders.Find(id);
+            return View(item);
+        }
+        public ActionResult Partial_SanPham(int id)
+        {
+            var items = db.OrderDetails.Where(x => x.OrderId == id).ToList();
+            return PartialView(items);
         }
         public ActionResult ListOrders(string id)
         {

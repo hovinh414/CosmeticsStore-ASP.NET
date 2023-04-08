@@ -62,7 +62,22 @@
                                 }
                                 <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
                                 <td>
-                                    <a href="#" class="btn btn-lg btn-danger btnCapNhat" data-id="@item.Id" id="btnCapNhat">Hủy Đơn hàng</a>
+
+                                    @{
+                                        TimeSpan time = DateTime.Now - item.CreatedDate;
+                                        int countDate = time.Days;
+                                        if (countDate > 7)
+                                        {
+                                            <a href="/orders/view/@item.Id" class="btn btn-lg btn-info">Chi tiết</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/orders/view/@item.Id" class="btn btn-lg btn-info">Chi tiết</a>
+                                            <a href="#" class="btn btn-lg btn-danger btnCapNhat" data-id="@item.Id" id="btnCapNhat">Hủy Đơn hàng</a>
+                                        }
+                                    }
+
+
                                 </td>
                             </tr>
                             i++;
@@ -70,6 +85,7 @@
                     }
                 </tbody>
             </table>
+            <p style="color:gray;font-style:italic">Lưu ý: Bạn không thể hủy đơn quá 7 ngày kể từ ngày đặt hàng!</p>
         </div>
     </div>
 </section>

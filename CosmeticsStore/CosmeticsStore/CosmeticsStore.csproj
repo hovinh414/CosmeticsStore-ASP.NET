@@ -3364,6 +3364,8 @@
     <Content Include="Views\Products\SortByPriceGiam.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\ListOrders.cshtml" />
+    <Content Include="Views\Orders\View.cshtml" />
+    <Content Include="Views\Orders\Partial_SanPham.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
