@@ -29,6 +29,10 @@ namespace CosmeticsStore.Controllers
             var items = db.OrderDetails.Where(x => x.OrderId == id).ToList();
             return PartialView(items);
         }
+        public ActionResult Refund()
+        {
+            return View();
+        }
         public ActionResult ListOrders(string id)
         {
             id = User.Identity.GetUserId();
@@ -39,6 +43,7 @@ namespace CosmeticsStore.Controllers
             else
             {
                 IEnumerable<Order> items = db.Orders.Where(x => x.IdUser == id);
+                items = items.OrderByDescending(y => y.CreatedDate);
                 return View(items);
             }
         }
