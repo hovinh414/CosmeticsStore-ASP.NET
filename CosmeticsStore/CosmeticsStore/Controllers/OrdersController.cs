@@ -16,7 +16,7 @@ namespace CosmeticsStore.Controllers
         // GET: Orders
         public ActionResult Index(string Searchtext)
         {
-            IEnumerable<Order> items = db.Orders.OrderBy(x => x.Code == Searchtext);
+            IEnumerable<Order> items = db.Orders.Where(x => x.Code == Searchtext);
             return View(items);
         }
         public ActionResult View(int id)
