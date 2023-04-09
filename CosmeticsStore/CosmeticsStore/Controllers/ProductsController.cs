@@ -1,5 +1,6 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using OfficeOpenXml;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -243,5 +244,6 @@ namespace CosmeticsStore.Controllers
             var items = db.Products.Where(x => x.IsSale && x.IsActive == true).Take(12).ToList();
             return PartialView(items);
         }
+        
     }
 }
