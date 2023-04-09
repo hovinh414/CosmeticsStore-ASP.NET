@@ -366,3 +366,9 @@ C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.CopyComplete
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.dll
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.Interfaces.dll
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.System.Drawing.dll
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.IO.RecyclableMemoryStream.dll
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.xml
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.IO.RecyclableMemoryStream.xml
