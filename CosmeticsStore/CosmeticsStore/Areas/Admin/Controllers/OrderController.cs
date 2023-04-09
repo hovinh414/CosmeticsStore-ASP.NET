@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using PagedList;
 using System.Security.Policy;
 using CosmeticsStore.Models.EF;
+using OfficeOpenXml;
+using System.Data.Entity;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
@@ -97,7 +99,43 @@ namespace CosmeticsStore.Areas.Admin.Controllers
 
             return Json(new { success = false });
         }
-     
+        public void ExportExcel_EPPLUS()
+        {
+
+            IEnumerable<Order> items = db.Orders.OrderBy(x => x.Id);
+
+
+            ExcelPackage ep = new ExcelPackage();
+            ExcelWorksheet Sheet = ep.Workbook.Worksheets.Add("Report");
+            Sheet.Cells["A1"].Value = "STT";
+            Sheet.Cells["B1"].Value = "Mã Đơn Hàng";
+            Sheet.Cells["C1"].Value = "Tên Khách Hàng";
+            Sheet.Cells["D1"].Value = "Số Điện Thoại";
+            Sheet.Cells["E1"].Value = "Tiền";
+            Sheet.Cells["F1"].Value = "Ngày Tạo";
+            int row = 2;// dòng bắt đầu ghi dữ liệu
+            int i = 1;
+            foreach (var item in items)
+            {
+                Sheet.Cells[string.Format("A{0}", row)].Value = i;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.Code;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.CustomerName;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.Phone;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.TotalAmount;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.CreatedDate.ToString("dd/MM/yyyy");
+                row++;
+                i++;
+            }
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment; filename=" + "Report.xlsx");
+            Response.BinaryWrite(ep.GetAsByteArray());
+            Response.End();
+
+        }
+
+
 
     }
 }
