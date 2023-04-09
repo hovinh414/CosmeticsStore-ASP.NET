@@ -63,6 +63,7 @@
                 </div>
             </div>
             
+
         </div>
 
         <!-- /.card-body -->
@@ -87,14 +88,14 @@
              * Here we will create a few charts using ChartJS
              */
 
-            var arrDoanhThu = []; 
+            var arrDoanhThu = [];
             var arrLoiNhuan = [];
             var arrDate = [];
 
             $.ajax({
                 url: '/Statistical/GetStatistical',
                 type: 'GET',
-                data: {fromDate: '', toDate: ''},
+                data: { fromDate: '', toDate: '' },
                 success: function (rs) {
                     $.each(rs.Data, function (i, item) {
 
@@ -156,8 +157,8 @@
                     load_data(rs.Data);
                 }
             });
-            
-            
+
+
         })
 
         function load_data(data) {
@@ -174,6 +175,14 @@
             });
             $('#load_data').html(strHtml);
         }
+
+    </script>
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
     </script>
 }
 

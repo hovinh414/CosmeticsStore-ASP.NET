@@ -110,6 +110,5 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             Response.End();
 
         }
-
     }
 }
