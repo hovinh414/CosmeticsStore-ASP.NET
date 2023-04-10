@@ -33,6 +33,5 @@ namespace CosmeticsStore.Models.EF
         [StringLength(250)]
         public string SeoKeywords { get; set; }
         public bool IsActive { get; set; }
-        public virtual Posts Post { get; set; }
     }
 }

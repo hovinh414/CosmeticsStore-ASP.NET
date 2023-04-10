@@ -237,12 +237,23 @@
     <Compile Include="Migrations\202304061738499_UpdateIdUser.designer.cs">
       <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304101650281_UpdateBooking.cs" />
+    <Compile Include="Migrations\202304101650281_UpdateBooking.designer.cs">
+      <DependentUpon>202304101650281_UpdateBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101651408_UpdatePost.cs" />
+    <Compile Include="Migrations\202304101651408_UpdatePost.designer.cs">
+      <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Common\Filter.cs" />
     <Compile Include="Models\Common\ThongKeTruyCap.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\EF\Adv.cs" />
+    <Compile Include="Models\EF\BookingDetails.cs" />
+    <Compile Include="Models\EF\Bookings.cs" />
+    <Compile Include="Models\EF\Branchs.cs" />
     <Compile Include="Models\EF\Category.cs" />
     <Compile Include="Models\EF\CommonAbstract.cs" />
     <Compile Include="Models\EF\Contact.cs" />
@@ -253,6 +264,8 @@
     <Compile Include="Models\EF\ProductCategory.cs" />
     <Compile Include="Models\EF\ProductImage.cs" />
     <Compile Include="Models\EF\Products.cs" />
+    <Compile Include="Models\EF\Service.cs" />
+    <Compile Include="Models\EF\ServiceImages.cs" />
     <Compile Include="Models\EF\Subscribe.cs" />
     <Compile Include="Models\EF\SystemSetting.cs" />
     <Compile Include="Models\EF\ThongKe.cs" />
@@ -3407,6 +3420,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304061738499_UpdateIdUser.resx">
       <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101650281_UpdateBooking.resx">
+      <DependentUpon>202304101650281_UpdateBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101651408_UpdatePost.resx">
+      <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
