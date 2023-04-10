@@ -34,6 +34,11 @@ namespace CosmeticsStore.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public DbSet<Branchs> Branchs { get; set; }
+        public DbSet<Bookings> Bookings { get; set; }
+        public DbSet<BookingDetails> BookingDetails { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<ServiceImages> ServiceImages { get; set; }
         public DbSet<ThongKe> ThongKes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Adv> Advs { get; set; }
