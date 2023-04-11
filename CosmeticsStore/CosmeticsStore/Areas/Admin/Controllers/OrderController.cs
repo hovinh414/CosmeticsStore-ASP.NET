@@ -129,7 +129,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "attachment; filename=" + "Report.xlsx");
+            Response.AddHeader("content-disposition", "attachment; filename=" + "DanhSachDonHang.xlsx");
             Response.BinaryWrite(ep.GetAsByteArray());
             Response.End();
 

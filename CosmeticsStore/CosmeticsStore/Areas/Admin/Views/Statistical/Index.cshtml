@@ -40,13 +40,16 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <a href="@Url.Action("ExportExcel_EPPLUS","Statistical")" class="btn btn-warning">Xuất Excel</a>
+            </div>
+            <div class="row">
                 <div class="col=md-8">
                     <div class="chart">
                         <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <a href="@Url.Action("ExportExcel_EPPLUS","Statistical")">Download Excel</a>
+                    
                     <table class="table table-bordered">
                         <thead>
                             <tr>
