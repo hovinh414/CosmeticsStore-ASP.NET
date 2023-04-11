@@ -11,7 +11,7 @@ namespace CosmeticsStore.Models.EF
         public Service()
         {
             this.ServiceImage = new HashSet<ServiceImages>();
-            this.OrderDetail = new HashSet<OrderDetail>();
+            this.BookingDetails = new HashSet<BookingDetails>();
         }
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -33,6 +33,6 @@ namespace CosmeticsStore.Models.EF
         public bool IsActive { get; set; }
         public int ServiceCategoryId { get; set; }
         public virtual ICollection<ServiceImages> ServiceImage { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual ICollection<BookingDetails> BookingDetails { get; set; }
     }
 }

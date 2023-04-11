@@ -17,6 +17,7 @@ namespace CosmeticsStore.Models.EF
         public int Id { get; set; }
         public int BookingId { get; set; }
         public int ServiceId { get; set; }
+        public int BranchId { get; set; }
         public decimal Price { get; set; }
         public virtual Bookings Bookings { get; set; }
         public virtual Service Service { get; set; }
