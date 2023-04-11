@@ -374,3 +374,5 @@ D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.xml
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.IO.RecyclableMemoryStream.xml
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking.resources
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdatePost.resources
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.DeleteBooking.resources
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking1.resources

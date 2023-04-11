@@ -25,6 +25,13 @@ namespace CosmeticsStore.Models.EF
         public string Phone { get; set; }
         [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Ngày không được để trống")]
+        public DateTime Date { get; set; }
+        [Required(ErrorMessage = "Giờ bắt đầu không được để trống")]
+        public DateTime TimeStart { get; set; }
+        [Required(ErrorMessage = "Giờ kết thúc không được để trống")]
+        public DateTime TimeFinish { get; set; }
+
         public decimal TotalAmount { get; set; }
         public virtual ICollection<BookingDetails> BookingDetails { get; set; }
     }

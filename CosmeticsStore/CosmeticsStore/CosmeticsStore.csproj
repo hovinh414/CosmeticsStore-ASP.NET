@@ -202,6 +202,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BranchsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -244,6 +245,14 @@
     <Compile Include="Migrations\202304101651408_UpdatePost.cs" />
     <Compile Include="Migrations\202304101651408_UpdatePost.designer.cs">
       <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304111616340_DeleteBooking.cs" />
+    <Compile Include="Migrations\202304111616340_DeleteBooking.designer.cs">
+      <DependentUpon>202304111616340_DeleteBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304111623516_UpdateBooking1.cs" />
+    <Compile Include="Migrations\202304111623516_UpdateBooking1.designer.cs">
+      <DependentUpon>202304111623516_UpdateBooking1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -340,6 +349,7 @@
     <Content Include="Content\admin\dist\js\pages\dashboard.js" />
     <Content Include="Content\admin\dist\js\pages\dashboard2.js" />
     <Content Include="Content\admin\dist\js\pages\dashboard3.js" />
+    <Content Include="Content\admin\images\banner.jpg" />
     <Content Include="Content\admin\images\Blue White Logo.png" />
     <Content Include="Content\admin\images\Blue White Simple Aesthetic Book Cafe Logo.png" />
     <Content Include="Content\admin\images\Blue White Simple Logo.png" />
@@ -3308,6 +3318,9 @@
     <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
     <Content Include="Content\admin\images\slider2.jpg" />
     <Content Include="Content\admin\images\8.jpg" />
+    <Content Include="Areas\Admin\Views\Branchs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Branchs\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Branchs\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3426,6 +3439,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304101651408_UpdatePost.resx">
       <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304111616340_DeleteBooking.resx">
+      <DependentUpon>202304111616340_DeleteBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304111623516_UpdateBooking1.resx">
+      <DependentUpon>202304111623516_UpdateBooking1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

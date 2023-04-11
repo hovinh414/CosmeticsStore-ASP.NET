@@ -40,9 +40,9 @@
                         <th>Tên tài khoản</th>
                         <th>Họ tên</th>
                         <th>Email</th>
-                        <th>Năm sinh</th>
+                        <th>Ngày sinh</th>
                         <th>Giới tính</th>
-                        <th>Thời gian</th>
+                        <th>Đăng nhập lần cuối</th>
                         <th>Khoá</th>
 
                         <th></th>
@@ -61,7 +61,7 @@
                                 <td>@item.UserName</td>
                                 <td>@item.FullName</td>
                                 <td>@item.Email</td>
-                                <td>@item.DateOfBirth</td>
+                                <td>@item.DateOfBirth.ToString("dd/MM/yyyy")</td>
                                 <td>@item.Sex</td>
                                 <td>@item.LockoutEndDateUtc</td>
                                 <td>@(item.LockoutEnabled)</td>

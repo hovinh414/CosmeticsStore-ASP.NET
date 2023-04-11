@@ -12,11 +12,11 @@ namespace CosmeticsStore.Models
     public class ApplicationUser : IdentityUser
     {
         public string FullName { get; set; }
-        public string Phone {get; set; }
-        public string Images { get;  set; }
+        public string Phone { get; set; }
+        public string Images { get; set; }
 
-        
-        public DateTime DateOfBirth { get;  set; }
+
+        public DateTime DateOfBirth { get; set; }
 
         public string Sex { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -51,7 +51,7 @@ namespace CosmeticsStore.Models
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<Subscribe> Subscribes{ get; set; }
+        public DbSet<Subscribe> Subscribes { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
