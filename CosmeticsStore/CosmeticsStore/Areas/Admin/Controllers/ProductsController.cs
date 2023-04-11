@@ -15,7 +15,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Products
-        public ActionResult Index(string Searchtext, int? page)
+        public ActionResult Index(string Searchtext, string nameCategory, int? page)
         {
             IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
             var pageSize = 10;
@@ -23,7 +23,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             {
                 page = 1;
             }
-            if (!string.IsNullOrEmpty(Searchtext))
+            if (!string.IsNullOrEmpty(Searchtext) && string.IsNullOrEmpty(nameCategory))
             {
                 char[] charArray = Searchtext.ToCharArray();
                 bool foundSpace = true;
@@ -47,7 +47,11 @@ namespace CosmeticsStore.Areas.Admin.Controllers
                 }
                 //chuyển đổi kiểu mảng char thàng string
                 Searchtext = new string(charArray);
-                items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext) || x.ProductCategory.Title.Contains(Searchtext));
+                items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
+            }
+            else
+            {
+                items = items.Where(x => x.ProductCategory.Title.Contains(nameCategory));
             }
             var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             items = items.ToPagedList(pageIndex, pageSize);
@@ -55,7 +59,6 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             ViewBag.Page = page;
             return View(items);
         }
-
         public ActionResult Add()
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
@@ -235,7 +238,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "attachment; filename=" + "Report.xlsx");
+            Response.AddHeader("content-disposition", "attachment; filename=" + "DanhSachSanPham.xlsx");
             Response.BinaryWrite(ep.GetAsByteArray());
             Response.End();
 
