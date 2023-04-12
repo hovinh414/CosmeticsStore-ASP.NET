@@ -47,7 +47,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
                 }
                 //chuyển đổi kiểu mảng char thàng string
                 Searchtext = new string(charArray);
-                items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
+                items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext) || x.ProductCategory.Title.Contains(Searchtext));
             }
             else
             {
