@@ -56,7 +56,7 @@
 
                 <div class="products_iso">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-6">
 
                             <!-- Product Sorting -->
 
@@ -84,33 +84,31 @@
                                             </ul>
                                         </li>*@
                                 </ul>
-                                <div class="pages d-flex flex-row align-items-center">
-                                    <form>
-                                        @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
-                                        {
-                                            <div class="input-group">
-                                                @Html.TextBox("Searchtext")
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-lg btn-outline-danger">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        }
 
-                                    </form>
-                                </div>
                             </div>
-                            @*<div class="page_current">
-                                    <span>1</span>
-                                    <ul class="page_selection">
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                    </ul>
-                                </div>
-                                <div class="page_total"><span>of</span> 3</div>
-                                <div id="next_page" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>*@
+
+                        </div>
+                        <div class="col-6">
+                            <form>
+                                @using (Html.BeginForm("index", "Products", FormMethod.Get, new { }))
+                                {
+                                    <div style="justify-content:center;" class="input-group input-group-lg">
+                                        <input id="Searchtext" name="Searchtext" type="text" class="form-control form-control-lg" placeholder="Tên Sản Phẩm">
+                                        <button type="submit" style="width:70px" class="btn btn-lg btn-outline-danger">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                    @*<div class="input-group">
+                                            <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên sản phẩm">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-outline-danger">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>*@
+                                }
+
+                            </form>
                         </div>
 
                     </div>
@@ -131,38 +129,38 @@
                                 {
                                     strImge = img.Image;
                                 }
-                        <div class="product-item @item.ProductCategory.Alias">
-                            <div class="product discount product_filter">
-                                <div class="product_image">
-                                    <img src="@strImge" alt="@item.Title">
-                                </div>
-                                <div class="favorite favorite_left"></div>
-                                @if (item.PriceScale > 0)
-                                {
-                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
-                                }
-                                <div class="product_info">
-                                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
-                                    @if (item.PriceScale > 0)
+                                <div class="product-item @item.ProductCategory.Alias">
+                                    <div class="product discount product_filter">
+                                        <div class="product_image">
+                                            <img src="@strImge" alt="@item.Title">
+                                        </div>
+                                        <div class="favorite favorite_left"></div>
+                                        @if (item.PriceScale > 0)
+                                        {
+                                            <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+                                        }
+                                        <div class="product_info">
+                                            <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
+                                            @if (item.PriceScale > 0)
+                                            {
+                                                <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.PriceScale, 0)<span>@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</span></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (item.Quantity <= 0)
                                     {
-                                        <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.PriceScale, 0)<span>@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</span></div>
+                                        <div class="red_button add_to_cart_button"><a href="#" data-id="@item.Id">Hết Hàng</a></div>
                                     }
                                     else
                                     {
-                                        <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</div>
+                                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ hàng</a></div>
                                     }
-                                </div>
-                            </div>
-                            @if (item.Quantity <= 0)
-                            {
-                                <div class="red_button add_to_cart_button"><a href="#" data-id="@item.Id">Hết Hàng</a></div>
-                            }
-                            else
-                            {
-                                <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ hàng</a></div>
-                            }
 
-                        </div>
+                                </div>
                             }
                         }
 
@@ -193,8 +191,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
     </div>
 </div>
 
