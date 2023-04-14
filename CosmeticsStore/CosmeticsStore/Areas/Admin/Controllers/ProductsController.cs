@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,StaffProductPostNew")]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -49,7 +49,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
                 Searchtext = new string(charArray);
                 items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext) || x.ProductCategory.Title.Contains(Searchtext));
             }
-            else
+            if (string.IsNullOrEmpty(Searchtext) && !string.IsNullOrEmpty(nameCategory))
             {
                 items = items.Where(x => x.ProductCategory.Title.Contains(nameCategory));
             }

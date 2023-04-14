@@ -11,7 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Staff")]
+    [Authorize(Roles = "Admin, StaffProductPostNew")]
     public class CategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -10,7 +10,7 @@ using System.Web.UI;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-   
+    [Authorize(Roles = "Admin,StaffProductPostNew")]
     public class ProductCategoryController : Controller
     {
         // GET: Admin/ProductCategory

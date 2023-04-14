@@ -12,7 +12,7 @@ using System.Data.Entity;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Staff")]
+    [Authorize(Roles = "Admin, StaffOrder")]
     public class OrderController : Controller
     {
 
