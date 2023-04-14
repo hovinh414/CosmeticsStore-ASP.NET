@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,StaffOrder, StaffBooking, StaffProductPostNew")]
     public class StatisticalController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

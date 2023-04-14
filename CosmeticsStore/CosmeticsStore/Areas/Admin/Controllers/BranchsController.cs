@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,StaffBooking")]
     public class BranchsController : Controller
     {
         // GET: Admin/Branchs

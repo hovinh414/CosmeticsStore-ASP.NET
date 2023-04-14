@@ -7,7 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
-{ 
+{
+    [Authorize(Roles = "Admin,StaffProductPostNew")]
     public class ProductImageController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

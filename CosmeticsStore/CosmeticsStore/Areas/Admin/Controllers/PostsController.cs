@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Staff")]
+    [Authorize(Roles = "Admin, StaffProductPostNew")]
     public class PostsController : Controller
     {
         // GET: Admin/Posts
