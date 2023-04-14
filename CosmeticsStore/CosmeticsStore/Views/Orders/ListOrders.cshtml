@@ -74,18 +74,18 @@
                                         @{
                                             TimeSpan time = DateTime.Now - item.CreatedDate;
                                             int countDate = time.Days;
-                                            if (countDate <= 2)
+                                            if (countDate <= 2 && item.TypePayment != 6)
                                             {
                                                 <a href="/orders/view/@item.Id" class="btn btn-lg btn-info">Chi tiết</a>
                                                 <a href="/orders/refund" class="btn btn-lg btn-warning">Trả hàng/Hoàn tiền</a>
                                                 <a href="#" class="btn btn-lg btn-danger btnCapNhat" data-id="@item.Id" id="btnCapNhat">Hủy Đơn hàng</a>
                                             }
-                                            if (countDate <= 7 && countDate > 2)
+                                            if ((countDate <= 7 && countDate > 2) && item.TypePayment != 6)
                                             {
                                                 <a href="/orders/view/@item.Id" class="btn btn-lg btn-info">Chi tiết</a>
                                                 <a href="/orders/refund" class="btn btn-lg btn-warning">Trả hàng/Hoàn tiền</a>
                                             }
-                                            if (countDate > 7)
+                                            if (countDate > 7 || item.TypePayment == 6)
                                             {
                                                 <a href="/orders/view/@item.Id" class="btn btn-lg btn-info">Chi tiết</a>
                                             }

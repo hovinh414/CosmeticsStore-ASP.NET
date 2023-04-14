@@ -21,8 +21,8 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             ViewBag.Products = db.Products.Count();
             ViewBag.Posts = db.Posts.Count();
             ViewBag.News = db.News.Count();
-            
-            return View();
+            IEnumerable<Order> items = db.Orders.OrderByDescending(x => x.CreatedDate);
+            return View(items);
         }
     }
 }
