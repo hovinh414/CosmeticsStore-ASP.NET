@@ -253,14 +253,25 @@ namespace CosmeticsStore.Controllers
             }));
             order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
             //request params need to request to MoMo system
-            string endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
-            string partnerCode = "MOMOJMUD20220907";
-            string accessKey = "4P1sX4jWK4RhExaX";
-            string serectkey = "FcnI5hgWY9fkaf5rNRNrR8Ugrq7LaRCw";
-            string orderInfo = "Thanh toán đơn hàng - BookGrotto";
-            string returnUrl = "https://localhost:44303/ShoppingCart/ConfirmPaymentClient";
-            string notifyurl = "https://dashboard.ngrok.com/events/subscriptions"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
-
+            string endpoint = null;
+            string partnerCode = null;
+            string accessKey = null;
+            string serectkey = null;
+            string orderInfo = null;
+            string returnUrl = null;
+            string notifyurl = null; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+            
+            IEnumerable<PaymentSetting> lst = db.PaymentSettings.OrderByDescending(x => x.Id);
+            foreach (var item in lst)
+            {
+                endpoint = item.EndpointMomo;
+                partnerCode = item.PartnerCodeMomo;
+                accessKey = item.AccessKeyMomo;
+                serectkey = item.SerectkeyMomo;
+                orderInfo = item.OrderInfoMomo;
+                returnUrl = item.ReturnUrlMomo;
+                notifyurl = item.NotifyurlMomo;
+            }
             string amount = ((int)order.TotalAmount).ToString();
             string orderid = DateTime.Now.Ticks.ToString();//mã đơn hàng
             string requestId = DateTime.Now.Ticks.ToString();
@@ -544,10 +555,7 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult PaymentVNPay()
         {
-            string url = ConfigurationManager.AppSettings["Url"];
-            string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
-            string tmnCode = ConfigurationManager.AppSettings["TmnCode"];
-            string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
+            
             var order = new CosmeticsStore.Models.EF.Order();
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             cart.Items.ForEach(x => order.OrderDetails.Add(new OrderDetail
@@ -558,7 +566,18 @@ namespace CosmeticsStore.Controllers
             }));
             order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
             PayLib pay = new PayLib();
-
+            IEnumerable<PaymentSetting> lst = db.PaymentSettings.OrderByDescending(x => x.Id);
+            string url = null;
+            string returnUrl = null;
+            string tmnCode = null;
+            string hashSecret = null;
+            foreach (var item in lst)
+            {
+                url = item.UrlVNP;
+                returnUrl = item.ReturnUrlVNP;
+                tmnCode = item.TmnCodeVNP;
+                hashSecret = item.HashSecretVNP;
+            }
             pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
             pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)

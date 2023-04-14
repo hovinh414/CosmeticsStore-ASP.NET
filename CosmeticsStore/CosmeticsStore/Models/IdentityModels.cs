@@ -35,6 +35,7 @@ namespace CosmeticsStore.Models
         {
         }
         public DbSet<Branchs> Branchs { get; set; }
+        public DbSet<PaymentSetting> PaymentSettings { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
         public DbSet<BookingDetails> BookingDetails { get; set; }
         public DbSet<Service> Services { get; set; }

@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<CosmeticsStore.Models.EF.PaymentSetting>
 @using CosmeticsStore.Common
 @using (Ajax.BeginForm("AddSetting", "SettingSystem", new AjaxOptions
 {
@@ -28,6 +28,8 @@
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin chung</a></li>
                         @*<li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>*@
                         <li class="nav-item"><a class="nav-link" href="#settingSeo" data-toggle="tab">SEO</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#vnpay" data-toggle="tab">VNPAY</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#momo" data-toggle="tab">MOMO</a></li>
                     </ul>
                 </div><!-- /.card-header -->
                 <div class="card-body">
@@ -72,6 +74,57 @@
                                 <textarea name="SettingKeySeo" class="form-control" rows="3">@SettingHelper.GetValue("SettingKeySeo")</textarea>
                             </div>
                         </div>
+                        @foreach (var item in Model)
+                        {
+                            <div class="tab-pane" id="vnpay">
+                                <div class="form-group">
+                                    <label>Url</label>
+                                    <input type="text" value="@item.UrlVNP" name="url" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>ReturnUrl</label>
+                                    <input type="text" value="@item.ReturnUrlVNP" name="returnurlvnp" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>TmnCode</label>
+                                    <input type="text" value="@item.TmnCodeVNP" name="tmncode" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>HashSecret</label>
+                                    <input type="text" value="@item.HashSecretVNP" name="hashsecret" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="momo">
+                                <div class="form-group">
+                                    <label>Endpoint</label>
+                                    <input type="text" value="@item.EndpointMomo" name="EndpointMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>PartnerCode</label>
+                                    <input type="text" value="@item.PartnerCodeMomo" name="PartnerCodeMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>AccessKey</label>
+                                    <input type="text" value="@item.AccessKeyMomo" name="AccessKeyMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>SerectkeyMomo</label>
+                                    <input type="text" value="@item.SerectkeyMomo" name="SerectkeyMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>OrderInfo</label>
+                                    <input type="text" value="@item.OrderInfoMomo" name="OrderInfoMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>ReturnUrl</label>
+                                    <input type="text" value="@item.ReturnUrlMomo" name="ReturnUrlMomo" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Notifyurl</label>
+                                    <input type="text" value="@item.NotifyurlMomo" name="NotifyurlMomo" class="form-control" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

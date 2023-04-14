@@ -20,7 +20,8 @@ namespace CosmeticsStore.Areas.Admin.Controllers
 
         public ActionResult Partial_Setting()
         {
-            return PartialView();
+            IEnumerable<PaymentSetting> items = db.PaymentSettings.OrderByDescending(x => x.Id);
+            return PartialView(items);
         }
         [HttpPost]
         public ActionResult AddSetting(SettingSystemViewModel req)
