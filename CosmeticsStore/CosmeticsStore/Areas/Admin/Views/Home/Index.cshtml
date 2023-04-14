@@ -1,6 +1,5 @@
-﻿@model PagedList.IPagedList<CosmeticsStore.Models.EF.Order>
-@using PagedList.Mvc;
-@using PagedList;
+﻿@model IEnumerable<CosmeticsStore.Models.EF.Order>
+
 @{
     ViewBag.Title = "Trang Chủ";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -87,14 +86,73 @@
                     <a href="/admin/news" class="small-box-footer">Chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            
+
             <!-- ./col -->
         </div>
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <img src="~/Content/admin/images/banner.jpg" style="width: 82vw; min-width: 330px;" />
+            @{
+                <section style="padding-top:25px" class="content">
+                    <!-- Default box -->
+                    <div class="card-body">
+                        <h3>Đơn Hàng Mới</h3>
+                        <table class="table table-bordered">
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    var i = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        TimeSpan time = DateTime.Now - item.CreatedDate;
+                                        int countDate = time.Days;
+                                        if (countDate <= 2 && item.TypePayment != 6)
+                                        {
+                                            <tr style="font-weight:bold">
+                                                <td>@i</td>
+                                                <td>Mã ĐH: @item.Code</td>
+                                                <td>Tên KH: @item.CustomerName</td>
+                                                <td>SĐT: @item.Phone</td>
+                                                <td>Tổng Tiền: @CosmeticsStore.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
+                                                @*<td>@(item.TypePayment==1? "Chờ thanh toán": "Đã thanh toán")</td>*@
+                                                @switch (item.TypePayment)
+                                                {
+                                                    case 1:
+                                                        <td>Chờ Thanh Toán</td>
+                                                        break;
+                                                    case 2:
+                                                        <td>Đã Chuyển Khoản</td>
+                                                        break;
+                                                    case 3:
+                                                        <td>Thanh Toán Paypal</td>
+                                                        break;
+                                                    case 4:
+                                                        <td>Thanh Toán VNPay</td>
+                                                        break;
+                                                    case 5:
+                                                        <td>Thanh Toán Momo</td>
+                                                        break;
+                                                    case 6:
+                                                        <td>Hủy Đơn Hàng</td>
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                                <td>Ngày Đặt: @item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </section>
+            }
 
         </div>
         <!-- /.row (main row) -->
