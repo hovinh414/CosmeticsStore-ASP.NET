@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PayPal.Api;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
@@ -123,6 +124,22 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             {
                 KeySeo.SettingValue = req.SettingKeySeo;
                 db.Entry(KeySeo).State = System.Data.Entity.EntityState.Modified;
+            }
+            var items = db.PaymentSettings.FirstOrDefault(x => x.Id == 1);
+            if (items != null)
+            {
+                items.UrlVNP = req.UrlVNP;
+                items.ReturnUrlVNP = req.ReturnUrlVNP;
+                items.HashSecretVNP = req.HashSecretVNP;
+                items.TmnCodeVNP = req.TmnCodeVNP;
+                items.EndpointMomo = req.EndpointMomo;
+                items.PartnerCodeMomo = req.PartnerCodeMomo;
+                items.AccessKeyMomo = req.AccessKeyMomo;
+                items.SerectkeyMomo = req.SerectkeyMomo;
+                items.OrderInfoMomo = req.OrderInfoMomo;
+                items.ReturnUrlMomo = req.ReturnUrlMomo;
+                items.NotifyurlMomo = req.NotifyurlMomo;
+                db.Entry(items).State = System.Data.Entity.EntityState.Modified;
             }
             db.SaveChanges();
 
