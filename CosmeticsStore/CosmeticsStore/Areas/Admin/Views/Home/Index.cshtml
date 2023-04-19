@@ -91,10 +91,114 @@
         </div>
         <!-- /.row -->
         <!-- Main row -->
+        <div class="card-body">
+            <h3>Doanh thu</h3>
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <th>Hôm qua</th>
+                                <th>Hôm nay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (Model != null && Model.Any())
+                                {
+                                    decimal toDay = 0;
+                                    decimal lastDay = 0;
+                                    foreach (var item in Model)
+                                    {
+
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy"))
+                                        {
+                                            lastDay += item.TotalAmount;
+                                        }
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy"))
+                                        {
+                                            toDay += item.TotalAmount;
+                                        }
+                                    }
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(lastDay, 0)</td>
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(toDay, 0)</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                @*<div class="col-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <th>Tuần trước</th>
+                                <th>Tuần này</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (Model != null && Model.Any())
+                                {
+                                    decimal toDay = 0;
+                                    decimal lastDay = 0;
+                                    foreach (var item in Model)
+                                    {
+
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy"))
+                                        {
+                                            toDay += item.TotalAmount;
+                                        }
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy"))
+                                        {
+                                            lastDay += item.TotalAmount;
+                                        }
+                                    }
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(toDay, 0)</td>
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(lastDay, 0)</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>*@
+                <div class="col-6">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style="font-weight:bold">
+                                <th>Tháng trước</th>
+                                <th>Tháng này</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (Model != null && Model.Any())
+                                {
+                                    decimal month = 0;
+                                    decimal lastMonth = 0;
+                                    foreach (var item in Model)
+                                    {
+
+                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.AddMonths(-1).ToString("MM/yyyy"))
+                                        {
+                                            month += item.TotalAmount;
+                                        }
+                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.ToString("MM/yyyy"))
+                                        {
+                                            lastMonth += item.TotalAmount;
+                                        }
+                                    }
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(month, 0)</td>
+                                    <td>@CosmeticsStore.Common.Common.FormatNumber(lastMonth, 0)</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <!-- Left col -->
             @{
-                <section style="padding-top:25px" class="content">
+                <section class="content">
                     <!-- Default box -->
                     <div class="card-body">
                         <h3>Đơn Hàng Mới</h3>
@@ -158,5 +262,3 @@
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
 </section>
-
-<!-- /.content -->
