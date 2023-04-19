@@ -42,8 +42,19 @@ namespace CosmeticsStore
               defaults: new { controller = "Products", action = "ProductCategory", id = UrlParameter.Optional },
               namespaces: new[] { "CosmeticsStore.Controllers" }
           );
+            routes.MapRoute(
+               name: "Services",
+               url: "dat-lich",
+               defaults: new { controller = "Services", action = "Index", alias = UrlParameter.Optional },
+               namespaces: new[] { "CosmeticsStore.Controllers" }
 
-            
+           );
+            routes.MapRoute(
+               name: "detailServices",
+               url: "chi-tiet-dich-vu/{alias}-p{id}",
+               defaults: new { controller = "Services", action = "Detail", alias = UrlParameter.Optional },
+               namespaces: new[] { "CosmeticsStore.Controllers" }
+           );
 
             routes.MapRoute(
                name: "detailProducts",

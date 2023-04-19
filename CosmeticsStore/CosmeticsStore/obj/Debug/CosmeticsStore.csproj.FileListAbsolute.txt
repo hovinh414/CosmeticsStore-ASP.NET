@@ -377,3 +377,8 @@ D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\Cosme
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.DeleteBooking.resources
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking1.resources
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.PaymentSetting.resources
+C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking.resources
+C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdatePost.resources
+C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.DeleteBooking.resources
+C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking1.resources
+C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.PaymentSetting.resources

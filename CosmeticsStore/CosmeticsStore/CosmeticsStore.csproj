@@ -228,6 +228,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3419,6 +3420,12 @@
     <Content Include="Views\Orders\View.cshtml" />
     <Content Include="Views\Orders\Partial_SanPham.cshtml" />
     <Content Include="Views\Orders\Refund.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\Services\SortByName.cshtml" />
+    <Content Include="Views\Services\SortByPrice.cshtml" />
+    <Content Include="Views\Services\SortByPriceGiam.cshtml" />
+    <Content Include="Views\Services\SortByNameZA.cshtml" />
+    <Content Include="Views\Services\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
