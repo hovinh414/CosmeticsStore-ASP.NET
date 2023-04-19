@@ -815,6 +815,7 @@ section
 {
 	color: #fe4c50;
 }
+
 .red_button
 {
 	display: -webkit-inline-box;
@@ -1303,8 +1304,9 @@ section
 .product-item
 {
 	width: 25%;
-	height: 380px;
+	height: 400px;
 	cursor: pointer;
+	padding: 7px;
 }
 .product-item::after
 {
@@ -1441,6 +1443,21 @@ section
 {
 	right: 15px;
 }
+.dat_lich_button {
+	width: 100%;
+	/*visibility: hidden;
+	opacity: 0;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;*/
+}
+
+	.dat_lich_button a {
+		font-size: 12px;
+		font-weight: 600;
+	}
 .add_to_cart_button
 {
 	width: 100%;
