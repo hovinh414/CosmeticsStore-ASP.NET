@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<CosmeticsStore.Models.EF.Order>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -39,17 +39,28 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row">
-                <a href="@Url.Action("ExportExcel_EPPLUS","Statistical")" class="btn btn-warning">Xuất Excel</a>
+            <div class="row" style="padding:10px">
+                <form>
+                    @using (Html.BeginForm("GetStatistical", "Statistical", FormMethod.Post, new { }))
+                    {
+                        <label for="fromDate">Từ ngày: </label>
+                        <input type="datetime-local" id="fromDate" name="fromDate">
+                        <label for="toDate">Đến ngày:</label>
+                        <input type="datetime-local" id="toDate" name="toDate">
+                        <button type="submit" class="btn btn-info">Xem</button>
+                        <a style="padding-right:10px" href="@Url.Action("ExportExcel_EPPLUS","Statistical")" class="btn btn-warning">Xuất Excel</a>
+                    }
+                </form>
             </div>
             <div class="row">
-                <div class="col=md-8">
+
+                <div class="col=md-4">
                     <div class="chart">
                         <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    
+
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -57,15 +68,15 @@
                                 <th>Ngày</th>
                                 <th>Doanh thu</th>
                                 <th>Lợi nhuận</th>
-
                             </tr>
                         </thead>
                         <tbody id="load_data">
                         </tbody>
                     </table>
+
                 </div>
             </div>
-            
+
         </div>
 
         <!-- /.card-footer-->
@@ -78,20 +89,17 @@
     <script src="~/Content/admin/plugins/chart.js/Chart.min.js"></script>
     <script src="~/Content/admin/plugins/moment/moment.min.js"></script>
     <script>
-        $(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
 
-            var arrDoanhThu = []; 
+        $(function () {
+            var arrDoanhThu = [];
             var arrLoiNhuan = [];
             var arrDate = [];
-
+            var fromDate = $("#fromDate").val();
+            var toDate = $("#toDate").val();
             $.ajax({
                 url: '/Statistical/GetStatistical',
-                type: 'GET',
-                data: {fromDate: '', toDate: ''},
+                type: 'POST',
+                data: { fromDate: fromDate, toDate: toDate },
                 success: function (rs) {
                     $.each(rs.Data, function (i, item) {
 
@@ -153,12 +161,13 @@
                     load_data(rs.Data);
                 }
             });
-            
-            
+
+
         })
 
         function load_data(data) {
             var strHtml = "";
+            var revenue = 0;
             $.each(data, function (i, item) {
 
                 var strDate = moment(item.Date).format('DD/MM/yyyy');
@@ -167,9 +176,19 @@
                 strHtml += "<td>" + strDate + "</td>";
                 strHtml += "<td>" + item.DoanhThu + "</td>";
                 strHtml += "<td>" + item.LoiNhuan + "</td>";
+                revenue += item.DoanhThu;
                 strHtml += "</tr>";
             });
+            strHtml += "<th>" + 'Tổng:' + "</th>";
+            strHtml += "<th>" + revenue + "</th>";
             $('#load_data').html(strHtml);
+        }
+        function revenue(data) {
+            var strHtml = "";
+            var revenue = 0;
+            $.each(data, function (i, item) {
+                revenue += item.DoanhThu;
+            });
         }
     </script>
 }

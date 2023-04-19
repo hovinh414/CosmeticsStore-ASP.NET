@@ -1,4 +1,5 @@
 ﻿using CosmeticsStore.Models;
+using CosmeticsStore.Models.EF;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,43 @@ using System.Web.Mvc;
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin,StaffOrder, StaffBooking, StaffProductPostNew")]
+    class Date
+    {
+        public static string FromDate;
+        public static string ToDate;
+    }
     public class StatisticalController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Statistical
-        public ActionResult Index()
+        public string FormatDate(string date)
         {
+            string day = date.Substring(8,2);
+            string month = date.Substring(5,2);
+            string year = date.Substring(0,4);
+            date = day + "/" + month + "/" + year;
+            return date;
+        }
+        public ActionResult Index(string fromDate, string toDate)
+        {
+            if(string.IsNullOrEmpty(fromDate) && string.IsNullOrEmpty(toDate))
+            {
+                Date.FromDate = fromDate;
+                Date.ToDate = toDate;
+            }    
+            else
+            {
+                Date.FromDate = FormatDate(fromDate);
+                Date.ToDate = FormatDate(toDate);
+            }    
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult GetStatistical(string fromDate, string toDate)
         {
+            fromDate = Date.FromDate;
+            toDate = Date.ToDate;
             var query = from o in db.Orders
                         join od in db.OrderDetails
                         on o.Id equals od.OrderId
@@ -42,7 +68,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(toDate))
             {
                 DateTime endDate = DateTime.ParseExact(toDate, "dd/MM/yyyy", null);
-                query = query.Where(x => x.CreatedDate < endDate);
+                query = query.Where(x => x.CreatedDate <= endDate);
             }
             var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new
             {
