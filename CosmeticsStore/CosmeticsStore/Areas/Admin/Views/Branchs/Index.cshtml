@@ -57,7 +57,7 @@
                         @using (Html.BeginForm("index", "Branchs", FormMethod.Get, new { }))
                         {
                             <div class="input-group input-group-sm">
-                                @Html.TextBox("Searchtext")
+                                <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên chi nhánh">
                                 @*<input type="text" name="searchText" class="form-control">*@
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-info btn-flat">Tìm Kiếm</button>
@@ -73,7 +73,7 @@
                         <th><input type="checkbox" id="SelectAll" /></th>
                         <th>STT</th>
                         <th>Hình ảnh</th>
-                        <th>Tiêu đề</th>
+                        <th>Tên chi nhánh</th>
                         <th>Ngày tạo</th>
                         <th style="width:150px;"></th>
                     </tr>
