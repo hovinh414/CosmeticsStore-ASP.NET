@@ -111,11 +111,11 @@
                                     foreach (var item in Model)
                                     {
 
-                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy"))
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy") && item.TypePayment != 6)
                                         {
                                             lastDay += item.TotalAmount;
                                         }
-                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy"))
+                                        if (item.CreatedDate.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy") && item.TypePayment != 6)
                                         {
                                             toDay += item.TotalAmount;
                                         }
@@ -177,11 +177,11 @@
                                     foreach (var item in Model)
                                     {
 
-                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.AddMonths(-1).ToString("MM/yyyy"))
+                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.AddMonths(-1).ToString("MM/yyyy") && item.TypePayment != 6)
                                         {
                                             month += item.TotalAmount;
                                         }
-                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.ToString("MM/yyyy"))
+                                        if (item.CreatedDate.ToString("MM/yyyy") == DateTime.Today.ToString("MM/yyyy") && item.TypePayment != 6)
                                         {
                                             lastMonth += item.TotalAmount;
                                         }
