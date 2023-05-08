@@ -3,64 +3,110 @@
 @{
     ViewBag.Title = "Log in";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link href="~/Content/assets/styles/login_style.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
 
-<div class="container" style="margin-top:160px">
-    <hr />
-    <h2>Đăng Nhập</h2>
-    <div class="row">
-        <div class="col-md-8">
-            <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <h4>Dùng tài khoản để đăng nhập</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
+
+
+<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+        <div class="container" style=" margin-top: 100px ">
+            <div class="header-main">
+                <h2 style="color:black; text-align:left">Đăng Nhập</h2>
+                <div class="header-bottom">
+                    <div class="header-right w3agile">
+
+                        <div class="header-left-bottom agileinfo">
+
+                            @*<form class="body-content">*@
+                            <section id="loginForm">
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @* <hr />*@
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(m => m.UserName)
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(m => m.Password)
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="remember">
+                                            <span class="checkbox1">
+                                                <label class="checkbox"><input type="checkbox" name="" checked=""><i> </i>Remember me</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="submit" value="Đăng Nhập" />
+                                            <a class="register_btn" href="/account/Register" style=" text-align: center; margin-top: 10px; ">Đăng Ký</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <div class="sign-up"> <h2>or</h2> </div>
+
+
+                                            <div class="header-social wthree">
+                                                <a href="#" class="face"><h5 style="color:white">Facebook</h5></a>
+                                                <a href="#" class="twitt"><h5 style="color:white">Twitter</h5></a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @* Enable this once you have account confirmation enabled for password reset functionality
+            <p>
+                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+            </p>*@
+                                }
+                                @* <input type="text" value="User name" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User name';}" />
+        <input type="password" value="Password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}" />
+        <div class="remember">
+            <span class="checkbox1">
+                <label class="checkbox"><input type="checkbox" name="" checked=""><i> </i>Remember me</label>
+            </span>*@
+                                @*<div class="forgot">
+            <h6><a href="#">Forgot Password?</a></h6>
+        </div>*@
+                                @*  <div class="clear"> </div>
+        </div>
+
+        <input type="submit" value="Login">
+        <input type="submit" value="Register" style="margin-top:10px">*@
+                            </section>
+                            @*</form>*@
+                            @*<div class="header-left-top">
+                                <div class="sign-up"> <h2>or</h2> </div>
+
                             </div>
+                            <div class="header-social wthree">
+                                <a href="#" class="face"><h5 style="color:white">Facebook</h5></a>
+                                <a href="#" class="twitt"><h5 style="color:white">Twitter</h5></a>
+                            </div>*@
+
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Đăng Nhập" class="btn btn-lg btn-danger" />
-                        </div>
-                    </div>
-                    <p>
-                        @Html.ActionLink("Đăng kí người dùng mới", "Register")
-                    </p>
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
-                }
-            </section>
+
+                </div>
+                <div class="col-md-4">
+                    <section id="socialLoginForm">
+                        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    </section>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </section>
-        </div>
-    </div>
-</div>
+
+
 
 
 @section Scripts {
