@@ -2210,6 +2210,16 @@
     <Content Include="Content\assets\images\A_Grotto.png" />
     <Content Include="Content\assets\images\Blue2-removebg-preview.png" />
     <Content Include="Content\assets\images\Blue_and_Black_Simple_Bookstore_Logo-removebg-preview.png" />
+    <Content Include="Content\assets\images\Login\date-of-birth.png" />
+    <Content Include="Content\assets\images\Login\email.png" />
+    <Content Include="Content\assets\images\Login\fac.png" />
+    <Content Include="Content\assets\images\Login\lock.png" />
+    <Content Include="Content\assets\images\Login\name.png" />
+    <Content Include="Content\assets\images\Login\phone.png" />
+    <Content Include="Content\assets\images\Login\sex.png" />
+    <Content Include="Content\assets\images\Login\tick.png" />
+    <Content Include="Content\assets\images\Login\twitter.png" />
+    <Content Include="Content\assets\images\Login\user2.png" />
     <Content Include="Content\assets\images\test.jpg" />
     <Content Include="Content\assets\images\chuyenkhoan.png" />
     <Content Include="Content\assets\images\cod.jpg" />
@@ -2223,6 +2233,7 @@
     <Content Include="Content\assets\js\contact_custom.js" />
     <Content Include="Content\assets\js\custom.js" />
     <Content Include="Content\assets\js\jquery-3.2.1.min.js" />
+    <Content Include="Content\assets\js\jquery.min.js" />
     <Content Include="Content\assets\js\single_custom.js" />
     <Content Include="Content\assets\plugins\easing\easing.js" />
     <Content Include="Content\assets\plugins\font-awesome-4.7.0\css\font-awesome.css" />
@@ -2247,6 +2258,7 @@
     <Content Include="Content\assets\styles\categories_styles.css" />
     <Content Include="Content\assets\styles\contact_responsive.css" />
     <Content Include="Content\assets\styles\contact_styles.css" />
+    <Content Include="Content\assets\styles\login_style.css" />
     <Content Include="Content\assets\styles\main_styles.css" />
     <Content Include="Content\assets\styles\responsive.css" />
     <Content Include="Content\assets\styles\single_responsive.css" />
@@ -3368,7 +3380,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -3411,7 +3422,6 @@
     <Content Include="Views\ShoppingCart\PaymentVNPConfirm.cshtml" />
     <Content Include="Views\ShoppingCart\PaymentMomo.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Products\SortByName.cshtml" />
     <Content Include="Views\Products\SortByNameZA.cshtml" />
     <Content Include="Views\Products\SortByPrice.cshtml" />
@@ -3427,6 +3437,8 @@
     <Content Include="Views\Services\SortByPriceGiam.cshtml" />
     <Content Include="Views\Services\SortByNameZA.cshtml" />
     <Content Include="Views\Services\Detail.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
