@@ -55,7 +55,7 @@
         e.preventDefault();
         var id = $(this).data("id")
         var quantity = $('#Quantity_' + id).val();
-        alert(id + " " + quatity);
+        Update(id, quantity);
     })
 });
 

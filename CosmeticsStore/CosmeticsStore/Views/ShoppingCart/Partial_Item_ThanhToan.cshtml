@@ -6,17 +6,13 @@
 <!--<link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">-->
-
 <!-- Vendor CSS (Bootstrap & Icon Font) -->
-
 <!--<link href="~/Content/assets/styles/bootstrap4/bootstrap.min.css" rel="stylesheet" />-->
 <!-- Plugins CSS (All Plugins Files) -->
-
 <!--<link href="~/Content/assets/styles/fancybox.min.css" rel="stylesheet" />
 <link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/assets/styles/nice-select.css" rel="stylesheet" />
 <link href="~/Content/assets/styles/swiper-bundle.min.css" rel="stylesheet" />-->
-
 <!-- Style CSS -->
 <link href="~/Content/assets/styles/checkout_style.css" rel="stylesheet" />
 @if (Model != null && Model.Any())
@@ -58,7 +54,7 @@
                     {
                         TongTien += item.TotalPrice;
                         <tr class="cart-item">
-                            <td class="product-thumbnail"><img src="@item.ProductImg"  /></td>
+                            <td class="product-thumbnail"><img src="@item.ProductImg" /></td>
                             <td class="product-name">@item.ProductName</td>
                             <td class="product-quantity">X @item.Quantity</td>
                             <td class="product-total">@Common.FormatNumber(item.Price, 0)đ</td>
