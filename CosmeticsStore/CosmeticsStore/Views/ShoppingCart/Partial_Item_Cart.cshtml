@@ -24,11 +24,11 @@
                 <td><a style="color:black" href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></td>
                 <td>@item.CategoryName</td>
                 <td>@Common.FormatNumber(item.Price, 0)</td>
-                <td><input type="number" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" /></td>
+                <td><input type="number" class="form-control btnUpdate" data-id="@item.ProductId" id="Quantity_@item.ProductId" value="@item.Quantity" /></td>
                 <th>@Common.FormatNumber(item.TotalPrice, 2)</th>
                 <td>
                     <a href="#" data-id="@item.ProductId" class="btn btn-lg btn-danger btnDelete">Xóa</a>
-                    <a href="#" data-id="@item.ProductId" class="btn btn-lg btn-primary btnUpdate">Cập Nhật</a>
+                    @*<a href="#" data-id="@item.ProductId" class="btn btn-lg btn-primary btnUpdate">Cập Nhật</a>*@
                 </td>
             </tr>
             i++;
@@ -46,3 +46,27 @@
         </tr>
     }
 </table>
+@*@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('body').on('click', '.btnQuantity', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+                var quantity = btn.val();
+                $.ajax({
+                    url: '/shoppingcart/Update',
+                    type: 'POST',
+                    data: { id: id, quantity: quantity },
+                    success: function (rs) {
+                        if (rs.success) {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+*@
