@@ -262,6 +262,10 @@
     <Compile Include="Migrations\202304140645098_PaymentSetting.designer.cs">
       <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305130227012_UpdateBookingAndBookingDetail.cs" />
+    <Compile Include="Migrations\202305130227012_UpdateBookingAndBookingDetail.designer.cs">
+      <DependentUpon>202305130227012_UpdateBookingAndBookingDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Common\Filter.cs" />
@@ -3480,6 +3484,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304140645098_PaymentSetting.resx">
       <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305130227012_UpdateBookingAndBookingDetail.resx">
+      <DependentUpon>202305130227012_UpdateBookingAndBookingDetail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
