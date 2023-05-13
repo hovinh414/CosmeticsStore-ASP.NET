@@ -1,50 +1,120 @@
 ﻿@model CosmeticsStore.Models.OrderViewModel
-@using (Ajax.BeginForm("CheckOut", "Shoppingcart", new AjaxOptions
-{
-    HttpMethod = "POST",
-    UpdateTargetId = "load_data",
-    OnComplete = "OnSuccessCO",
-    OnFailure = "OnFailure"
+<link href="~/Content/assets/styles/checkout_style.css" rel="stylesheet" />
 
-}, new { @Id = "myForm" }))
-{
-    @Html.AntiForgeryToken()
-    <h3>Thông tin khách hàng</h3>
-    <div class="form-group">
-        <label>Họ tên khách hàng</label>
-        <input type="text" name="CustomerName" required class="form-control" autocomplete="off" placeholder="Họ tên"/>
-    </div>
-    <div class="form-group">
-        <label>Số điện thoại</label>
-        <input type="text" name="Phone" class="form-control" autocomplete="off" placeholder="Số điện thoại"/>
-    </div>
-    <div class="form-group">
-        <label>Địa chỉ</label>
-        <input type="text" name="Address" class="form-control" autocomplete="off" placeholder="Địa chỉ"/>
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text" name="Email" class="form-control" autocomplete="off" placeholder="Email"/>
-    </div>
-    <div>
-        <label>Hình thức thanh toán</label>
-    </div>
-    <div class="form-group">
-        <input type="radio" name="TypePayment" value="1" checked="checked">
-        <img width="50" src="~/Content/assets/images/cod.jpg" /><label>COD</label><br>
+@*<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.webp">*@
+
+<!-- CSS (Font, Vendor, Icon, Plugins & Style CSS files) -->
+<!-- Font CSS -->
+<!-- Style CSS -->
+    @using (Ajax.BeginForm("CheckOut", "Shoppingcart", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "load_data",
+        OnComplete = "OnSuccessCO",
+        OnFailure = "OnFailure"
+
+    }, new { @Id = "myForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <!--<h3>Thông tin khách hàng</h3>
+        <div class="form-group">
+            <label>Họ tên khách hàng</label>
+            <input type="text" name="CustomerName" required class="form-control" autocomplete="off" placeholder="Họ tên"/>
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="Phone" class="form-control" autocomplete="off" placeholder="Số điện thoại"/>
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="Address" class="form-control" autocomplete="off" placeholder="Địa chỉ"/>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="Email" class="form-control" autocomplete="off" placeholder="Email"/>
+        </div>
+        <div>
+            <label>Hình thức thanh toán</label>
+        </div>
+        <div class="form-group">
+            <input type="radio" name="TypePayment" value="1" checked="checked">
+            <img width="50" src="~/Content/assets/images/cod.jpg" /><label>COD</label><br>-->
         @*<input type="radio" name="TypePayment" value="2">
-        <img width="50" src="~/Content/assets/images/chuyenkhoan.png" /><label>Chuyển Khoản</label><br>*@
-        <input type="radio" name="TypePayment" value="4">
-        <img width="50" src="~/Content/assets/images/vnpay.png" /><label>VNPay</label><br>
-        <input type="radio" name="TypePayment" value="3">
-        <img width="50" src="~/Content/assets/images/paypal.png" /><label>PayPal</label><br>
-        <input type="radio" name="TypePayment" value="5">
-        <img width="50" src="~/Content/assets/images/momo.png" /><label>Momo</label><br>
-    </div>
+            <img width="50" src="~/Content/assets/images/chuyenkhoan.png" /><label>Chuyển Khoản</label><br>*@
+        <!--<input type="radio" name="TypePayment" value="4">
+            <img width="50" src="~/Content/assets/images/vnpay.png" /><label>VNPay</label><br>
+            <input type="radio" name="TypePayment" value="3">
+            <img width="50" src="~/Content/assets/images/paypal.png" /><label>PayPal</label><br>
+            <input type="radio" name="TypePayment" value="5">
+            <img width="50" src="~/Content/assets/images/momo.png" /><label>Momo</label><br>
+        </div>
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-lg btn-primary">Đặt hàng</button>
-    </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg btn-primary">Đặt hàng</button>
+        </div>-->
+      
+            <h2 class="title">Thông tin khách hàng</h2>
+            <div class="billing-form-wrap">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h5 for="f_name">Họ Tên Khách Hàng <abbr class="required" title="required">*</abbr></h5>
+                            <input id="f_name" type="text" name="CustomerName" required class="form-control" autocomplete="off" placeholder="Họ tên">
+                        </div>
+                    </div>
 
 
-}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h5 for="street-address">Địa Chỉ<abbr class="required" title="required">*</abbr></h5>
+                            <input id="street-address" type="text" name="Address" class="form-control" autocomplete="off" placeholder="Địa chỉ">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h5 for="phone">Số Điện Thoại</h5>
+                            <input id="phone" type="text" name="Phone" class="form-control" autocomplete="off" placeholder="Số điện thoại">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h5 for="email">Email  <abbr class="required" title="required">*</abbr></h5>
+                            <input id="email" type="text" name="Email" class="form-control" autocomplete="off" placeholder="Email">
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <h5>Hình thức thanh toán</h5>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="radio" name="TypePayment" value="1" checked="checked">
+                                    <img width="50" src="~/Content/assets/images/cod.jpg" /><label>COD</label><br>
+                                    <input type="radio" name="TypePayment" value="4">
+                                    <img width="50" src="~/Content/assets/images/vnpay.png" /><label>VNPay</label><br>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div></div>
+                                <div class="form-group">
+                                    <input type="radio" name="TypePayment" value="3">
+                                    <img width="50" src="~/Content/assets/images/paypal.png" /><label>PayPal</label><br>
+                                    <input type="radio" name="TypePayment" value="5">
+                                    <img width="50" src="~/Content/assets/images/momo.png" /><label>Momo</label><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn  btn-primary">Đặt hàng</button>
+                    </div>
+                </div>
+           </div>
+    }
+
