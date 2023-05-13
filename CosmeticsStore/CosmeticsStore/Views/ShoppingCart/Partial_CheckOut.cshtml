@@ -53,72 +53,69 @@
     <div class="form-group">
         <button type="submit" class="btn btn-lg btn-primary">Đặt hàng</button>
     </div>-->
-    <div class="checkout-order-details-wrap">
-        <div class="order-details-table-wrap table-responsive">
-            <h2 class="title">Thông tin khách hàng</h2>
-            <div class="billing-form-wrap">
+    <h2 class="title">Thông tin khách hàng</h2>
+    <div class="billing-form-wrap">
 
-                <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 for="f_name">Họ Tên Khách Hàng <abbr class="required" title="required"></abbr></h5>
+                    <input id="f_name" type="text" name="CustomerName" required class="form-control" autocomplete="off" placeholder="Họ tên">
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 for="street-address">Địa Chỉ<abbr class="required" title="required"></abbr></h5>
+                    <input id="street-address" type="text" name="Address" class="form-control" autocomplete="off" placeholder="Địa chỉ">
+                </div>
+
+            </div>
+
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 for="phone">Số Điện Thoại</h5>
+                    <input id="phone" type="text" name="Phone" class="form-control" autocomplete="off" placeholder="Số điện thoại">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 for="email">Email<abbr class="required" title="required"></abbr></h5>
+                    <input id="email" type="text" name="Email" class="form-control" autocomplete="off" placeholder="Email">
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h5>Hình thức thanh toán</h5>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <h5 for="f_name">Họ Tên Khách Hàng <abbr class="required" title="required"></abbr></h5>
-                            <input id="f_name" type="text" name="CustomerName" required class="form-control" autocomplete="off" placeholder="Họ tên">
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <h5 for="street-address">Địa Chỉ<abbr class="required" title="required"></abbr></h5>
-                            <input id="street-address" type="text" name="Address" class="form-control" autocomplete="off" placeholder="Địa chỉ">
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <h5 for="phone">Số Điện Thoại</h5>
-                            <input id="phone" type="text" name="Phone" class="form-control" autocomplete="off" placeholder="Số điện thoại">
-
+                            <input type="radio" name="TypePayment" value="1" checked="checked">
+                            <img width="50" src="~/Content/assets/images/cod.jpg" /><h5>COD</h5><br>
+                            <input type="radio" name="TypePayment" value="4">
+                            <img width="50" src="~/Content/assets/images/vnpay.png" /><h5>VNPay</h5><br>
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <div></div>
                         <div class="form-group">
-                            <h5 for="email">Email<abbr class="required" title="required"></abbr></h5>
-                            <input id="email" type="text" name="Email" class="form-control" autocomplete="off" placeholder="Email">
-
+                            <input type="radio" name="TypePayment" value="3">
+                            <img width="50" src="~/Content/assets/images/paypal.png" /><h5>PayPal</h5><br>
+                            <input type="radio" name="TypePayment" value="5">
+                            <img width="50" src="~/Content/assets/images/momo.png" /><h5>Momo</h5><br>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <h5>Hình thức thanh toán</h5>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="radio" name="TypePayment" value="1" checked="checked">
-                                    <img width="50" src="~/Content/assets/images/cod.jpg" /><h5>COD</h5><br>
-                                    <input type="radio" name="TypePayment" value="4">
-                                    <img width="50" src="~/Content/assets/images/vnpay.png" /><h5>VNPay</h5><br>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div></div>
-                                <div class="form-group">
-                                    <input type="radio" name="TypePayment" value="3">
-                                    <img width="50" src="~/Content/assets/images/paypal.png" /><h5>PayPal</h5><br>
-                                    <input type="radio" name="TypePayment" value="5">
-                                    <img width="50" src="~/Content/assets/images/momo.png" /><h5>Momo</h5><br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn  btn-primary">Đặt hàng</button>
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <button type="submit" class="btn  btn-primary">Đặt hàng</button>
+            </div>
         </div>
     </div>
+
 }
 
