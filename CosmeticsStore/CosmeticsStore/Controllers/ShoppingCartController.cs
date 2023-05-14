@@ -206,7 +206,7 @@ namespace CosmeticsStore.Controllers
             }
             contentCustomer = contentCustomer.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
             contentCustomer = contentCustomer.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));
-            CosmeticsStore.Common.Common.SendMail("BookGrotto", "Đơn hàng #" + order.Code, contentCustomer.ToString(), email);
+            CosmeticsStore.Common.Common.SendMail("CosmeticsStore", "Đơn hàng #" + order.Code, contentCustomer.ToString(), email);
 
             string contentAdmin = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send1.html"));
             contentAdmin = contentAdmin.Replace("{{MaDon}}", order.Code);

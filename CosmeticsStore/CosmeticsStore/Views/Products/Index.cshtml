@@ -36,7 +36,7 @@
                         <h5>Lọc theo Giá</h5>
                     </div>
                     <p>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        <input type="text" id="amount" readonly style="border:0; font-weight:bold;">
                         <input type="hidden" id="FromAmount" />
                         <input type="hidden" id="ToAmount" />
                     </p>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-6">
                             <form>
-                                @using (Html.BeginForm("index", "Products", FormMethod.Get, new { }))
+                                @using (Html.BeginForm("index", "Products", FormMethod.Post, new { }))
                                 {
                                     <div style="justify-content:center;" class="input-group input-group-lg">
                                         <input id="Searchtext" name="Searchtext" type="text" class="form-control form-control-lg" placeholder="Tên Sản Phẩm">
@@ -196,6 +196,24 @@
 
 @section scripts{
     <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script>
+        function initPriceSlider() {
+            $("#slider-range").slider(
+                {
+                    range: true,
+                    min: 0,
+                    max: 5000000,
+                    values: [0, 500000],
+                    slide: function (event, ui) {
+                        $("#amount").val("đ" + ui.values[0] + " - đ" + ui.values[1]);
+                        $('#FromAmount').val(ui.values[0]);
+                        $('#ToAmount').val(ui.values[1]);
+                    }
+                });
+
+            $("#amount").val("đ" + $("#slider-range").slider("values", 0) + " - đ" + $("#slider-range").slider("values", 1));
+        }
+    </script>
 }
 
 
