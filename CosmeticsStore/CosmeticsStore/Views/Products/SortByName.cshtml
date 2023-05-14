@@ -71,16 +71,14 @@
                                 </ul>
                                 <div class="pages d-flex flex-row align-items-center">
                                     <form>
-                                        @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
+                                        @using (Html.BeginForm("index", "Posts", FormMethod.Post, new { }))
                                         {
-                                            <div class="input-group">
-                                                @Html.TextBox("Searchtext")
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-lg btn-outline-danger">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
+                                           <div style="justify-content:center;" class="input-group input-group-lg">
+                                               <input id="Searchtext" name="Searchtext" type="text" class="form-control form-control-lg" placeholder="Tên Sản Phẩm">
+                                               <button type="submit" style="width:70px" class="btn btn-lg btn-outline-danger">
+                                                   <i class="fa fa-search"></i>
+                                               </button>
+                                           </div>
                                         }
 
                                     </form>

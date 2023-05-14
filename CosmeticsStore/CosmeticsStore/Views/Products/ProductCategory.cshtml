@@ -36,7 +36,7 @@
                         <h5>Lọc Theo Giá</h5>
                     </div>
                     <p>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        <input type="text" id="amount" readonly style="border:0; font-weight:bold;">
                         <input type="hidden" id="FromAmount" />
                         <input type="hidden" id="ToAmount" />
                     </p>
@@ -112,20 +112,7 @@
                                     </li>
                                 </ul>
                                 <div class="pages d-flex flex-row align-items-center">
-                                    <form>
-                                        @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
-                                        {
-                                            <div class="input-group">
-                                                @Html.TextBox("Searchtext")
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-lg btn-outline-danger">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        }
-
-                                    </form>
+                                    
                                 </div>
                             </div>
 
