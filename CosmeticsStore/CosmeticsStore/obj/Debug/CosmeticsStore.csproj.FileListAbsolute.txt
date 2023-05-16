@@ -384,3 +384,4 @@ C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.PaymentSetting.resources
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBookingAndBookingDetail.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBookingAndBookingDetail.resources
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBranchs.resources

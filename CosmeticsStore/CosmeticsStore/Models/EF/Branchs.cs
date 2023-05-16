@@ -21,5 +21,9 @@ namespace CosmeticsStore.Models.EF
         public string Location { get; set; }
         [StringLength(250)]
         public string Image { get; set; }
+        [StringLength(150)]
+        public string Phone { get; set; }
+        [StringLength(150)]
+        public string Map { get; set; }
     }
 }
