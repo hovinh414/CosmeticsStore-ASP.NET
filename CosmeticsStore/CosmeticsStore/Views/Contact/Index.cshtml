@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<CosmeticsStore.Models.EF.Branchs>
 @{
     ViewBag.Title = "Liên Hệ";
 }
@@ -60,25 +60,25 @@
                 <li><a href="https://www.instagram.com/thzinhhh_/" style="background-color: #8f6247"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
             </ul>
         </div>
-        @* <div class="col-lg-6 get_in_touch_col">
-                <div class="get_in_touch_contents">
-                    <h1>Get In Touch With Us!</h1>
-                    <p>Fill out the form below to recieve a free and confidential.</p>
-                    <form action="post">
-                        <div>
-                            <input id="input_name" class="form_input input_name input_ph" type="text" name="name" placeholder="Name" required="required" data-error="Name is required.">
-                            <input id="input_email" class="form_input input_email input_ph" type="email" name="email" placeholder="Email" required="required" data-error="Valid email is required.">
-                            <input id="input_website" class="form_input input_website input_ph" type="url" name="name" placeholder="Website" required="required" data-error="Name is required.">
-                            <textarea id="input_message" class="input_ph input_message" name="message" placeholder="Message" rows="3" required data-error="Please, write us a message."></textarea>
-                        </div>
-                        <div>
-                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300" value="Submit">send message</button>
-                        </div>
-                    </form>
-                </div>
-            </div>*@
 
     </div>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="row" style="padding-top: 35px">
+                <div class="col-2">
+                    <img src="@item.Image" width="150" height="150" />
+                </div>
+                <div class="col-10">
+                    <h5>@item.Title</h5>
+                    <p>Địa chỉ: @item.Location</p>
+                    <p>Giờ hoạt động: 08:00am - 17:00 pm</p>
+                </div>
+            </div>
+        }
+
+    }
 </div>
 @section scripts{
     <script src="~/Content/assets/js/contact_custom.js"></script>
@@ -86,19 +86,19 @@
 
 @section Css{
     <style>
-        .map_container{
+        .map_container {
             overflow: hidden;
             padding-bottom: 35%;
             position: relative;
             height: 0;
         }
 
-        .map_container iframe{
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-        }
+            .map_container iframe {
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+            }
     </style>
-    }
+}
