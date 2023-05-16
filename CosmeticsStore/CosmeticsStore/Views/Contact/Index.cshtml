@@ -45,8 +45,8 @@
                 <p>Lê Thị Kim Khánh</p>
                 <p>Nguyễn Cao Hoàng Lộc</p>
                 <div>
-                    <p>0967626483</p>
-                    <p>hovinh414@gmail.com</p>
+                    <p>SĐT: 0967626483</p>
+                    <p>Email: hovinh414@gmail.com</p>
                 </div>
             </div>
 
@@ -64,16 +64,19 @@
     </div>
     @if (Model != null && Model.Any())
     {
+        <h2 style="padding-top:30px">Chi nhánh</h2>
         foreach (var item in Model)
         {
             <div class="row" style="padding-top: 35px">
                 <div class="col-2">
-                    <img src="@item.Image" width="150" height="150" />
+                    <img src="@item.Image" width="150" height="160" />
                 </div>
                 <div class="col-10">
                     <h5>@item.Title</h5>
                     <p>Địa chỉ: @item.Location</p>
                     <p>Giờ hoạt động: 08:00am - 17:00 pm</p>
+                    <p>Liên hệ: @item.Phone</p>
+                    <a href="@item.Map" class="btn btn-lg" style="border-radius:20px; font-size:13px;font-weight:bold; background-color:#001455; color:white">Chỉ đường</a>
                 </div>
             </div>
         }
