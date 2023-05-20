@@ -4,7 +4,10 @@
     ViewBag.Id = "Profile";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/assets/styles/profile_style.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @section naviheader
 {
     <!-- Left navbar links -->
@@ -20,155 +23,132 @@
         </li>
     </ul>
 }
-
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-
-                <!-- Profile Image -->
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="@Html.DisplayFor(model => model.Images)"
-                                 alt="User profile picture">
+<body>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row" style="padding-top:10px">
+                <div class="col-md-5">
+                    <div class="container1">
+                        <div class="box">
+                            <header class="box_header">
+                                <div class="yourFile">
+                                    <p>My Profile</p>
+                                </div>
+                            </header>
+                            <section class="box_info">
+                                <div class="avatar">
+                                    <img src="@Html.DisplayFor(model => model.Images)" alt="">
+                                    <input type="file" name="" id="form_file">
+                                </div>
+                                <div class="info">
+                                    <p><b class="name">@Html.DisplayFor(model => model.UserName)</b></p>
+                                    <p><b class="name">@Html.DisplayFor(model => model.FullName)</b></p>
+                                </div>
+                            </section>
+                            <section class="box_info">
+                                <div class="info" style="text-align: left">
+                                    <p><b>Năm sinh:</b><b class="float-right">@Html.DisplayFor(model => model.DateOfBirth)</b></p>
+                                    <p><b>Giới tính:</b><b class="float-right">@Html.DisplayFor(model => model.Sex)</b></p>
+                                    <p><b>Phone:</b><b class="float-right">@Html.DisplayFor(model => model.Phone)</b></p>
+                                    <p><b>Email:</b><b class="float-right">@Html.DisplayFor(model => model.Email)</b></p>
+                                </div>
+                            </section>
                         </div>
+                    </div>  
+                </div>
+                <!-- /.col -->
+                <div class="col-md-7">
+                    <div class="container1">
+                        <div class="box">
+                            <header class="box_header">
+                                <div class="yourFile">
+                                    <p>Edit My Profile</p>
+                                </div>
+                            </header>
+                            <section class="box_info">
+                                @using (Html.BeginForm("Profile", "Profile", FormMethod.Post))
+                                {
+                                    @Html.ValidationSummary(false)
+                                    @Html.AntiForgeryToken()
+                                    <form class="form-horizontal" action="@Url.Action("Profile", "Profile", new { account = Model as ApplicationUser})">
+                                        <div class="form-group row" style="margin:2px">
+                                            <label class="col-sm-4 col-form-label">Tên tài khoản:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.UserName, new { @class = "input", @placeholder = "Tên tài khoản" })
+                                                @Html.ValidationMessageFor(x => x.UserName, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row"style="margin:2px">
+                                            <label for="inputName" class="col-sm-4 col-form-label">Họ và Tên:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.FullName, new { @class = "input", @placeholder = "Họ tên" })
+                                                @Html.ValidationMessageFor(x => x.FullName, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row"style="margin:2px">
+                                            <label for="inputBirth" class="col-sm-4 col-form-label">Năm sinh:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "input", @placeholder = "Năm sinh" })
+                                                @Html.ValidationMessageFor(x => x.DateOfBirth, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row"style="margin: 2px">
+                                            <label for="inputSex" class="col-sm-4 col-form-label">Giới tính:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.Sex, new { @class = "input", @placeholder = "Giới tính" })
+                                                @Html.ValidationMessageFor(x => x.Sex, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                        <h3 class="profile-username text-center">@Html.DisplayFor(model => model.UserName)</h3>
+                                        <div class="form-group row"style="margin: 2px">
+                                            <label for="inputPhone" class="col-sm-4 col-form-label">Số điện thoại:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.Phone, new { @class = "input", @placeholder = "Số điện thoại" })
+                                                @Html.ValidationMessageFor(x => x.Phone, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                        <p class="text-muted text-center">@Html.DisplayFor(model => model.FullName)</p>
+                                        <div class="form-group row"style="margin: 2px">
+                                            <label for="inputEmail" class="col-sm-4 col-form-label">Email:</label>
+                                            <div class="col-sm-8">
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "input", @placeholder = "Email" })
+                                                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>Năm sinh:</b> <b class="float-right">@Html.DisplayFor(model => model.DateOfBirth)</b>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Giới tính</b> <b class="float-right">@Html.DisplayFor(model => model.Sex)</b>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Phone:</b> <b class="float-right">@Html.DisplayFor(model => model.Phone)</b>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Email:</b> <b class="float-right">@Html.DisplayFor(model => model.Email)</b>
-                            </li>
+                                        <div class="form-group row"style="margin: 2px">
+                                            <label for="inputEmail" class="col-sm-4 col-form-label">Ảnh đại diện:</label>
+                                            <div class="input-group col-sm-8">
+                                                <div class="custom-file">
+                                                    @Html.EditorFor(model => model.Images, "Ảnh đại diện", new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                                                           style="display:none;" />
+                                                    <input type="button" id="btnUpload" value="Chọn" class="btn btn-success" />
 
-                        </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row"style="margin:0">
+                                            <div class="offset-sm-5 col-sm-5" style="padding-top:10px">
+                                                <button type="submit" class="btn btn-danger">Lưu</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                            </section>
+                        </div>
                     </div>
-                    <!-- /.card-body -->
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
-                <!-- About Me Box -->
-                <!-- /.card -->
+                <!-- /.col -->
             </div>
-            <!-- /.col -->
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header p-2">
-                        <h1 class="btn btn-lg btn-primary">HỒ SƠ</h1>
-                        <!--<ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
-                                        </ul>-->
-                    </div> <!--/.card-header -->
-                    <div class="card-body">
-                        @using (Html.BeginForm("Profile", "Profile", FormMethod.Post))
-                        {
-                            @Html.ValidationSummary(false)
-                            @Html.AntiForgeryToken()
-                            <form class="form-horizontal" action="@Url.Action("Profile", "Profile", new { account = Model as ApplicationUser})">
-                                <div class="form-group row">
-                                    <label for="inputName" class="col-sm-2 col-form-label">Tên tài khoản</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Tên tài khoản" })
-                                        @Html.ValidationMessageFor(x => x.UserName, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputName" class="col-sm-2 col-form-label">Họ và Tên</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Họ tên" })
-                                        @Html.ValidationMessageFor(x => x.FullName, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputBirth" class="col-sm-2 col-form-label">Năm sinh</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", @placeholder = "Năm sinh" })
-                                        @Html.ValidationMessageFor(x => x.DateOfBirth, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputSex" class="col-sm-2 col-form-label">Giới tính</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.Sex, new { @class = "form-control", @placeholder = "Giới tính" })
-                                        @Html.ValidationMessageFor(x => x.Sex, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputPhone" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
-                                        @Html.ValidationMessageFor(x => x.Phone, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-10">
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })
-                                        @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputEmail" class="col-sm-2 col-form-label">Ảnh đại diện</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            @Html.EditorFor(model => model.Images, "Ảnh đại diện", new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Images, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="input-group-append">
-                                            <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
-                                                   style="display:none;" />
-                                            <input type="button" id="btnUpload" value="Chọn" class="btn btn-success" />
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Lưu</button>
-                                    </div>
-                                </div>
-
-
-                            </form>
-                        }
-                        <!--</div>
-                        /.tab-pane -->
-                        <!--</div>
-                        /.tab-content -->
-                    </div><!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+</body>
 
 @section upload
 {
