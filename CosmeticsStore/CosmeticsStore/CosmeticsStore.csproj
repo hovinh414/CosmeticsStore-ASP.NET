@@ -2242,6 +2242,7 @@
     <Content Include="Content\assets\js\custom.js" />
     <Content Include="Content\assets\js\jquery-3.2.1.min.js" />
     <Content Include="Content\assets\js\jquery.min.js" />
+    <Content Include="Content\assets\js\profile_main.js" />
     <Content Include="Content\assets\js\single_custom.js" />
     <Content Include="Content\assets\plugins\easing\easing.js" />
     <Content Include="Content\assets\plugins\font-awesome-4.7.0\css\font-awesome.css" />
@@ -2269,6 +2270,7 @@
     <Content Include="Content\assets\styles\contact_styles.css" />
     <Content Include="Content\assets\styles\login_style.css" />
     <Content Include="Content\assets\styles\main_styles.css" />
+    <Content Include="Content\assets\styles\profile_style.css" />
     <Content Include="Content\assets\styles\responsive.css" />
     <Content Include="Content\assets\styles\single_responsive.css" />
     <Content Include="Content\assets\styles\single_styles.css" />
