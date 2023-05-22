@@ -204,6 +204,7 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChatController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\SettingHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -261,8 +263,42 @@
     <Compile Include="Migrations\202304140645098_PaymentSetting.designer.cs">
       <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305020700539_AddStatusColumnToBookings.cs" />
+    <Compile Include="Migrations\202305020700539_AddStatusColumnToBookings.designer.cs">
+      <DependentUpon>202305020700539_AddStatusColumnToBookings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305031709070_Initialnew.cs" />
+    <Compile Include="Migrations\202305031709070_Initialnew.designer.cs">
+      <DependentUpon>202305031709070_Initialnew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091037495_AddServiceIdToBookings.cs" />
+    <Compile Include="Migrations\202305091037495_AddServiceIdToBookings.designer.cs">
+      <DependentUpon>202305091037495_AddServiceIdToBookings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091159479_test2.cs" />
+    <Compile Include="Migrations\202305091159479_test2.designer.cs">
+      <DependentUpon>202305091159479_test2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091203584_AddnewService.cs" />
+    <Compile Include="Migrations\202305091203584_AddnewService.designer.cs">
+      <DependentUpon>202305091203584_AddnewService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091643171_updateForBookingDetailTable.cs" />
+    <Compile Include="Migrations\202305091643171_updateForBookingDetailTable.designer.cs">
+      <DependentUpon>202305091643171_updateForBookingDetailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091652133_updateForBookingsTable.cs" />
+    <Compile Include="Migrations\202305091652133_updateForBookingsTable.designer.cs">
+      <DependentUpon>202305091652133_updateForBookingsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305091825103_updateForBookingDetailTable2.cs" />
+    <Compile Include="Migrations\202305091825103_updateForBookingDetailTable2.designer.cs">
+      <DependentUpon>202305091825103_updateForBookingDetailTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AppointmentViewModel.cs" />
+    <Compile Include="Models\AppointmentWithCustomerViewModel.cs" />
     <Compile Include="Models\Common\Filter.cs" />
     <Compile Include="Models\Common\ThongKeTruyCap.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -286,6 +322,7 @@
     <Compile Include="Models\EF\Subscribe.cs" />
     <Compile Include="Models\EF\SystemSetting.cs" />
     <Compile Include="Models\EF\ThongKe.cs" />
+    <Compile Include="Models\HourModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
@@ -2239,11 +2276,15 @@
     <Content Include="Content\assets\plugins\OwlCarousel2-2.2.1\owl.video.play.png" />
     <Content Include="Content\assets\plugins\themify-icons\fonts\themify.svg" />
     <Content Include="Content\assets\plugins\themify-icons\themify-icons.css" />
+    <Content Include="Content\assets\styles\bookingTime.css" />
     <Content Include="Content\assets\styles\bootstrap4\bootstrap.min.css" />
     <Content Include="Content\assets\styles\bootstrap4\bootstrap.min.js" />
+    <Content Include="Content\assets\styles\ChatAdmin.css" />
     <Content Include="Content\assets\styles\bootstrap4\popper.js" />
     <Content Include="Content\assets\styles\categories_responsive.css" />
     <Content Include="Content\assets\styles\categories_styles.css" />
+    <Content Include="Content\assets\styles\chatbox.css" />
+    <Content Include="Content\assets\styles\chatForAdmin.css" />
     <Content Include="Content\assets\styles\contact_responsive.css" />
     <Content Include="Content\assets\styles\contact_styles.css" />
     <Content Include="Content\assets\styles\main_styles.css" />
@@ -3333,6 +3374,10 @@
     <Content Include="Areas\Admin\Views\Services\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Services\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Services\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\ListBooking.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\ConfirmDone.cshtml" />
+    <Content Include="Areas\Admin\Views\Chat\chat.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3426,6 +3471,10 @@
     <Content Include="Views\Services\SortByPriceGiam.cshtml" />
     <Content Include="Views\Services\SortByNameZA.cshtml" />
     <Content Include="Views\Services\Detail.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Services\BookingTime.cshtml" />
+    <Content Include="Views\Services\ConfirmBooking.cshtml" />
+    <Content Include="Views\Services\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3466,6 +3515,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304140645098_PaymentSetting.resx">
       <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305020700539_AddStatusColumnToBookings.resx">
+      <DependentUpon>202305020700539_AddStatusColumnToBookings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305031709070_Initialnew.resx">
+      <DependentUpon>202305031709070_Initialnew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091037495_AddServiceIdToBookings.resx">
+      <DependentUpon>202305091037495_AddServiceIdToBookings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091159479_test2.resx">
+      <DependentUpon>202305091159479_test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091203584_AddnewService.resx">
+      <DependentUpon>202305091203584_AddnewService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091643171_updateForBookingDetailTable.resx">
+      <DependentUpon>202305091643171_updateForBookingDetailTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091652133_updateForBookingsTable.resx">
+      <DependentUpon>202305091652133_updateForBookingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305091825103_updateForBookingDetailTable2.resx">
+      <DependentUpon>202305091825103_updateForBookingDetailTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

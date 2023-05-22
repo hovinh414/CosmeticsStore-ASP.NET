@@ -135,6 +135,25 @@
         </div>
     </div>
 }
+
+<script>
+    const baseUrl = window.location.origin;
+    const bookingUrl = baseUrl + '/Services/BookingTime';
+    const bookingButton = document.querySelector('.btnAddToCart');
+    var buttons = document.querySelectorAll('.btnAddToCart');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', (event) => {
+            event.preventDefault();
+            const itemId = event.currentTarget.getAttribute('data-id');
+            // sử dụng itemId ở đây
+            console.log("Item id: " + itemId);
+            const baseUrl = window.location.origin;
+            const bookingUrl = baseUrl + '/Services/BookingTime';
+            const confirmUrl = bookingUrl + '?serviceId=' + itemId;
+            window.location.replace(confirmUrl);
+        });
+    }
+</script>
 @section scripts{
     <script src="~/Content/assets/js/single_custom.js"></script>
 }

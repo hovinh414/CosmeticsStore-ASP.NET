@@ -44,32 +44,25 @@
         displayMessageBySender(sender, content);
     }
 
-    var database = firebase.database();
 
-    database.ref("user/" + userId + "/").once("value", function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
-            var message = childSnapshot.val();
-            var sender = message.sender;
-            var content = message.content;
-            if (content.trim().length > 0) {
-                displayMessageBySender(sender, content);
-            }
-        });
-    });
+    
     function sendMessage() {
-    var sender = "You";
-    var content = document.getElementById("message").value;
+        var sender = "You";
+        var content = document.getElementById("message").value;
 
-    var messageId = new Date().getTime().toString();
-    database.ref("user/" + userId +"/" + messageId).set({
-        sender: sender,
-        content: content,
-    });
-    document.getElementById("message").value = "";
+        if (content.trim() !== '') { // Kiểm tra nội dung tin nhắn không rỗng
+            var messageId = new Date().getTime().toString();
+            database.ref("user/" + userId + "/" + messageId).set({
+                sender: sender,
+                content: content,
+            });
+        }
+
+        document.getElementById("message").value = "";
         var chatContainerNext = document.querySelector(".chat-container");
-        console.log(chatContainerNext);
         chatContainerNext.scrollTop = chatContainerNext.scrollHeight;
     }
+
 
     function init() {
         var chatToggleButton = document.getElementById("chat-toggle-button");

@@ -15,12 +15,13 @@ namespace CosmeticsStore.Models.EF
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int BookingId { get; set; }
+        public string BookingId { get; set; }
         public int ServiceId { get; set; }
-        public int BranchId { get; set; }
         public decimal Price { get; set; }
+        public string ServiceName { get; set; }
+        public string ServiceDetail { get; set; }
+
         public virtual Bookings Bookings { get; set; }
         public virtual Service Service { get; set; }
-        public virtual Branchs Branchs { get; set; }
     }
 }
