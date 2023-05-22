@@ -1,0 +1,120 @@
+﻿
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link"><font color="white">Trang chủ</font></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/Services" class="nav-link"><font color="white">Dịch vụ</font></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link"><font color="white">Cập nhật</font></a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Danh sách đặt lịch</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Dịch vụ</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="main_content">
+        <label for="phoneNumber">Nhập số điện thoại:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại của khách hàng">
+        <button id="btnConfirm">Xác nhận</button>
+
+        <div style="text-align: center">
+            <h2>Thông tin khách hàng:</h2>
+            <p id="customerName"></p>
+            <p id="serviceName"></p>
+            <p id="date"></p>
+        </div>
+
+        <button id="completionButton" style="display: none;" class="cancel-appointment">Hoàn thành</button>
+    </div>
+</section>
+
+<script>
+        $(function () {
+            $('#btnConfirm').click(function () {
+                var phoneNumber = $('#phoneNumber').val();
+                if (phoneNumber) {
+                    // Send AJAX request to fetch customer information
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCustomerInfo", "Services")', // Replace with the actual URL to fetch customer information
+                        data: { phoneNumber: phoneNumber },
+                        success: function (result) {
+                            if (result.success) {
+                                // Display customer information
+                                $('#customerName').text(result.customerName);
+                                $('#serviceName').text(result.serviceName);
+                                $('#date').text(result.date);
+                                $('#completionButton').show().data('id', result.code);
+                                // Show the completion button
+                                $('#completionButton').show();
+                            } else {
+                                // Handle the case when customer information is not found
+                                alert(result.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi lấy thông tin khách hàng. Vui lòng thử lại sau.');
+                        }
+                    });
+                }
+            });
+
+        });
+        function doneAppointment(code) {
+        if (confirm('Khách hàng đã có mặt?')) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DoneAppointment", "Services")',
+                data: { code: code },
+                success: function (result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi xác nhận đặt lịch. Vui lòng thử lại sau.');
+                }
+            });
+        }
+    }
+
+
+    $(function () {
+        $('body').on('click', '#completionButton', function () {
+            var id = $(this).closest('tr').find('.cancel-appointment').data('id');
+            var code = $(this).data('id');
+            doneAppointment(code);
+        });
+    });
+</script>

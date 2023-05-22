@@ -63,15 +63,15 @@
                                         </ul>
                                     </li>
                                     @*<li>
-                                            <span>Show</span>
-                                            <span class="num_sorting_text">6</span>
-                                            <i class="fa fa-angle-down"></i>
-                                            <ul class="sorting_num">
-                                                <li class="num_sorting_btn"><span>6</span></li>
-                                                <li class="num_sorting_btn"><span>12</span></li>
-                                                <li class="num_sorting_btn"><span>24</span></li>
-                                            </ul>
-                                        </li>*@
+                            <span>Show</span>
+                            <span class="num_sorting_text">6</span>
+                            <i class="fa fa-angle-down"></i>
+                            <ul class="sorting_num">
+                                <li class="num_sorting_btn"><span>6</span></li>
+                                <li class="num_sorting_btn"><span>12</span></li>
+                                <li class="num_sorting_btn"><span>24</span></li>
+                            </ul>
+                        </li>*@
                                 </ul>
 
                             </div>
@@ -88,13 +88,13 @@
                                         </button>
                                     </div>
                                     @*<div class="input-group">
-                                            <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên sản phẩm">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-lg btn-outline-danger">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>*@
+                            <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên sản phẩm">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-lg btn-outline-danger">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>*@
                                 }
 
                             </form>
@@ -124,13 +124,13 @@
                                             <img src="@strImge" alt="@item.Title">
                                         </div>
                                         <div class="favorite favorite_left"></div>
-                                       
+
                                         <div class="product_info">
                                             <h6 class="product_name"><a href="/chi-tiet-dich-vu/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                             <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</div>
                                         </div>
                                     </div>
-                                    <div class="red_button dat_lich_button"><a href="#" data-id="@item.Id"><span class="glyphicon glyphicon-calendar"></span><span> Đặt Lịch</span></a></div>
+                                    <div class="red_button dat_lich_button" id="booking-button" data-id="@item.Id"><a href="#" ><span class="glyphicon glyphicon-calendar"></span><span> Đặt Lịch</span></a></div>
 
                                 </div>
                             }
@@ -143,28 +143,50 @@
                             @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                         </div>
                     </div>
+
+
                     <!-- Product Sorting -->
                     @*<div class="product_sorting_container product_sorting_container_bottom clearfix">
-                            <ul class="product_sorting">
-                                <li>
-                                    <span>Show:</span>
-                                    <span class="num_sorting_text">04</span>
-                                    <i class="fa fa-angle-down"></i>
-                                    <ul class="sorting_num">
-                                        <li class="num_sorting_btn"><span>01</span></li>
-                                        <li class="num_sorting_btn"><span>02</span></li>
-                                        <li class="num_sorting_btn"><span>03</span></li>
-                                        <li class="num_sorting_btn"><span>04</span></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>*@
+            <ul class="product_sorting">
+                <li>
+                    <span>Show:</span>
+                    <span class="num_sorting_text">04</span>
+                    <i class="fa fa-angle-down"></i>
+                    <ul class="sorting_num">
+                        <li class="num_sorting_btn"><span>01</span></li>
+                        <li class="num_sorting_btn"><span>02</span></li>
+                        <li class="num_sorting_btn"><span>03</span></li>
+                        <li class="num_sorting_btn"><span>04</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>*@
 
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const baseUrl = window.location.origin;
+    const bookingUrl = baseUrl + '/Services/BookingTime';
+    const bookingButton = document.querySelector('.dat_lich_button');
+    var buttons = document.querySelectorAll('.dat_lich_button');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', (event) => {
+            event.preventDefault();
+            const itemId = event.currentTarget.getAttribute('data-id');
+            // sử dụng itemId ở đây
+            console.log("Item id: " + itemId);
+            const baseUrl = window.location.origin;
+            const bookingUrl = baseUrl + '/Services/BookingTime';
+            const confirmUrl = bookingUrl + '?serviceId=' + itemId;
+            window.location.replace(confirmUrl);
+        });
+    }
+     
+
+</script>
 
 @section scripts{
     <script src="~/Content/assets/js/categories_custom.js"></script>

@@ -1,8 +1,10 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -51,6 +53,9 @@ namespace CosmeticsStore.Controllers
             items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
+
+            
+
             return View(items);
         }
         public ActionResult SortByName(string Searchtext)
@@ -190,5 +195,138 @@ namespace CosmeticsStore.Controllers
 
             return View(item);
         }
+        public List<HourModel> CurentDay(DateTime currentDate)
+        {
+            var startHour = 8;
+            var endHour = 18;
+            var hoursOfDay = new List<HourModel>();
+            for (int i = 0; i < 96; i++) // 96 slot = 1 ngày (24 giờ x 4 slot/giờ)
+            {
+                var currentHour = currentDate.AddMinutes(i * 15);
+
+                if (currentHour.Hour >= startHour && currentHour.Hour < endHour)
+                {
+                    var hourModel = new HourModel
+                    {
+                        Hour = currentHour,
+                        IsPastTime = currentDate.Date == DateTime.Now.Date && currentHour <= DateTime.Now && currentHour.Date == DateTime.Now.Date
+                    };
+                    hoursOfDay.Add(hourModel);
+                }
+            }
+
+            return hoursOfDay;
+        }
+
+        public bool IsBookingSlotAvailable(DateTime selectedHour, List<HourModel> bookedHours)
+        {
+            DateTime endHour = selectedHour.AddHours(1);
+
+            foreach (var bookedHour in bookedHours)
+            {
+                // Kiểm tra nếu giờ được chọn nằm trong khoảng thời gian đã đặt
+                if (selectedHour >= bookedHour.Hour && selectedHour < bookedHour.Hour.AddHours(1))
+                {
+                    return false;
+                }
+
+                // Kiểm tra nếu khoảng thời gian đã đặt nằm trong khoảng thời gian được chọn
+                if (bookedHour.Hour >= selectedHour && bookedHour.Hour < endHour)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        public ActionResult BookingTime()
+        {
+            //dat lịch
+            string userId = User.Identity.GetUserId();
+            ViewBag.UserId = userId;
+
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                var name = user.FullName;
+                ViewBag.name = name;
+                Debug.WriteLine("Name: " + name);
+                var email = user.Email;
+                ViewBag.email = email;
+                var phone = user.Phone;
+                ViewBag.phone = phone;
+                Debug.WriteLine("Phone: " + phone);
+                // Thực hiện các thao tác khác với tên của user
+            }
+            DateTime currentDate = DateTime.Today.AddDays(0);
+            List<List<HourModel>> hoursForDays = new List<List<HourModel>>();
+            for (int i = 0; i < 7; i++)
+            {
+                var date = currentDate.AddDays(i);
+                var hours = CurentDay(date);
+                hoursForDays.Add(hours);
+            }
+            Debug.WriteLine(" Count: " + hoursForDays.Count());
+            Debug.WriteLine(" IsPastTimne: " + hoursForDays[0][1].IsPastTime);
+            ViewBag.HoursOfDay = hoursForDays;
+
+            return View();
+        }
+
+        public ActionResult ConfirmBooking()
+        {
+           
+            return View();
+        }
+
+        public ActionResult History()
+        {
+            string userId = User.Identity.GetUserId();
+            ViewBag.UserId = userId;
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                var phone = user.Phone;
+            var appointments = db.Bookings.Where(b => b.Phone == phone)
+                                           .OrderByDescending(b => b.Date)
+                                           .ToList();
+
+            // Chuyển đổi các bản ghi thành danh sách các đối tượng AppointmentViewModel
+            var appointmentViewModels = new List<AppointmentViewModel>();
+            foreach (var appointment in appointments)
+            {
+                var appointmentViewModel = new AppointmentViewModel
+                {
+                    Id = appointment.Id,
+                    ServiceName = db.Services.FirstOrDefault(b => b.Id.ToString() == appointment.serviceId).Title,
+                    Date = DateTime.Parse(appointment.Date),
+                    Status = appointment.Status,
+                    Code = appointment.Code,
+                };
+                appointmentViewModels.Add(appointmentViewModel);
+            }
+
+            // Truyền danh sách các đối tượng AppointmentViewModel vào ViewBag.History
+            ViewBag.History = appointmentViewModels;
+
+            return View();
+        }
+
+        
+        public JsonResult CancelAppointment(string code)
+        {
+            var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy đặt lịch." });
+            }
+            appointment.Status = "Đã hủy";
+            db.SaveChanges();
+            return Json(new { success = true, message = "Hủy đặt lịch thành công." });
+        }
+
+
     }
+
+
 }

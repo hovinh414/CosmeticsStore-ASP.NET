@@ -1,12 +1,17 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin;
 using OfficeOpenXml;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
@@ -56,6 +61,187 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             return View(items);
         }
         public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult ListBooking()
+        {
+            string userId = User.Identity.GetUserId();
+            ViewBag.UserId = userId;
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+            var phone = user.Phone;
+            var appointments = db.Bookings.Where(b => b.Status != "Đã hủy" && b.Status != "Hoàn thành")
+                                           .OrderByDescending(b => b.Date)
+                                           .ToList();
+
+            // Chuyển đổi các bản ghi thành danh sách các đối tượng AppointmentViewModel
+            var appointmentViewModels = new List<AppointmentWithCustomerViewModel>();
+            foreach (var appointment in appointments)
+            {
+                var appointmentViewModel = new AppointmentWithCustomerViewModel
+                {
+                    Id = appointment.Id,
+                    ServiceName = db.Services.FirstOrDefault(b => b.Id.ToString() == appointment.serviceId).Title,
+                    Date = appointment.Date,
+                    Status = appointment.Status,
+                    Code = appointment.Code,
+                    Name = GetLastWord(appointment.CustomerName), 
+                    Phone = appointment.Phone,
+                };
+                appointmentViewModels.Add(appointmentViewModel);
+            }
+
+            // Truyền danh sách các đối tượng AppointmentViewModel vào ViewBag.History
+            ViewBag.History = appointmentViewModels;
+            return View();
+        }
+
+        public string GetLastWord(string input)
+        {
+            string[] words = input.Split(' ');
+            string lastWord = words[words.Length - 1];
+            return lastWord;
+        }
+
+        public JsonResult GetPendingAppointments()
+        {
+            var pendingAppointments = db.Bookings.Where(b => b.Status == "Chờ xác nhận")
+                                                 .OrderByDescending(b => b.Date)
+                                                 .ToList();
+
+            var appointmentViewModels = new List<AppointmentWithCustomerViewModel>();
+            foreach (var appointment in pendingAppointments)
+            {
+                var serviceName = db.Services.FirstOrDefault(b => b.Id.ToString() == appointment.serviceId)?.Title;
+                var appointmentViewModel = new AppointmentWithCustomerViewModel
+                {
+                    Id = appointment.Id,
+                    ServiceName = serviceName,
+                    Date = appointment.Date,
+                    Status = appointment.Status,
+                    Code = appointment.Code,
+                    Name = GetLastWord(appointment.CustomerName),
+                    Phone = appointment.Phone,
+                };
+                appointmentViewModels.Add(appointmentViewModel);
+            }
+
+            return Json(new
+            {
+                success = true,
+                appointments = appointmentViewModels
+            });
+        }
+
+
+        public JsonResult ConfirmAppointment(string code)
+        {
+            var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy đặt lịch." });
+            }
+            appointment.Status = "Đã xác nhận";
+            db.SaveChanges();
+            return Json(new { success = true, message = "Xác nhận đặt lịch thành công." });
+        }
+
+        [HttpPost]
+        public JsonResult GetAppointmentsByDate(DateTime date)
+        {
+            Debug.WriteLine("Date input: " + date);
+
+            var appointments = db.Bookings.Where(b => b.Status != "Đã hủy" && b.Status != "Hoàn thành")
+                                           .OrderByDescending(b => b.Date)
+                                           .ToList();
+            var filteredAppointments = appointments.Where(a => ConvertToDate(a.Date) == ConvertToDate(date.Date.ToString())).ToList();
+            var appointmentViewModels = new List<AppointmentWithCustomerViewModel>();
+            foreach (var appointment in filteredAppointments)
+            {
+                var serviceName = db.Services.FirstOrDefault(b => b.Id.ToString() == appointment.serviceId)?.Title;
+                var appointmentViewModel = new AppointmentWithCustomerViewModel
+                {
+                    Id = appointment.Id,
+                    ServiceName = serviceName,
+                    Date = appointment.Date,
+                    Status = appointment.Status,
+                    Code = appointment.Code,
+                    Name = GetLastWord(appointment.CustomerName),
+                    Phone = appointment.Phone,
+                };
+                appointmentViewModels.Add(appointmentViewModel);
+            }
+            return Json(new
+            {
+                success = true,
+                appointments = appointmentViewModels
+            });
+        }
+
+
+        public DateTime ConvertToDate(string dateString)
+        {
+            DateTime parsedDate = DateTime.ParseExact(dateString, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            return parsedDate.Date;
+        }
+
+        public JsonResult CancelAppointment(string code)
+        {
+            var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy đặt lịch." });
+            }
+            appointment.Status = "Đã hủy";
+            db.SaveChanges();
+            return Json(new { success = true, message = "Hủy đặt lịch thành công." });
+        }
+
+        public JsonResult GetCustomerInfo(string phoneNumber)
+        {
+            var booking = db.Bookings.Where(b => b.Phone == phoneNumber && b.Status =="Đã xác nhận").FirstOrDefault();
+            if (booking != null)
+            {
+                var serviceName = db.Services.FirstOrDefault(b => b.Id.ToString() == booking.serviceId)?.Title;
+                var customerName = GetLastWord(booking.CustomerName);
+                var date = booking.Date;
+                var code = booking.Code;
+                Debug.WriteLine("Service name: " + serviceName);
+                Debug.WriteLine("Customer name: " + customerName);
+
+                return Json(new
+                {
+                    success = true,
+                    serviceName = serviceName,
+                    customerName = customerName,
+                    date = date,
+                    code = code
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Không tìm thấy thông tin khách hàng."
+                });
+            }
+        }
+
+        public JsonResult DoneAppointment(string code)
+        {
+            var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy đặt lịch." });
+            }
+            appointment.Status = "Hoàn thành";
+            db.SaveChanges();
+            return Json(new { success = true, message = "Hoàn thành đặt lịch thành công." });
+        }
+
+        public ActionResult ConfirmDone()
         {
             return View();
         }
