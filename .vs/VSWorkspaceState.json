@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CosmeticsStore",
+    "\\CosmeticsStore\\CosmeticsStore",
+    "\\CosmeticsStore\\CosmeticsStore\\Areas",
+    "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin",
+    "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin\\Views",
+    "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin\\Views\\Services",
+    "\\CosmeticsStore\\CosmeticsStore\\Models",
+    "\\CosmeticsStore\\CosmeticsStore\\Models\\EF",
+    "\\CosmeticsStore\\CosmeticsStore\\Views",
+    "\\CosmeticsStore\\CosmeticsStore\\Views\\Services"
+  ],
+  "SelectedNode": "\\CosmeticsStore\\CosmeticsStore.sln",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,131 @@
+﻿@{
+    string userId = ViewBag.UserId;
+}
+
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/chatbox.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDGly_YfREsnWcc7BVLuqqYVBz958R75yM",
+        authDomain: "comestic-69523.firebaseapp.com",
+        projectId: "comestic-69523",
+        storageBucket: "comestic-69523.appspot.com",
+        messagingSenderId: "43395991015",
+        appId: "1:43395991015:web:909fd811df314ab7066942",
+        measurementId: "G-4TNSPY3W8B",
+        databaseURL: "https://comestic-69523-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    var database = firebase.database();
+
+    function displayMessageBySender(sender, content) {
+        var chatbox = document.getElementById("chatbox");
+        if (content.trim() !== '') {
+            var messageContainer = document.createElement("div");
+            messageContainer.classList.add(sender == "You" ? "from-me" : "to-me");
+            messageContainer.innerHTML = "<p class='message'>" + content + "</p>";
+            chatbox.appendChild(messageContainer);
+        }
+    }
+    var userId = '@ViewBag.UserId';
+    database.ref("user/" + userId +"/").on("child_added", function (snapshot) {
+        var message = snapshot.val();
+        var sender = message.sender;
+        var content = message.content;
+        if (content.trim().length > 0) {
+            displayMessageBySender(sender, content);
+        }
+    });
+    function displayMessage(sender, content) {
+        displayMessageBySender(sender, content);
+    }
+
+
+    
+    function sendMessage() {
+        var sender = "You";
+        var content = document.getElementById("message").value;
+
+        if (content.trim() !== '') { // Kiểm tra nội dung tin nhắn không rỗng
+            var messageId = new Date().getTime().toString();
+            database.ref("user/" + userId + "/" + messageId).set({
+                sender: sender,
+                content: content,
+            });
+        }
+
+        document.getElementById("message").value = "";
+        var chatContainerNext = document.querySelector(".chat-container");
+        chatContainerNext.scrollTop = chatContainerNext.scrollHeight;
+    }
+
+
+    function init() {
+        var chatToggleButton = document.getElementById("chat-toggle-button");
+        var chatContainer = document.querySelector(".chat-wrapper");
+        var closeButton = document.getElementById("close-chatbox-button");
+
+        chatToggleButton.addEventListener("click", function () {
+            var isAuthenticated = @(User.Identity.IsAuthenticated.ToString().ToLower());
+            if (!isAuthenticated) {
+                window.location.href = "/Account/Login"; // Chuyển hướng đến trang đăng nhập
+                return;
+            }
+            if (chatContainer.classList.contains("show")) {
+                chatContainer.classList.remove("show");
+                chatContainer.classList.add("hide");
+                chatToggleButton.style.display = "block";
+
+            } else {
+                chatContainer.classList.remove("hide");
+                chatContainer.classList.add("show");
+                chatToggleButton.style.display = "none";
+                var chatContainerNext = document.querySelector(".chat-container");
+                chatContainerNext.scrollTop = chatContainerNext.scrollHeight;
+            }
+        });
+
+        closeButton.addEventListener("click", function () {
+            chatContainer.classList.remove("show");
+            chatContainer.classList.add("hide");
+            chatToggleButton.style.display = "block";
+        });
+        console.log(document.getElementById("message"));
+        document.getElementById("message").addEventListener("keyup", function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("send-button").click();
+            }
+        });
+        console.log(document.getElementById("send-button"));
+        document.getElementById("send-button").addEventListener("click", function () {
+            sendMessage();
+        });
+    }
+
+</script>
+<body onload="init()">
+    <button id="chat-toggle-button">&#x1F4AC;</button>
+    <div class="chat-wrapper hide" data-userid="@userId">
+        <div class="chat-header">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="~/Content/Image/comesticAvt.jpg" />
+                </div>
+                <span class="user-name">Cosmetic</span>
+            </div>
+            <button id="close-chatbox-button"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="chat-container">
+            <div id="chatbox"></div>
+            <div class="chat-input">
+                <input type="text" id="message" placeholder="Type message ...">
+                <button id="send-button" onclick=sendMessage()>Send</button>
+            </div>
+        </div>
+    </div>
+</body>
