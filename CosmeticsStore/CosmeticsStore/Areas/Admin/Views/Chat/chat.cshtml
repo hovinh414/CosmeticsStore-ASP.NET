@@ -64,7 +64,7 @@
 <script>
 
         function init() {
-
+            var selectedUserId = null;
 
             // Check if the Firebase app has already been initialized
             if (!firebase.apps.length) {
@@ -199,17 +199,38 @@
                 var sender = "Admin";
                 var content = document.querySelector(".write-message").value;
 
-                var messageId = new Date().getTime().toString();
-                database.ref("user/" + userId + "/" + messageId).set({
-                    sender: sender,
-                    content: content,
-                });
+                // Check if a user is selected
+                if (selectedUserId) {
+                    var messageId = new Date().getTime().toString();
+                    database.ref("user/" + selectedUserId + "/" + messageId).set({
+                        sender: sender,
+                        content: content,
+                    }).then(function () {
+                        // Create message container
+                        var messageContainer = document.createElement("div");
+                        messageContainer.classList.add("message", "text-only");
+
+                        var responseContainer = document.createElement("div");
+                        responseContainer.classList.add("response");
+
+                        var textContainer = document.createElement("p");
+                        textContainer.classList.add("text");
+                        textContainer.textContent = content;
+
+                        responseContainer.appendChild(textContainer);
+                        messageContainer.appendChild(responseContainer);
+
+                        // Append message container to chatbox
+                        chatbox.appendChild(messageContainer);
+
+                        // Scroll to the bottom of the chat container
+                        chatbox.scrollTop = chatbox.scrollHeight;
+                    });
+                }
 
                 document.querySelector(".write-message").value = "";
-
-                var chatContainerNext = document.querySelector('#message-list');
-                chatContainerNext.scrollTop = chatContainerNext.scrollHeight;
             }
+
             // Lắng nghe sự kiện nhấp chuột vào nút gửi
             var sendButton = document.querySelector(".send");
             sendButton.addEventListener("click", sendMessage);
@@ -226,6 +247,8 @@
             
 
             function displayUserMessages(userId) {
+                selectedUserId = userId;
+
                 // Clear the existing messages in the chat container
                 chatbox.innerHTML = "";
 
