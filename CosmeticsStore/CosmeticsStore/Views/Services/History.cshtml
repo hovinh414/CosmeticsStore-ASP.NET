@@ -52,8 +52,8 @@
                                 <tr>
                                     <td>@item.ServiceName</td>
                                     <td>@item.Date.ToString("dd/MM/yyyy")</td>
-                                    <td><span @if (item.Status == "Chờ xác nhận") { <text> class="pending" </text> } @if (item.Status == "Đã hủy") { <text> class="cancel" </text> } @if (item.Status == "Hoàn thành") { <text> class="done" </text> }>@item.Status</span></td>
-                                    <td><button id="btnCancel" data-id="@item.Code" class="btn btn-danger @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }">Hủy</button></td>
+                                    <td ><span @if (item.Status == "Chờ xác nhận") { <text> class="pending" </text> } @if (item.Status == "Đã hủy") { <text> class="cancel" </text> } @if (item.Status == "Hoàn thành") { <text> class="done" </text> }>@item.Status</span></td>
+                                    <td><button id="btnCancel" data-id="@item.Code" class="btn btn-lg btn-danger @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }">Hủy</button></td>
                                 </tr>
                             }
                         </tbody>
@@ -65,24 +65,20 @@
 </div>
 <style>
     .pending {
+        border-radius: 5px;
         background-color: yellow;
     }
 
     .cancel {
-        background-color: red;
+        color: white;
+        border-radius: 5px;
+        background-color: #de0b40;
     }
 
     .done {
-        background-color: lawngreen;
-    }
-    button.btn-danger:disabled {
-        background-color: #d8d8d8;
-        color: #666;
-    }
-
-    button.btn-danger {
-        background-color: #fff;
-        color: red
+        color: white;
+        border-radius: 5px;
+        background-color: #37d45e;
     }
 </style>
 

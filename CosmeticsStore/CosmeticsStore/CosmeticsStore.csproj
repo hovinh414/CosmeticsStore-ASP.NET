@@ -235,65 +235,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202303292021238_CreateDatabase.cs" />
-    <Compile Include="Migrations\202303292021238_CreateDatabase.designer.cs">
-      <DependentUpon>202303292021238_CreateDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304061738499_UpdateIdUser.cs" />
-    <Compile Include="Migrations\202304061738499_UpdateIdUser.designer.cs">
-      <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304101650281_UpdateBooking.cs" />
-    <Compile Include="Migrations\202304101650281_UpdateBooking.designer.cs">
-      <DependentUpon>202304101650281_UpdateBooking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304101651408_UpdatePost.cs" />
-    <Compile Include="Migrations\202304101651408_UpdatePost.designer.cs">
-      <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304111616340_DeleteBooking.cs" />
-    <Compile Include="Migrations\202304111616340_DeleteBooking.designer.cs">
-      <DependentUpon>202304111616340_DeleteBooking.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304111623516_UpdateBooking1.cs" />
-    <Compile Include="Migrations\202304111623516_UpdateBooking1.designer.cs">
-      <DependentUpon>202304111623516_UpdateBooking1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202304140645098_PaymentSetting.cs" />
-    <Compile Include="Migrations\202304140645098_PaymentSetting.designer.cs">
-      <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305020700539_AddStatusColumnToBookings.cs" />
-    <Compile Include="Migrations\202305020700539_AddStatusColumnToBookings.designer.cs">
-      <DependentUpon>202305020700539_AddStatusColumnToBookings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305031709070_Initialnew.cs" />
-    <Compile Include="Migrations\202305031709070_Initialnew.designer.cs">
-      <DependentUpon>202305031709070_Initialnew.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091037495_AddServiceIdToBookings.cs" />
-    <Compile Include="Migrations\202305091037495_AddServiceIdToBookings.designer.cs">
-      <DependentUpon>202305091037495_AddServiceIdToBookings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091159479_test2.cs" />
-    <Compile Include="Migrations\202305091159479_test2.designer.cs">
-      <DependentUpon>202305091159479_test2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091203584_AddnewService.cs" />
-    <Compile Include="Migrations\202305091203584_AddnewService.designer.cs">
-      <DependentUpon>202305091203584_AddnewService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091643171_updateForBookingDetailTable.cs" />
-    <Compile Include="Migrations\202305091643171_updateForBookingDetailTable.designer.cs">
-      <DependentUpon>202305091643171_updateForBookingDetailTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091652133_updateForBookingsTable.cs" />
-    <Compile Include="Migrations\202305091652133_updateForBookingsTable.designer.cs">
-      <DependentUpon>202305091652133_updateForBookingsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305091825103_updateForBookingDetailTable2.cs" />
-    <Compile Include="Migrations\202305091825103_updateForBookingDetailTable2.designer.cs">
-      <DependentUpon>202305091825103_updateForBookingDetailTable2.cs</DependentUpon>
+    <Compile Include="Migrations\202305250730409_BookingUpdate.cs" />
+    <Compile Include="Migrations\202305250730409_BookingUpdate.designer.cs">
+      <DependentUpon>202305250730409_BookingUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3495,50 +3439,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202303292021238_CreateDatabase.resx">
-      <DependentUpon>202303292021238_CreateDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304061738499_UpdateIdUser.resx">
-      <DependentUpon>202304061738499_UpdateIdUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304101650281_UpdateBooking.resx">
-      <DependentUpon>202304101650281_UpdateBooking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304101651408_UpdatePost.resx">
-      <DependentUpon>202304101651408_UpdatePost.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304111616340_DeleteBooking.resx">
-      <DependentUpon>202304111616340_DeleteBooking.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304111623516_UpdateBooking1.resx">
-      <DependentUpon>202304111623516_UpdateBooking1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304140645098_PaymentSetting.resx">
-      <DependentUpon>202304140645098_PaymentSetting.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305020700539_AddStatusColumnToBookings.resx">
-      <DependentUpon>202305020700539_AddStatusColumnToBookings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305031709070_Initialnew.resx">
-      <DependentUpon>202305031709070_Initialnew.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091037495_AddServiceIdToBookings.resx">
-      <DependentUpon>202305091037495_AddServiceIdToBookings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091159479_test2.resx">
-      <DependentUpon>202305091159479_test2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091203584_AddnewService.resx">
-      <DependentUpon>202305091203584_AddnewService.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091643171_updateForBookingDetailTable.resx">
-      <DependentUpon>202305091643171_updateForBookingDetailTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091652133_updateForBookingsTable.resx">
-      <DependentUpon>202305091652133_updateForBookingsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305091825103_updateForBookingDetailTable2.resx">
-      <DependentUpon>202305091825103_updateForBookingDetailTable2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202305250730409_BookingUpdate.resx">
+      <DependentUpon>202305250730409_BookingUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -23,27 +23,25 @@
             </div>
 
             <!-- Sidebar -->
-
-            <div class="sidebar">
-                <!--<div class="sidebar_section">
-                    <div class="sidebar_title">
-                        <h5>Danh Mục Sản Phẩm</h5>
-                    </div>-->
-                @*@Html.Action("MenuLeft", "Menu", new { id = ViewBag.CateId })*@
-                <!--</div>-->
-                <!-- Price Range Filtering -->
-                <div class="sidebar_section">
-
-                    @Html.Action("Refesh", "Home")
-                </div>
-            </div>
-
             <!-- Main Content -->
 
             <div class="main_content">
 
                 <div class="products_iso">
-                        <div class="left-panel">
+                    <div class="left-panel">
+                        @*<div class="block_right_step">
+                            <div id="step_1" class="step_item">
+                                <span>1</span>Số điện thoại
+                            </div>
+                            <div id="step_2" class="step_item">
+                                <span>2</span>Chi nhánh
+                            </div>
+                            <div id="step_4" class="step_item">
+                                <span>3</span>Ngày giờ
+                            </div>
+                        </div>*@
+                        <div class="input_time">
+
                             <h3>Thông tin đặt hẹn: </h3>
                             <div class="row">
                                 <div class="col">
@@ -71,6 +69,15 @@
                                         <input type="text" id="time" name="time" required>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="input_time">
+                            <div class="row">
+                                <label style="padding-left:20px" for="name">Chọn Ngày Giờ: </label>
+                                <span class="txt_color_2"> *</span>
+                                <div style="padding-left:20px" class="item_demo demohetcho"><span></span>Hết chỗ</div>
+                                <div style="padding-left:20px" class="item_demo democoncho"><span></span>Còn chỗ</div>
+                                <div style="padding-left:20px" class="item_demo demodangchon"><span></span>Đang chọn</div>
                             </div>
                             <div class="right-panel">
                                 <table class="time-grid">
@@ -107,20 +114,22 @@
                                     </tbody>
                                 </table>
                                 <div class="form-group" style="text-align: center">
+                                    <a href="/dat-lich" id="back-btn">Quay lại</a>
                                     <button id="book-btn">Đặt lịch</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 
 
 
-                    <script>
+<script>
 
     $(document).ready(function () {
         $(document).ready(function () {
@@ -203,4 +212,4 @@
 });
 
 
-                    </script>
+</script>

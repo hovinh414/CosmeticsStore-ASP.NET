@@ -232,13 +232,10 @@ D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.O
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.Owin.Security.OAuth.xml
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.AssemblyReference.cache
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.CreateDatabase.resources
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.GenerateResource.cache
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.CoreCompileInputs.cache
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.CopyComplete
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.dll
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.pdb
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateIdUser.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.AssemblyReference.cache
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.CreateDatabase.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateIdUser.resources
@@ -372,11 +369,6 @@ D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.Syst
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.IO.RecyclableMemoryStream.dll
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\EPPlus.xml
 D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\Microsoft.IO.RecyclableMemoryStream.xml
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking.resources
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdatePost.resources
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.DeleteBooking.resources
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking1.resources
-D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.PaymentSetting.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdateBooking.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.UpdatePost.resources
 C:\Users\ADMIN\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.DeleteBooking.resources
@@ -522,3 +514,5 @@ C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\ob
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingDetailTable.resources
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingsTable.resources
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingDetailTable2.resources
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.BookingUpdate.resources
+D:\DoAnCoSo\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.csproj.GenerateResource.cache
