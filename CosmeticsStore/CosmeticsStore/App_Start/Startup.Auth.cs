@@ -6,6 +6,10 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CosmeticsStore.Models;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
 
 namespace CosmeticsStore
 {
@@ -14,6 +18,9 @@ namespace CosmeticsStore
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            app.CreatePerOwinContext<UserManager<ApplicationUser>>(() => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())));
+
+
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -34,7 +41,8 @@ namespace CosmeticsStore
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -54,15 +62,57 @@ namespace CosmeticsStore
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+            appId: "543134474648469",
+            appSecret: "4eea17514cd5578b6ce4f0e349509748");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+
+            var googleOptions = new GoogleOAuth2AuthenticationOptions
+            {
+                ClientId = "43395991015-8ir03i80bbm6afvg8r0tpvo2dde83dvp.apps.googleusercontent.com",
+                ClientSecret = "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",
+                Provider = new GoogleOAuth2AuthenticationProvider
+                {
+                    OnAuthenticated = async context =>
+                    {
+                        // Extract the email address from the Google profile
+                        var email = context.Identity.FindFirstValue(ClaimTypes.Email);
+
+                        // Check if a user with the same email address exists in the application
+                        var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                        var user = await userManager.FindByEmailAsync(email);
+
+                        if (user == null)
+                        {
+                            // If the user doesn't exist, create a new ApplicationUser and set its properties
+                            user = new ApplicationUser { UserName = email, Email = email };
+
+                            // Create the user in the application's database
+                            var result = await userManager.CreateAsync(user);
+                            if (result.Succeeded)
+                            {
+                                // Add the external login to the newly created user
+                                var owinContext = context.OwinContext;
+                                var authenticationManager = owinContext.Authentication;
+                                var externalIdentity = authenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+                                var provider = externalIdentity?.AuthenticationType;
+
+                                result = await userManager.AddLoginAsync(user.Id, new UserLoginInfo(provider, externalIdentity?.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                                if (result.Succeeded)
+                                {
+                                    // Set the newly created user as the current logged-in user
+                                    authenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, await user.GenerateUserIdentityAsync(userManager));
+                                }
+                            }
+                        }
+                        context.Response.Redirect("/home/index");
+                    }
+                }
+            };
+
+
+            app.UseGoogleAuthentication(googleOptions);
         }
     }
 }

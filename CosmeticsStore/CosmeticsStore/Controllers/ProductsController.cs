@@ -1,12 +1,17 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using PagedList;
+
 
 namespace CosmeticsStore.Controllers
 {
@@ -178,20 +183,90 @@ namespace CosmeticsStore.Controllers
             }
             return View(items);
         }
-        public ActionResult Detail(string alias, int id)
+
+        public void updateStarRating(int ProductId)
         {
+            var reviews = db.Reviews.Where(x => x.ProductId == ProductId);
+            float starAverage = (float)Math.Round(reviews.Average(x => x.StarRating) * 2, MidpointRounding.AwayFromZero) / 2;
+
+            // Cập nhật giá trị trung bình đánh giá của sản phẩm
+            var product = db.Products.FirstOrDefault(p => p.Id == ProductId);
+            if (product != null)
+            {
+                product.StarRating = starAverage;
+                db.SaveChanges();
+            }
+        }
+
+
+        public ActionResult Detail(string alias, int id, int page = 1, int pageSize = 3)
+        {
+            var reviewList = new List<ReviewViewModel>();
+            string userId = User.Identity.GetUserId();
+            ViewBag.UserId = userId;
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+            if (user != null)
+            {
+                var name = user.FullName;
+                ViewBag.name = name;
+                var email = user.Email;
+                ViewBag.email = email;
+                var image = user.Images;
+                ViewBag.image = image;
+
+                Debug.WriteLine("Name: " + name);
+                // Perform other operations with the user's name
+            }
+
+            var reviews = db.Reviews.Where(_ => _.ProductId == id);
+
+            // Tính số lượng đánh giá và số trang
+            int totalReviews = reviews.Count();
+            int totalPages = (int)Math.Ceiling((double)totalReviews / pageSize);
+
+            // Lấy danh sách đánh giá cho trang hiện tại
+            reviews = reviews.OrderByDescending(r => r.Date);
+            var pagedReviews = reviews.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            // Truyền danh sách đánh giá và thông tin phân trang vào ViewBag hoặc Model
+            ViewBag.Reviews = pagedReviews;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = page;
+
             var item = db.Products.Find(id);
-            if(item != null)
+            if (item != null)
             {
                 db.Products.Attach(item);
                 item.ViewCount = item.ViewCount + 1;
-                db.Entry(item).Property(x=>x.ViewCount).IsModified= true;
+                db.Entry(item).Property(x => x.ViewCount).IsModified = true;
                 db.SaveChanges();
             }
-            
+
+            foreach (var review in pagedReviews)
+            {
+                var customer = db.Users.FirstOrDefault(u => u.Id == review.CustomerId);
+                if (customer != null)
+                {
+                    var reviewViewModel = new ReviewViewModel
+                    {
+                        name = customer.FullName,
+                        description = review.Description,
+                        star = (int)Math.Round(review.StarRating),
+                        image = customer.Images,
+                        date = review.Date,
+                    };
+                    reviewList.Add(reviewViewModel);
+                }
+            }
+
+            reviewList = reviewList.OrderByDescending(r => r.date).ToList();
+            ViewBag.Reviews = reviewList;
+
             return View(item);
         }
-        public ActionResult ProductCategory(string alias,int? id, string Searchtext)
+
+
+        public PartialViewResult ProductCategory(string alias,int? id, string Searchtext)
         {
 
             IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
@@ -231,7 +306,7 @@ namespace CosmeticsStore.Controllers
                 ViewBag.CateName = cate.Title;
             }
             ViewBag.CateId = id;
-            return View(items);
+            return PartialView(items);
         }
         public ActionResult Partial_ItemsByCateId()
         {
@@ -242,6 +317,33 @@ namespace CosmeticsStore.Controllers
         {
             var items = db.Products.Where(x => x.IsSale && x.IsActive == true).Take(12).ToList();
             return PartialView(items);
+        }
+
+        // POST: Product/SaveReview
+        [HttpPost]
+        public ActionResult SaveReview(Review review)
+        {
+            try
+            {
+                // Thực hiện lưu đánh giá vào cơ sở dữ liệu hoặc xử lý theo nhu cầu của bạn
+                // Ví dụ:
+                using (var dbContext = new ApplicationDbContext())
+                {
+                    review.Date = DateTime.Now;
+                    // Lưu đánh giá vào cơ sở dữ liệu
+                    dbContext.Reviews.Add(review);
+                    dbContext.SaveChanges();
+                    updateStarRating(review.ProductId);
+                }
+
+                // Trả về phản hồi thành công
+                return Json(new { success = true, message = "Review saved successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                return Json(new { success = false, message = "An error occurred while saving the review." });
+            }
         }
     }
 }

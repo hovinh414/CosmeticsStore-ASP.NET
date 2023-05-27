@@ -15,6 +15,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.UI;
+using Microsoft.AspNet.Identity.Owin;
+using static CosmeticsStore.Controllers.AccountController;
+using System.Diagnostics;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
@@ -302,6 +305,7 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             }
         }
 
+        
 
     }
 }
