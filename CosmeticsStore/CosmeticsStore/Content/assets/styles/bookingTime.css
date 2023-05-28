@@ -75,8 +75,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
         width: 110%;
         height: 110%;
         border-radius: 5px;
-        background-color: #bf1548;
-        
+        background-color: #2C6E50;
         z-index: -1;
     }
 
@@ -109,7 +108,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #bf1548;
+        background-color: #2C6E50;
         z-index: -1;
     }
 .past-time {
@@ -146,7 +145,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
     background: #A9A9A9;
 }
 .demodangchon span {
-    background: #bf1548;
+    background: #2C6E50;
 }
 .democoncho span {
     background: #CFEADD;

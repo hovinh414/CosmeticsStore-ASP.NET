@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin, StaffCSKH")]
     public class ChatController : Controller
     {
         // GET: Admin/Chat
