@@ -41,18 +41,64 @@
 <!-- Main content -->
 <section class="content">
     <div class="main_content">
-        <label for="phoneNumber">Nhập số điện thoại:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại của khách hàng">
-        <button id="btnConfirm">Xác nhận</button>
-
-        <div style="text-align: center">
-            <h2>Thông tin khách hàng:</h2>
-            <p id="customerName"></p>
-            <p id="serviceName"></p>
-            <p id="date"></p>
+        <div class="row">
+            <div style="width:150px;padding-left:10px">
+                <label for="phoneNumber">Nhập số điện thoại:</label>
+            </div>
+            <div class="col-4">
+                <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="Nhập số điện thoại của khách hàng">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-warning" id="btnConfirm">Xác nhận</button>
+            </div>
         </div>
 
-        <button id="completionButton" style="display: none;" class="cancel-appointment">Hoàn thành</button>
+
+        <div style="text-align: center;align-content:center;align-items:center">
+            <h2 style="padding-top:15px">Thông tin khách hàng</h2>
+            <div class="row">
+                <div class="col-3">
+                    <span></span>
+                </div>
+                <div class="col-6">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="card card-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-info">
+                            <h5 class="form-control" style="font-size:17px;font-weight:bold">Dịch Vụ</h5>
+                            <h5 id="serviceName" class="widget-user-desc"></h5>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">Khách hàng</h5>
+                                        <h5 class="description-header" id="customerName"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">Ngày</h5>
+                                        <h5 class="description-header" id="date"></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="description-block">
+                                        <h5 class="description-header">Mã đặt lịch</h5>
+                                        <h5 class="description-header" id="code"></h5>
+                                    </div>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+            </div>
+            <button id="completionButton" style="text-align:center;display: none;" class="cancel-appointment btn btn-success">Hoàn thành</button>
+        </div>
+
     </div>
 </section>
 
@@ -72,6 +118,7 @@
                                 $('#customerName').text(result.customerName);
                                 $('#serviceName').text(result.serviceName);
                                 $('#date').text(result.date);
+                                $('#code').text(result.code);
                                 $('#completionButton').show().data('id', result.code);
                                 // Show the completion button
                                 $('#completionButton').show();
