@@ -43,5 +43,6 @@ namespace CosmeticsStore.Models.EF
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ICollection<ProductImage> ProductImage { get; set; }
         public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public float StarRating { get; set; }
     }
 }

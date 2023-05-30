@@ -147,6 +147,33 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             return Json(new { success = true, message = "Xác nhận đặt lịch thành công." });
         }
 
+        public JsonResult RescheduleAppointment(string code, string timeRes)
+        {
+            var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
+            if (appointment == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy đặt lịch." });
+            }
+
+            DateTime dateTime = DateTime.Parse(appointment.Date);
+
+            // Lấy ngày
+            string date = dateTime.ToShortDateString();
+
+            string dateTimeString = date + ' ' + timeRes;
+            Debug.WriteLine("date time string: " + dateTimeString);
+
+            // Chuyển đổi chuỗi thành đối tượng DateTime
+            DateTime dateTimeConvert = DateTime.ParseExact(dateTimeString, "M/d/yyyy H:mm", CultureInfo.InvariantCulture);
+            string originalDateTimeString = dateTimeConvert.ToString("M/d/yyyy h:mm:ss tt");
+
+
+            Debug.WriteLine("date time: " + originalDateTimeString);
+            appointment.Date = originalDateTimeString;
+            db.SaveChanges();
+            return Json(new { success = true, message = "Xác nhận đặt lịch thành công." });
+        }
+
         [HttpPost]
         public JsonResult GetAppointmentsByDate(DateTime date)
         {

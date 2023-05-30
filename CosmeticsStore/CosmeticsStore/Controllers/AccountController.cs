@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CosmeticsStore.Models;
+using System.Diagnostics;
+using System.Web.WebPages;
+using System.Data.Entity.Infrastructure;
 
 namespace CosmeticsStore.Controllers
 {
@@ -353,16 +356,7 @@ namespace CosmeticsStore.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
+       
 
         //
         // GET: /Account/SendCode
@@ -399,35 +393,144 @@ namespace CosmeticsStore.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
-        [AllowAnonymous]
-        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
-        {
-            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            if (loginInfo == null)
-            {
-                return RedirectToAction("Login");
-            }
 
-            // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
-            switch (result)
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Gọi phương thức Challenge để bắt đầu quá trình đăng nhập bên ngoài (ở đây là đăng nhập Facebook)
+            var redirectUrl = Url.Action("ExternalLoginCallbackAsync", "Account", new { ReturnUrl = returnUrl });
+            return new ChallengeResult(provider, redirectUrl);
+        }
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallbackAsync(string returnUrl)
+        {
+            try
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+
+                if (loginInfo == null)
+                {
+                    Debug.WriteLine("can't receive logininfo");
+                }
+
+                ApplicationUser user = null; // Declare and initialize the 'user' variable
+
+                if (loginInfo.Login.LoginProvider == "Google")
+                {
+                    // Lấy thông tin từ Google
+                    var email = loginInfo.Email;
+                    var fullName = loginInfo.DefaultUserName;
+
+                    // Kiểm tra xem tài khoản người dùng đã tồn tại trong ứng dụng hay chưa
+                    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    user = userManager.FindByEmail(email);
+
+                    if (user == null)
+                    {
+                        // Tạo một tài khoản người dùng mới từ thông tin đăng nhập bên ngoài
+                        var userSave = new ApplicationUser
+                        {
+                            UserName = email,
+                            Email = email,
+                            FullName = fullName,
+                            Phone = "0911365447",
+                            DateOfBirth = DateTime.Parse("2/1/2002"),
+                            Sex = "nữ"
+                        };
+
+                        var result = await userManager.CreateAsync(userSave, "test");
+                        if (!result.Succeeded)
+                        {
+                            Debug.WriteLine("sai thong tin");
+                            // Xử lý lỗi khi tạo tài khoản không thành công
+                            return RedirectToAction("Login");
+                        }
+
+                        // Đăng nhập thành công và tạo phiên làm việc cho người dùng
+                        await SignInManager.SignInAsync(userSave, isPersistent: false, rememberBrowser: false);
+                        // Chuyển hướng người dùng đến trang Home
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                if (loginInfo.Login.LoginProvider == "Facebook")
+                {
+                    // Lấy thông tin từ Facebook
+                    var email = loginInfo.Email;
+                    var fullName = loginInfo.DefaultUserName;
+
+                    // Kiểm tra xem tài khoản người dùng đã tồn tại trong ứng dụng hay chưa
+                    var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    user = userManager.FindByEmail(email);
+
+                    if (user == null)
+                    {
+                        // Tạo một tài khoản người dùng mới từ thông tin đăng nhập bên ngoài
+                        var userSave = new ApplicationUser
+                        {
+                            UserName = email,
+                            Email = email,
+                            FullName = fullName,
+                            Phone = "0911365447",
+                            DateOfBirth = DateTime.Parse("2/1/2002"),
+                            Sex = "nữ"
+                        };
+
+                        var result = await UserManager.CreateAsync(userSave, "123456Aa@");
+                        if (!result.Succeeded)
+                        {
+                            Debug.WriteLine("sai thong tin");
+                            // Xử lý lỗi khi tạo tài khoản không thành công
+                            return RedirectToAction("Login");
+                        }
+
+                        // Đăng nhập thành công và tạo phiên làm việc cho người dùng
+                        await SignInManager.SignInAsync(userSave, isPersistent: false, rememberBrowser: false);
+                        // Chuyển hướng người dùng đến trang Home
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+
+                if (user != null)
+                {
+                    // Tài khoản đã tồn tại, đăng nhập thành công và chuyển hướng người dùng đến trang Home
+                    var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch (DbUpdateException ex)
+            {
+                // Ghi log chi tiết lỗi
+                Debug.WriteLine("Lỗi Cập nhật CSDL: " + ex.Message);
+                Debug.WriteLine("Inner Exception: " + ex.InnerException);
+
+                // Xử lý lỗi hoặc chuyển hướng đến trang lỗi
+                return RedirectToAction("Error");
+            }
+            catch (Exception ex)
+            {
+                // Ghi log thông tin về lỗi
+                Debug.WriteLine("Lỗi: " + ex.Message);
+                Debug.WriteLine("StackTrace: " + ex.StackTrace);
+
+                // Xử lý lỗi theo ý của bạn, ví dụ: chuyển hướng đến một trang lỗi
+                return RedirectToAction("Error");
             }
         }
+
+
+
+
+
+
+
+
 
         //
         // POST: /Account/ExternalLoginConfirmation

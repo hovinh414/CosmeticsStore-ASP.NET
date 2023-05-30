@@ -13,6 +13,13 @@ namespace CosmeticsStore
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapRoute(
+                 name: "AccountLogin",
+                 url: "Account/Login",
+                 defaults: new { controller = "Account", action = "Login", returnUrl = "/Account/ExternalLogin" },
+                 namespaces: new[] { "CosmeticsStore.Controllers" }
+             );
+
+            routes.MapRoute(
                 name: "Contact",
                 url: "lien-he",
                 defaults: new { controller = "Contact", action = "Index", alias = UrlParameter.Optional },
@@ -105,6 +112,9 @@ namespace CosmeticsStore
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "CosmeticsStore.Controllers" } 
             );
+
+           
+
         }
     }
 }
