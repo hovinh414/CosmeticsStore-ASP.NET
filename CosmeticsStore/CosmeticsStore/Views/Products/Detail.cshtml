@@ -1,4 +1,4 @@
-@model CosmeticsStore.Models.EF.Product
+﻿@model CosmeticsStore.Models.EF.Product
 @{
     ViewBag.Title = "Detail";
 }
@@ -225,15 +225,7 @@
 
     <script>
         if ('@ViewBag.Name' != null) {
-    var encodedName = '@ViewBag.Name'.replace(/["<>'&]/g, function (c) {
-        switch (c) {
-            case '"': return "&quot;";
-            case "<": return "&lt;";
-            case ">": return "&gt;";
-            case "'": return "&#39;";
-            case "&": return "&amp;";
-        }
-    });
+    var encodedName = '@Html.Raw(HttpUtility.JavaScriptStringEncode(ViewBag.Name))';
     var name = decodeURIComponent(encodedName);
     document.getElementById("review_name").value = name;
 }
