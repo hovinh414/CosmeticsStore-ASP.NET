@@ -43,15 +43,22 @@
 <!-- Main content -->
 <section class="content">
     <div class="main_content">
-        <div class="row mb-2">
-            <div class="col-sm-12">
+        <div class="row">
+            <div class="col-1">
                 <label for="appointmentDate">Chọn ngày:</label>
+            </div>
+            <div class="col-4">
                 <input type="date" id="appointmentDate" class="form-control">
             </div>
-            <button id="loadPendingAppointments" class="btn btn-primary">Chờ xác nhận</button>
+            <div class="col-2">
+                <button id="loadPendingAppointments" class="btn btn-primary">Chờ xác nhận</button>
+            </div>
+            <div class="col-2">
+                <a href="/Admin/Services/ConfirmDone" class="btn btn-info">Điểm danh</a>
+            </div>
         </div>
         <div class="products_iso">
-            <h2 style="text-align: center">Lịch sử đặt lịch</h2>
+            <h2 style="text-align: center;padding-top:15px">Lịch sử đặt lịch</h2>
             <table id="appointmentTable" class="table table-striped">
                 <thead>
                     <tr>
@@ -59,8 +66,8 @@
                         <th>Ngày đặt</th>
                         <th>Khách hàng</th>
                         <th>Số điện thoại</th>
-                        <th>Trạng thái</th>
-                        <th></th>
+                        <th style="width:150px;">Trạng thái</th>
+                        <th style="width:150px;"></th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -74,7 +81,7 @@
                             <td>@item.Name</td>
                             <td>@item.Phone</td>
                             <td><span @if (item.Status == "Chờ xác nhận") { <text> class="pending" </text> } @if (item.Status == "Đã hủy") { <text> class="cancel" </text> } @if (item.Status == "Hoàn thành" && item.Status == "Đã xác nhận") { <text> class="done" </text> }>@item.Status</span></td>
-                            <td><button id="btnSuccess" data-id="@item.Code" class="btn btn-outline-success @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }">Xác nhận</button></td>
+                            <td><button id="btnSuccess" data-id="@item.Code" class="btn btn-success @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }">Xác nhận</button></td>
                             <td><button id="btnCancel" data-id="@item.Code" class="btn btn-danger @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }">Hủy</button></td>
                             <td><button data-id="@item.Code" class="btn btn-danger @if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") { <text>disabled</text> }" id="rescheduleButton">Dời lịch</button></td>
                         </tr>
@@ -101,16 +108,13 @@
         background-color: lawngreen;
     }
 
-    .btn {
-        background-color: transparent;
-    }
 
         /* Màu nền khi di chuột vào */
-        .btn:hover {
-            background-color: green;
-        }
+    .btn:hover {
+        transform: scale(0.9);
+    }
 
-    button.btn-danger:disabled {
+    @*button.btn-danger:disabled {
         background-color: #d8d8d8;
         color: #666;
     }
@@ -122,8 +126,7 @@
 
     button.btn-danger {
         background-color: #fff;
-        color: red
-    }
+        color: red*@
 </style>
 <script>
     function cancelforbtnAppointment(code) {
@@ -212,7 +215,7 @@
                     }
 
                     row += '>' + item.Status + '</span></td>' +
-                        '<td><button id="btnSuccess" data-id="' + item.Code + '" class="btn btn-outline-success';
+                        '<td><button id="btnSuccess" data-id="' + item.Code + '" class="btn btn-success';
 
                     if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") {
                         row += ' disabled';
@@ -276,7 +279,7 @@ function loadPendingAppointments() {
                     }
 
                     row += '>' + item.Status + '</span></td>' +
-                        '<td><button id="btnSuccess" data-id="' + item.Code + '" class="btn btn-outline-success';
+                        '<td><button id="btnSuccess" data-id="' + item.Code + '" class="btn btn-success';
 
                     if (item.Status == "Đã hủy" || item.Status == "Hoàn thành" || item.Status == "Đã xác nhận") {
                         row += ' disabled';
@@ -349,7 +352,7 @@ $('#loadPendingAppointments').click(function () {
     return new Promise(function (resolve) {
         Swal.fire({
             title: "Chọn giờ",
-            html: '<input type="text" id="selectedHour" name="selectedHour" />',
+            html: '<input type="text" class="form-control" id="selectedHour" name="selectedHour" />',
             showCancelButton: true,
             confirmButtonText: "Đồng ý",
             cancelButtonText: "Hủy",
