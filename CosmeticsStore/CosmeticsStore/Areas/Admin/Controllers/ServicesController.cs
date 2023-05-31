@@ -227,15 +227,20 @@ namespace CosmeticsStore.Areas.Admin.Controllers
 
         public JsonResult GetCustomerInfo(string phoneNumber)
         {
-            var booking = db.Bookings.Where(b => b.Phone == phoneNumber && b.Status =="Đã xác nhận").FirstOrDefault();
+            List<Bookings> sortedBookings = db.Bookings
+    .Where(b => b.Phone == phoneNumber && b.Status == "Đã xác nhận")
+    .ToList()
+    .OrderBy(b => DateTime.ParseExact(b.Date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture)).ToList();
+
+            var booking = sortedBookings.FirstOrDefault();
+
+
             if (booking != null)
             {
                 var serviceName = db.Services.FirstOrDefault(b => b.Id.ToString() == booking.serviceId)?.Title;
                 var customerName = GetLastWord(booking.CustomerName);
                 var date = booking.Date;
                 var code = booking.Code;
-                Debug.WriteLine("Service name: " + serviceName);
-                Debug.WriteLine("Customer name: " + customerName);
 
                 return Json(new
                 {
