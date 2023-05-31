@@ -239,30 +239,6 @@
     <Compile Include="Migrations\202305250730409_BookingUpdate.designer.cs">
       <DependentUpon>202305250730409_BookingUpdate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305250704277_Test.cs" />
-    <Compile Include="Migrations\202305250704277_Test.designer.cs">
-      <DependentUpon>202305250704277_Test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305261629145_createTableReviews.cs" />
-    <Compile Include="Migrations\202305261629145_createTableReviews.designer.cs">
-      <DependentUpon>202305261629145_createTableReviews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305261643466_createTableReviewsTest.cs" />
-    <Compile Include="Migrations\202305261643466_createTableReviewsTest.designer.cs">
-      <DependentUpon>202305261643466_createTableReviewsTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305261714285_addCustomerIdForReviews.cs" />
-    <Compile Include="Migrations\202305261714285_addCustomerIdForReviews.designer.cs">
-      <DependentUpon>202305261714285_addCustomerIdForReviews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305270323130_updateTable.cs" />
-    <Compile Include="Migrations\202305270323130_updateTable.designer.cs">
-      <DependentUpon>202305270323130_updateTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305270428372_updateReview.cs" />
-    <Compile Include="Migrations\202305270428372_updateReview.designer.cs">
-      <DependentUpon>202305270428372_updateReview.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppointmentViewModel.cs" />
@@ -3445,6 +3421,7 @@
     <Content Include="Views\Services\BookingTime.cshtml" />
     <Content Include="Views\Services\ConfirmBooking.cshtml" />
     <Content Include="Views\Services\History.cshtml" />
+    <Content Include="Views\Account\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3467,24 +3444,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202305250730409_BookingUpdate.resx">
       <DependentUpon>202305250730409_BookingUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305250704277_Test.resx">
-      <DependentUpon>202305250704277_Test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305261629145_createTableReviews.resx">
-      <DependentUpon>202305261629145_createTableReviews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305261643466_createTableReviewsTest.resx">
-      <DependentUpon>202305261643466_createTableReviewsTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305261714285_addCustomerIdForReviews.resx">
-      <DependentUpon>202305261714285_addCustomerIdForReviews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305270323130_updateTable.resx">
-      <DependentUpon>202305270323130_updateTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305270428372_updateReview.resx">
-      <DependentUpon>202305270428372_updateReview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

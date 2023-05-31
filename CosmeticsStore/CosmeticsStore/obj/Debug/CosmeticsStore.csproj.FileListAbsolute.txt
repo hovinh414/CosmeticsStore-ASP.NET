@@ -522,9 +522,3 @@ C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\ob
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingDetailTable.resources
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingsTable.resources
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateForBookingDetailTable2.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.Test.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.createTableReviews.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.createTableReviewsTest.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.addCustomerIdForReviews.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateTable.resources
-C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.updateReview.resources

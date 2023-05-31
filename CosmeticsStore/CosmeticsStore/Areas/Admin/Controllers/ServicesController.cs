@@ -1,4 +1,4 @@
-﻿using CosmeticsStore.Models;
+using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;

@@ -224,10 +224,17 @@
     </div>
 
     <script>
-         var name = decodeURIComponent('@Uri.EscapeDataString(ViewBag.Name)');
-    console.log(name);
+        if ('@ViewBag.Name' != null) {
+    var encodedName = '@Html.Raw(HttpUtility.JavaScriptStringEncode(ViewBag.Name))';
+    var name = decodeURIComponent(encodedName);
     document.getElementById("review_name").value = name;
+}
+
+if ('@ViewBag.email' != null) {
     document.getElementById("review_email").value = '@ViewBag.email';
+}
+
+
     $(document).ready(function () {
         var productId = $("#product_title").data("id");
             // Xử lý sự kiện submit form
@@ -332,7 +339,16 @@
         var currentPage = @ViewBag.CurrentPage;
 
         $('.pagination a').eq(currentPage - 1).addClass('current');
-    });
+        });
+
+        document.getElementById("review_submit").addEventListener("click", function (event) {
+            var isAuthenticated = @(User.Identity.IsAuthenticated.ToString().ToLower());
+            if (!isAuthenticated) {
+                event.preventDefault();
+                alert("Vui lòng đăng nhập trước khi gửi review.");
+            }
+        });
+
     </script>
 
 
