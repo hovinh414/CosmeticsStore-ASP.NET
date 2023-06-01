@@ -10,7 +10,7 @@ using PagedList;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, StaffOrder, StaffBooking, StaffProductPostNew")]
+    [Authorize(Roles = "Admin, StaffOrder, StaffBooking, StaffProductPostNew, StaffCSKH")]
     public class HomeController : Controller
     {
         // GET: Admin/Home
