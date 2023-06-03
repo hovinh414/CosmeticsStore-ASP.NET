@@ -45,7 +45,7 @@
 
                 <div class="products_iso">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-10">
 
                             <!-- Product Sorting -->
 
@@ -77,13 +77,13 @@
                             </div>
 
                         </div>
-                        <div class="col-6">
+                        <div class="col-2">
                             <form>
                                 @using (Html.BeginForm("index", "Services", FormMethod.Get, new { }))
                                 {
-                                    <div style="justify-content:center;" class="input-group input-group-lg">
-                                        <input id="Searchtext" name="Searchtext" type="text" class="form-control form-control-lg" placeholder="Tên Dịch Vụ">
-                                        <button type="submit" style="width:70px" class="btn btn-lg btn-outline-danger">
+                                    <div class="search-box">
+                                        <input id="Searchtext" name="Searchtext" type="text" placeholder="Tên dịch vụ">
+                                        <button type="submit">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </div>

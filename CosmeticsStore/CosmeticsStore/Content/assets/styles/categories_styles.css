@@ -193,7 +193,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form-control {
-	color: #db5246;
+	color: black;
 }
 
 section {
@@ -1147,7 +1147,37 @@ section {
 /*********************************
 6. Sidebar
 *********************************/
+.search-box {
+	width: 0;
+	display: flex;
+	justify-content: center;
+	background-color: #f9f9f9;
+	padding: 1%;
+	border-radius: 32px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 
+	.search-box input {
+		border: 0;
+		background-color: transparent;
+		font-size: 16px;
+		width: 0;
+		transition: 0.8s;
+	}
+
+	.search-box:hover input {
+		width: 200px;
+	}
+
+	.search-box button {
+		padding: 10px;
+		border: 0;
+		background-color: #fe4c50;
+		color: #fff;
+		font-size: 16px;
+		border-radius: 50%;
+		cursor: pointer;
+	}
 .product_section_container {
 	margin-top: 150px;
 }
