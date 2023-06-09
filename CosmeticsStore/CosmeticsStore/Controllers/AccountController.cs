@@ -428,10 +428,14 @@ namespace CosmeticsStore.Controllers
 
                     if (user == null)
                     {
+                        int atIndex = email.IndexOf('@');
+                        string userNameByEmail = email.Substring(0, atIndex);
+
                         // Tạo một tài khoản người dùng mới từ thông tin đăng nhập bên ngoài
                         var userSave = new ApplicationUser
                         {
-                            UserName = email,
+
+                            UserName = userNameByEmail,
                             Email = email,
                             FullName = fullName,
                             Phone = "0911365447",
