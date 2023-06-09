@@ -219,26 +219,26 @@ namespace CosmeticsStore.Controllers
             switch (order.TypePayment)
             {
                 case 1:
-                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
+                    contentAdmin = contentAdmin.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: COD");
                     break;
                 case 2:
-                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
+                    contentAdmin = contentAdmin.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Chuyển Khoản");
                     break;
                 case 3:
-                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
+                    contentAdmin = contentAdmin.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: PayPal");
                     break;
                 case 4:
-                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
+                    contentAdmin = contentAdmin.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: VNPay");
                     break;
                 case 5:
-                    contentCustomer = contentCustomer.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
+                    contentAdmin = contentAdmin.Replace("{{HinhThucThanhToan}}", "Hình Thức Thanh Toán: Momo");
                     break;
                 default:
                     break;
             }
             contentAdmin = contentAdmin.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
             contentAdmin = contentAdmin.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));
-            CosmeticsStore.Common.Common.SendMail("BookGrotto", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
+            CosmeticsStore.Common.Common.SendMail("CosmeticsStore", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
             cart.ClearCart();
         }
         public ActionResult PaymentMomo()
@@ -587,7 +587,7 @@ namespace CosmeticsStore.Controllers
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
             pay.AddRequestData("vnp_IpAddr", Util.GetIpAddress()); //Địa chỉ IP của khách hàng thực hiện giao dịch
             pay.AddRequestData("vnp_Locale", "vn"); //Ngôn ngữ giao diện hiển thị - Tiếng Việt (vn), Tiếng Anh (en)
-            pay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang sach - BookGrotto"); //Thông tin mô tả nội dung thanh toán
+            pay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang - cosmeticsstore"); //Thông tin mô tả nội dung thanh toán
             pay.AddRequestData("vnp_OrderType", "other"); //topup: Nạp tiền điện thoại - billpayment: Thanh toán hóa đơn - fashion: Thời trang - other: Thanh toán trực tuyến
             pay.AddRequestData("vnp_ReturnUrl", returnUrl); //URL thông báo kết quả giao dịch khi Khách hàng kết thúc thanh toán
             pay.AddRequestData("vnp_TxnRef", DateTime.Now.Ticks.ToString()); //mã hóa đơn
