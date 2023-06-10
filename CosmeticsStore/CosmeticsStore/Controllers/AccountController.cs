@@ -26,7 +26,7 @@ namespace CosmeticsStore.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,9 +38,9 @@ namespace CosmeticsStore.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -92,7 +92,7 @@ namespace CosmeticsStore.Controllers
                 case SignInStatus.Success:
                     {
                         var user = await UserManager.FindAsync(model.UserName, model.Password);
-                        user.LockoutEndDateUtc= DateTime.Now;
+                        user.LockoutEndDateUtc = DateTime.Now;
                         UserManager.Update(user);
                     }
 
@@ -100,9 +100,9 @@ namespace CosmeticsStore.Controllers
                 case SignInStatus.LockedOut:
                     {
                         var user = await UserManager.FindAsync(model.UserName, model.Password);
-                        if (user.EmailConfirmed==false)
+                        if (user.EmailConfirmed == false)
                         {
-                            user.LockoutEnabled= true;
+                            user.LockoutEnabled = true;
                             UserManager.Update(user);
                         }
                     }
@@ -144,11 +144,11 @@ namespace CosmeticsStore.Controllers
             if (ModelState.IsValid)
             {
                 var _user = await UserManager.FindByNameAsync(model.UserName);
-                _user.FullName=model.FullName;
-                _user.Phone=model.Phone;
-                _user.Email=model.Email;
-                _user.Images= model.Images;
-               
+                _user.FullName = model.FullName;
+                _user.Phone = model.Phone;
+                _user.Email = model.Email;
+                _user.Images = model.Images;
+
                 var result = await UserManager.UpdateAsync(_user);
                 if (result.Succeeded)
                 {
@@ -194,7 +194,7 @@ namespace CosmeticsStore.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -213,7 +213,7 @@ namespace CosmeticsStore.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-           
+
             return PartialView();
         }
 
@@ -232,16 +232,16 @@ namespace CosmeticsStore.Controllers
                     Email = model.Email,
                     FullName = model.FullName,
                     Phone = model.Phone,
-                    DateOfBirth= model.DateOfBirth,
-                    Sex= model.Sex,
+                    DateOfBirth = model.DateOfBirth,
+                    Sex = model.Sex,
 
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -252,7 +252,7 @@ namespace CosmeticsStore.Controllers
                 }
                 AddErrors(result);
             }
-            
+
             // If we got this far, something failed, redisplay form
             return PartialView(model);
         }
@@ -356,7 +356,7 @@ namespace CosmeticsStore.Controllers
             return View();
         }
 
-       
+
 
         //
         // GET: /Account/SendCode
@@ -467,15 +467,20 @@ namespace CosmeticsStore.Controllers
                     // Kiểm tra xem tài khoản người dùng đã tồn tại trong ứng dụng hay chưa
                     var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                     user = userManager.FindByEmail(email);
+                    int atIndex = email.IndexOf('@');
+                    string userNameByEmail = email.Substring(0, atIndex);
 
                     if (user == null)
                     {
                         // Tạo một tài khoản người dùng mới từ thông tin đăng nhập bên ngoài
                         var userSave = new ApplicationUser
                         {
-                            UserName = email,
+                            UserName = userNameByEmail,
                             Email = email,
                             FullName = fullName,
+                            Phone = "0911365447",
+                            DateOfBirth = DateTime.Parse("2/1/2002"),
+                            Sex = "nữ"
                         };
 
                         var result = await UserManager.CreateAsync(userSave, "123456Aa@");
