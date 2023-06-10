@@ -1,10 +1,12 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Hangfire;
 using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -54,7 +56,7 @@ namespace CosmeticsStore.Controllers
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
 
-            
+            BackgroundJob.Schedule(() => UpdateBookingStatus(), TimeSpan.FromMinutes(15));
 
             return View(items);
         }
@@ -325,7 +327,29 @@ namespace CosmeticsStore.Controllers
             return Json(new { success = true, message = "Hủy đặt lịch thành công." });
         }
 
+        public void UpdateBookingStatus()
+        {
+            // Lấy thời gian hiện tại
+            DateTime currentTime = DateTime.Now;
 
+            // Lấy danh sách các đặt lịch chưa hoàn thành
+            var bookings = db.Bookings.Where(b => b.Status != "Hoàn thành").ToList();
+
+            // So sánh thời gian đặt lịch với thời gian hiện tại và cập nhật trạng thái
+            foreach (var booking in bookings)
+            {
+                DateTime bookingDateTime;
+                if (DateTime.TryParseExact(booking.Date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out bookingDateTime))
+                {
+                    if (bookingDateTime < currentTime)
+                    {
+                        // Cập nhật trạng thái của đặt lịch
+                        booking.Status = "Không hoàn thành";
+                    }
+                }
+            }
+            db.SaveChanges();
+        }
     }
 
 

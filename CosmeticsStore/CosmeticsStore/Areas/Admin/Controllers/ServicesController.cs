@@ -1,5 +1,6 @@
 using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Hangfire;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using OfficeOpenXml;
@@ -60,6 +61,9 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
+
+           
+
             return View(items);
         }
         public ActionResult Add()
@@ -427,5 +431,8 @@ namespace CosmeticsStore.Areas.Admin.Controllers
 
             return Json(new { success = false });
         }
+
+        
+
     }
 }
