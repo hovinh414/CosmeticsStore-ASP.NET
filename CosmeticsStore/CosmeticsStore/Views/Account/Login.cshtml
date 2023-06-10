@@ -51,7 +51,10 @@
                 </section>
                 <h5 style="padding-top:10px">Đăng nhập với</h5>
                 <section id="socialLoginForm">
-                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                    @{
+                        var externalLoginListViewModel = new ExternalLoginListViewModel { ReturnUrl = "/Account/ExternalLogin" };
+                    }
+                    @Html.Partial("_ExternalLoginsListPartial", externalLoginListViewModel)
                 </section>
             </div>
 

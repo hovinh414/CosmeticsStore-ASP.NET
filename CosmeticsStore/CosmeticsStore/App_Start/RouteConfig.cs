@@ -12,12 +12,6 @@ namespace CosmeticsStore
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute(
-                 name: "AccountLogin",
-                 url: "Account/Login",
-                 defaults: new { controller = "Account", action = "Login", returnUrl = "/Account/ExternalLogin" },
-                 namespaces: new[] { "CosmeticsStore.Controllers" }
-             );
 
             routes.MapRoute(
                 name: "Contact",
