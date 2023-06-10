@@ -258,6 +258,14 @@
     <Compile Include="Migrations\202306091641387_new.designer.cs">
       <DependentUpon>202306091641387_new.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.cs" />
+    <Compile Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.designer.cs">
+      <DependentUpon>202306101813011_AddBanFieldsToAspNetUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306101821357_AddTest.cs" />
+    <Compile Include="Migrations\202306101821357_AddTest.designer.cs">
+      <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppointmentViewModel.cs" />
@@ -3465,6 +3473,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306091641387_new.resx">
       <DependentUpon>202306091641387_new.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.resx">
+      <DependentUpon>202306101813011_AddBanFieldsToAspNetUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306101821357_AddTest.resx">
+      <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

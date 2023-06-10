@@ -19,6 +19,8 @@ namespace CosmeticsStore.Models
         public DateTime DateOfBirth { get; set; }
 
         public string Sex { get; set; }
+        public bool IsBanned { get; set; }
+        public DateTime? BanExpirationDate { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

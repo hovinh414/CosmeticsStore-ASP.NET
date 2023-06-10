@@ -3,6 +3,18 @@
 @using PagedList;
 @{
     ViewBag.Title = "Danh sách Dịch Vụ";
+    if (!string.IsNullOrEmpty(ViewBag.Script))
+    {
+        <script>
+        // Escape any special characters in the script content
+        var scriptContent = "@Html.Raw(ViewBag.Script)".replace(/"/g, '\\"');
+
+        // Display an alert with the script content
+        alert(scriptContent);
+            window.location.href = "/";
+        </script>
+    }
+
 }
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
@@ -27,12 +39,11 @@
                     <div class="sidebar_title">
                         <h5>Danh Mục Sản Phẩm</h5>
                     </div>-->
-                    @*@Html.Action("MenuLeft", "Menu", new { id = ViewBag.CateId })*@
+                @*@Html.Action("MenuLeft", "Menu", new { id = ViewBag.CateId })*@
                 <!--</div>-->
-
                 <!-- Price Range Filtering -->
                 <div class="sidebar_section">
-                    
+
                     @Html.Action("Refesh", "Home")
                 </div>
             </div>
@@ -63,15 +74,15 @@
                                         </ul>
                                     </li>
                                     @*<li>
-                            <span>Show</span>
-                            <span class="num_sorting_text">6</span>
-                            <i class="fa fa-angle-down"></i>
-                            <ul class="sorting_num">
-                                <li class="num_sorting_btn"><span>6</span></li>
-                                <li class="num_sorting_btn"><span>12</span></li>
-                                <li class="num_sorting_btn"><span>24</span></li>
-                            </ul>
-                        </li>*@
+                                            <span>Show</span>
+                                            <span class="num_sorting_text">6</span>
+                                            <i class="fa fa-angle-down"></i>
+                                            <ul class="sorting_num">
+                                                <li class="num_sorting_btn"><span>6</span></li>
+                                                <li class="num_sorting_btn"><span>12</span></li>
+                                                <li class="num_sorting_btn"><span>24</span></li>
+                                            </ul>
+                                        </li>*@
                                 </ul>
 
                             </div>
@@ -88,13 +99,13 @@
                                         </button>
                                     </div>
                                     @*<div class="input-group">
-                            <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên sản phẩm">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-lg btn-outline-danger">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>*@
+                                            <input id="Searchtext" name="Searchtext" type="text" class="form-control" placeholder="Tên sản phẩm">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-outline-danger">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>*@
                                 }
 
                             </form>
@@ -130,7 +141,7 @@
                                             <div class="product_price">@CosmeticsStore.Common.Common.FormatNumber(item.Price, 0)</div>
                                         </div>
                                     </div>
-                                    <div class="red_button dat_lich_button" id="booking-button" data-id="@item.Id"><a href="#" ><span class="glyphicon glyphicon-calendar"></span><span> Đặt Lịch</span></a></div>
+                                    <div class="red_button dat_lich_button" id="booking-button" data-id="@item.Id"><a href="#"><span class="glyphicon glyphicon-calendar"></span><span> Đặt Lịch</span></a></div>
 
                                 </div>
                             }
@@ -147,20 +158,20 @@
 
                     <!-- Product Sorting -->
                     @*<div class="product_sorting_container product_sorting_container_bottom clearfix">
-            <ul class="product_sorting">
-                <li>
-                    <span>Show:</span>
-                    <span class="num_sorting_text">04</span>
-                    <i class="fa fa-angle-down"></i>
-                    <ul class="sorting_num">
-                        <li class="num_sorting_btn"><span>01</span></li>
-                        <li class="num_sorting_btn"><span>02</span></li>
-                        <li class="num_sorting_btn"><span>03</span></li>
-                        <li class="num_sorting_btn"><span>04</span></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>*@
+                            <ul class="product_sorting">
+                                <li>
+                                    <span>Show:</span>
+                                    <span class="num_sorting_text">04</span>
+                                    <i class="fa fa-angle-down"></i>
+                                    <ul class="sorting_num">
+                                        <li class="num_sorting_btn"><span>01</span></li>
+                                        <li class="num_sorting_btn"><span>02</span></li>
+                                        <li class="num_sorting_btn"><span>03</span></li>
+                                        <li class="num_sorting_btn"><span>04</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>*@
 
                 </div>
             </div>
@@ -184,7 +195,7 @@
             window.location.replace(confirmUrl);
         });
     }
-     
+
 
 </script>
 

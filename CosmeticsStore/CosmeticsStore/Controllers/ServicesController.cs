@@ -56,8 +56,27 @@ namespace CosmeticsStore.Controllers
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
 
-            BackgroundJob.Schedule(() => UpdateBookingStatus(), TimeSpan.FromMinutes(15));
 
+            string userId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+            // Kiểm tra trạng thái cấm đặt lịch của khách hàng
+           if(user != null)
+            {
+                if (user.IsBanned)
+                {
+                    // Tính số ngày bị cấm
+                    int bannedDays = user.BanExpirationDate.Value.Subtract(DateTime.Now).Days;
+
+                    // Hiển thị thông báo cảnh báo
+                    string message = $"Bạn đã bị cấm đặt lịch trong {bannedDays} ngày.";
+                    ViewBag.Script = message;
+                }
+            }
+            BackgroundJob.Schedule(() => UpdateBookingStatus(), TimeSpan.FromMinutes(15));
+            BackgroundJob.Schedule(() => UpdateBookingStatusForBan(), TimeSpan.FromMinutes(1));
+
+            // Định cấu hình công việc lập lịch
+            RecurringJob.AddOrUpdate(() => CheckCustomerBookingStatus(), Cron.Daily);
             return View(items);
         }
         public ActionResult SortByName(string Searchtext)
@@ -279,7 +298,7 @@ namespace CosmeticsStore.Controllers
 
         public ActionResult ConfirmBooking()
         {
-           
+
             return View();
         }
 
@@ -288,7 +307,7 @@ namespace CosmeticsStore.Controllers
             string userId = User.Identity.GetUserId();
             ViewBag.UserId = userId;
             var user = db.Users.FirstOrDefault(u => u.Id == userId);
-                var phone = user.Phone;
+            var phone = user.Phone;
             var appointments = db.Bookings.Where(b => b.Phone == phone)
                                            .OrderByDescending(b => b.Date)
                                            .ToList();
@@ -314,7 +333,7 @@ namespace CosmeticsStore.Controllers
             return View();
         }
 
-        
+
         public JsonResult CancelAppointment(string code)
         {
             var appointment = db.Bookings.FirstOrDefault(b => b.Code == code);
@@ -350,7 +369,58 @@ namespace CosmeticsStore.Controllers
             }
             db.SaveChanges();
         }
-    }
 
 
+        //-----------Cấm đặt lịch cho user không hoàn thành đặt lịch quá 3 lần
+        // Hàm UpdateBookingStatus
+        public void UpdateBookingStatusForBan()
+        {
+            // Lấy thời gian hiện tại
+            DateTime currentTime = DateTime.Now;
+
+            // Lấy danh sách khách hàng
+            var customers = db.Users.ToList();
+
+            foreach (var customer in customers)
+            {
+                // Lấy danh sách đặt lịch chưa hoàn thành của khách hàng
+                var bookings = db.Bookings.Where(b => b.Phone == customer.Phone && b.Status == "Không hoàn thành").ToList();
+
+                if (bookings.Count > 3)
+                {
+                    // Cấm khách hàng đặt lịch trong vòng 1 tháng
+                    customer.IsBanned = true;
+                    customer.BanExpirationDate = currentTime.AddMonths(1);
+                    foreach (var booking in bookings)
+                    {
+                        if(booking.Status == "Đã xác nhận" || booking.Status =="Chờ xác nhận")
+                        {
+                            booking.Status = "Bị hủy";
+                        }
+                    }
+                }
+            }
+
+            db.SaveChanges();
+        }
+
+        // Phương thức kiểm tra trạng thái đặt lịch của khách hàng và áp dụng cấm đặt lịch trong vòng 1 tháng
+        public void CheckCustomerBookingStatus()
+        {
+            DateTime currentTime = DateTime.Now;
+
+            var customers = db.Users.Where(c => c.IsBanned && c.BanExpirationDate < currentTime).ToList();
+
+            foreach (var customer in customers)
+            {
+                customer.IsBanned = false;
+                customer.BanExpirationDate = null;
+            }
+
+            db.SaveChanges();
+        }
+
+       
+            
+     }
 }

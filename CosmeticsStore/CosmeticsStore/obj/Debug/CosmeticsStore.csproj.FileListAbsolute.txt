@@ -525,3 +525,5 @@ C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bi
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\tr-TR\Hangfire.Core.resources.dll
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\zh\Hangfire.Core.resources.dll
 C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\bin\zh-TW\Hangfire.Core.resources.dll
+C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.AddBanFieldsToAspNetUsers.resources
+C:\Users\Depv247\Desktop\CosmeticsStore-ASP.NET\CosmeticsStore\CosmeticsStore\obj\Debug\CosmeticsStore.Migrations.AddTest.resources
