@@ -12,6 +12,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace CosmeticsStore.Areas.Admin.Controllers
 {
@@ -144,6 +146,36 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             }
             appointment.Status = "Đã xác nhận";
             db.SaveChanges();
+            string accountSid = System.Configuration.ConfigurationManager.AppSettings["TwilioAccountSid"];
+            string authToken = System.Configuration.ConfigurationManager.AppSettings["TwilioAuthToken"];
+            string phoneNumber = appointment.Phone;
+            phoneNumber = phoneNumber.TrimStart('0');
+
+            phoneNumber = "+84" + phoneNumber;
+
+
+
+            // Khởi tạo đối tượng TwilioClient với thông tin xác thực
+            TwilioClient.Init(accountSid, authToken);
+
+            // Gửi tin nhắn SMS
+            var message = MessageResource.Create(
+                body: "Đặt lịch của bạn đã được xác nhận! " +
+                "Lịch của bạn vào lúc: " + appointment.Date.ToString()+". " +
+                "Chúc bạn có một trải nghiệm tốt!",
+                from: new Twilio.Types.PhoneNumber("+13613043356"),
+                to: new Twilio.Types.PhoneNumber(phoneNumber)
+            );
+
+            // Xử lý kết quả
+            if (message != null)
+            {
+                ViewBag.Message = "Tin nhắn đã được gửi thành công!";
+            }
+            else
+            {
+                ViewBag.Message = "Đã xảy ra lỗi khi gửi tin nhắn.";
+            }
             return Json(new { success = true, message = "Xác nhận đặt lịch thành công." });
         }
 

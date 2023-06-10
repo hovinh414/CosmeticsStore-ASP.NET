@@ -472,9 +472,6 @@ namespace CosmeticsStore.Controllers
                             UserName = email,
                             Email = email,
                             FullName = fullName,
-                            Phone = "0911365447",
-                            DateOfBirth = DateTime.Parse("2/1/2002"),
-                            Sex = "nữ"
                         };
 
                         var result = await UserManager.CreateAsync(userSave, "123456Aa@");
