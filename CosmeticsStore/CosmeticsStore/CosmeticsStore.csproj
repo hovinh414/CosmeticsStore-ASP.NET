@@ -254,14 +254,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306091641387_new.cs" />
-    <Compile Include="Migrations\202306091641387_new.designer.cs">
-      <DependentUpon>202306091641387_new.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.cs" />
-    <Compile Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.designer.cs">
-      <DependentUpon>202306101813011_AddBanFieldsToAspNetUsers.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202306101821357_AddTest.cs" />
     <Compile Include="Migrations\202306101821357_AddTest.designer.cs">
       <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
@@ -3471,12 +3463,6 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306091641387_new.resx">
-      <DependentUpon>202306091641387_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306101813011_AddBanFieldsToAspNetUsers.resx">
-      <DependentUpon>202306101813011_AddBanFieldsToAspNetUsers.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306101821357_AddTest.resx">
       <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
     </EmbeddedResource>

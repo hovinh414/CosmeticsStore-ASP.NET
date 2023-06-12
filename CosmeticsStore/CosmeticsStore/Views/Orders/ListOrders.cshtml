@@ -105,24 +105,42 @@
     </div>
 </section>
 @section scripts{
+
     <script>
         $(document).ready(function () {
             $('body').on('click', '#btnCapNhat', function () {
                 var id = $(this).data("id");
                 var tt = "6";
-                var conf = confirm('Bạn chắc chắn muốn hủy đơn ?');
-                if (conf == true) {
-                    $.ajax({
-                        url: '/orders/UpdateTT',
-                        type: 'POST',
-                        data: { id: id, trangthai: tt },
-                        success: function (res) {
-                            if (res.Success) {
-                                location.reload();
+                swal({
+                    title: 'Thông báo',
+                    text: 'Bạn có chắc muốn hủy đơn hàng?',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        
+                        $.ajax({
+                            url: '/orders/UpdateTT',
+                            type: 'POST',
+                            data: { id: id, trangthai: tt },
+                            success: function (res) {
+                                if (res.Success) {
+                                    swal({
+                                        title: 'Thông báo',
+                                        text: 'Hủy đơn thành công!',
+                                        icon: 'success',
+                                        button: "Đóng",
+                                    }).then((value) => {
+                                        location.reload();
+                                    });
+                                    
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                })
+
             });
         });
 

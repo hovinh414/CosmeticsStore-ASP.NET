@@ -124,36 +124,71 @@
                                 $('#completionButton').show();
                             } else {
                                 // Handle the case when customer information is not found
-                                alert(result.message);
+                                swal({
+                                    title: 'Thông báo',
+                                    text: result.message,
+                                    icon: 'error',
+                                    button: 'Đóng'
+                                });
                             }
                         },
                         error: function () {
-                            alert('Có lỗi xảy ra khi lấy thông tin khách hàng. Vui lòng thử lại sau.');
+                            swal({
+                                title: 'Thông báo',
+                                text: result.message,
+                                icon: 'Có lỗi xảy ra khi lấy thông tin khách hàng. Vui lòng thử lại sau.',
+                                button: 'Đóng'
+                            });
                         }
                     });
                 }
             });
 
         });
-        function doneAppointment(code) {
-        if (confirm('Khách hàng đã có mặt?')) {
+    function doneAppointment(code) {
+    swal({
+        title: 'Thông báo',
+        text: 'Khách hàng đã có mặt?',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("DoneAppointment", "Services")',
                 data: { code: code },
                 success: function (result) {
                     if (result.success) {
-                        alert(result.message);
-                        location.reload();
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'success',
+                            button: "Đóng",
+                        }).then((value) => {
+                            location.reload();
+                        });
                     } else {
-                        alert(result.message);
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'error',
+                            button: 'Đóng'
+                        });
                     }
                 },
                 error: function () {
-                    alert('Có lỗi xảy ra khi xác nhận đặt lịch. Vui lòng thử lại sau.');
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Có lỗi xảy ra khi xác nhận. Vui lòng thử lại sau.',
+                        icon: 'error',
+                        button: 'Đóng'
+                    });
                 }
             });
         }
+    })
+
     }
 
 

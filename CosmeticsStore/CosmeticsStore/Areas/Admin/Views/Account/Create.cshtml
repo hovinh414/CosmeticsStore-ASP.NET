@@ -135,7 +135,12 @@
                             $('#Images').val(urlImage);
                         },
                         error: function (err) {
-                            alert('Error ', err.statusText);
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Error ' + err.statusText,
+                                icon: 'success',
+                                button: 'Đóng'
+                            });
                         }
                     });
             }

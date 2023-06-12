@@ -10,8 +10,16 @@
         var scriptContent = "@Html.Raw(ViewBag.Script)".replace(/"/g, '\\"');
 
         // Display an alert with the script content
-        alert(scriptContent);
-            window.location.href = "/";
+            swal({
+                title: 'Thông báo',
+                text: scriptContent,
+                icon: 'error',
+                button: "Đóng",
+            }).then((value) => {
+                window.location.href = "/";
+            });
+
+            
         </script>
     }
 
