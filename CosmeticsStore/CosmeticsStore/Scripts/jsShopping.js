@@ -17,7 +17,12 @@
             success: function (rs) {
                 if (rs.Success) {
                     $('#checkout_items').html(rs.Count);
-                    alert(rs.msg);
+                    swal({
+                        title: 'Thông báo',
+                        text: rs.msg,
+                        icon: 'success',
+                        button: 'Đóng'
+                    });
                 }
             }
         });
@@ -26,29 +31,44 @@
     $('body').on('click', '.btnDelete', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
-        var conf = confirm('Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?')
-        if (conf == true) {
-            $.ajax({
-                url: '/shoppingcart/Delete',
-                type: 'POST',
-                data: { id: id },
-                success: function (rs) {
-                    if (rs.Success) {
-                        $('#checkout_items').html(rs.Count);
-                        $('#trow_' + id).remove();
-                        LoadCart();
+        swal({
+            title: 'Thông báo',
+            text: "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng?",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '/shoppingcart/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.Success) {
+                            $('#checkout_items').html(rs.Count);
+                            $('#trow_' + id).remove();
+                            LoadCart();
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+        })
+
     });
 
     $('body').on('click', '.btnDeleteAll', function (e) {
         e.preventDefault();
-        var conf = confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng?')
-        if (conf == true) {
-            DeleteAll();
-        }
+        swal({
+            title: 'Thông báo',
+            text: 'Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                DeleteAll();
+            }
+        })
     });
 
     $('body').on('click', '.btnUpdate', function (e) {

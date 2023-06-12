@@ -188,19 +188,27 @@
                     }
                 });
                 if (str.length > 0) {
-                    var conf = confirm('Bạn có muốn xóa các bản ghi này hay không?');
-                    if (conf === true) {
-                        $.ajax({
-                            url: '/admin/Services/deleteAll',
-                            type: 'POST',
-                            data: { ids: str },
-                            success: function (rs) {
-                                if (rs.success) {
-                                    location.reload();
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Bạn có muốn xóa bản ghi này không?',
+                        icon: 'warning',
+                        buttons: true,
+                        dangerMode: true
+                    }).then((willDelete) => {
+                        if (willDelete) {
+
+                            $.ajax({
+                                url: '/admin/services/deleteAll',
+                                type: 'POST',
+                                data: { ids: str },
+                                success: function (rs) {
+                                    if (rs.success) {
+                                        location.reload();
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
+                    })
                 }
             });
 
@@ -218,19 +226,27 @@
             });
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data("id");
-                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-                if (conf === true) {
-                    $.ajax({
-                        url: '/admin/Services/delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('#trow_' + id).remove();
+                swal({
+                    title: 'Thông báo',
+                    text: 'Bạn có muốn xóa bản ghi này không?',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+
+                        $.ajax({
+                            url: '/admin/services/delete',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#trow_' + id).remove();
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                })
             });
             $('body').on('click', '.btnActive', function (e) {
                 e.preventDefault();

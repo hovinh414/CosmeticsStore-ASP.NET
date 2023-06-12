@@ -130,45 +130,94 @@
 </style>
 <script>
     function cancelforbtnAppointment(code) {
-        if (confirm('Bạn có chắc muốn hủy đặt lịch này không?')) {
-            $.ajax({
+        swal({
+            title: 'Thông báo',
+            text: 'Bạn có chắc muốn hủy đặt lịch này không?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
                 type: 'POST',
                 url: '@Url.Action("CancelAppointment", "Services")',
                 data: { code: code },
                 success: function (result) {
                     if (result.success) {
-                        alert(result.message);
-                        location.reload();
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'success',
+                            button: "Đóng",
+                        }).then((value) => {
+                            location.reload();
+                        });
                     } else {
-                        alert(result.message);
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'error',
+                            button: 'Đóng'
+                        });
                     }
                 },
                 error: function () {
-                    alert('Có lỗi xảy ra khi hủy đặt lịch. Vui lòng thử lại sau.');
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Có lỗi xảy ra khi hủy đặt lịch. Vui lòng thử lại sau.',
+                        icon: 'error',
+                        button: 'Đóng'
+                    });
                 }
-            });
-        }
+                });
+            }
+        })
+
     }
 
     function cancelAppointment(code) {
-        if (confirm('Xác nhận đặt lịch này?')) {
-            $.ajax({
+        swal({
+            title: 'Thông báo',
+            text: 'Xác nhận lịch đặt này?',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
                 type: 'POST',
                 url: '@Url.Action("ConfirmAppointment", "Services")',
                 data: { code: code },
                 success: function (result) {
                     if (result.success) {
-                        alert(result.message);
-                        location.reload();
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'success',
+                            button: "Đóng",
+                        }).then((value) => {
+                            location.reload();
+                        });
                     } else {
-                        alert(result.message);
+                        swal({
+                            title: 'Thông báo',
+                            text: result.message,
+                            icon: 'error',
+                            button: 'Đóng'
+                        });
                     }
                 },
-                error: function () {
-                    alert('Có lỗi xảy ra khi xác nhận đặt lịch. Vui lòng thử lại sau.');
-                }
-            });
-        }
+                    error: function () {
+                        swal({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra khi xác nhận đặt lịch.Vui lòng thử lại sau.',
+                            icon: 'error',
+                            button: 'Đóng'
+                        });
+                    }
+                });
+            }
+        })
     }
 
     $(function () {
@@ -245,7 +294,12 @@
             }
         },
         error: function () {
-            alert('Có lỗi xảy ra khi lấy danh sách đặt lịch theo ngày. Vui lòng thử lại sau.');
+                swal({
+                    title: 'Thông báo',
+                    text: 'Có lỗi xảy ra khi lấy danh sách đặt lịch.',
+                    icon: 'error',
+                    button: 'Đóng'
+                });
         }
     });
 
@@ -309,7 +363,12 @@ function loadPendingAppointments() {
             }
         },
         error: function () {
-            alert('Có lỗi xảy ra khi tải danh sách đặt lịch chờ xác nhận. Vui lòng thử lại sau.');
+            swal({
+                title: 'Thông báo',
+                text: 'Có lỗi xảy ra khi tải danh sách đặt lịch chờ xác nhận. Vui lòng thử lại sau.',
+                icon: 'error',
+                button: 'Đóng'
+            });
         }
     });
 }
@@ -374,24 +433,48 @@ $('#loadPendingAppointments').click(function () {
 }
 
 function RescheduleAppointment(code) {
-    if (confirm('Xác nhận dời lịch này?')) {
-        $.ajax({
+    swal({
+        title: 'Thông báo',
+        text: 'Xác nhận dời lịch này?',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
             type: 'POST',
             url: '@Url.Action("RescheduleAppointment", "Services")',
             data: { code: code, timeRes: selectTime },
             success: function (result) {
                 if (result.success) {
-                    alert(result.message);
-                    location.reload();
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Dời lịch thành công',
+                        icon: 'success',
+                        button: "Đóng",
+                    }).then((value) => {
+                        location.reload();
+                    });
                 } else {
-                    alert(result.message);
+                    swal({
+                        title: 'Thông báo',
+                        text: result.message,
+                        icon: 'error',
+                        button: 'Đóng'
+                    });
                 }
             },
-            error: function () {
-                alert('Có lỗi xảy ra khi dời đặt lịch. Vui lòng thử lại sau.');
-            }
-        });
-    }
+                error: function () {
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Có lỗi xảy ra khi dời đặt lịch. Vui lòng thử lại sau.',
+                        icon: 'error',
+                        button: 'Đóng'
+                    });
+                }
+            });
+        }
+    })
 }
 
 $(function () {
