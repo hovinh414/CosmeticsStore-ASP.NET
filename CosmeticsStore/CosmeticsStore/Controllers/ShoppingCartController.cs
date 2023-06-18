@@ -84,6 +84,9 @@ namespace CosmeticsStore.Controllers
 
         public ActionResult Partial_CheckOut()
         {
+            string id = User.Identity.GetUserId();
+            var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
+            ViewBag.InfoOrder = listAddress;
             return PartialView();
         }
         [HttpPost]
@@ -92,55 +95,68 @@ namespace CosmeticsStore.Controllers
         {
 
             var code = new { Success = false, Code = -1 };
-            if (ModelState.IsValid)
-            {
-                ShoppingCart cart = (ShoppingCart)Session["cart"];
-                if (cart != null)
-                {
+            string id = User.Identity.GetUserId();
+            var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
 
-                    var order = new CosmeticsStore.Models.EF.Order();
-                    order.CustomerName = req.CustomerName;
-                    order.Phone = req.Phone;
-                    order.Address = req.Address;
-                    order.Email = req.Email;
-                    cart.Items.ForEach(x => order.OrderDetails.Add(new OrderDetail
+
+            ShoppingCart cart = (ShoppingCart)Session["cart"];
+            if (cart != null)
+            {
+
+                var order = new CosmeticsStore.Models.EF.Order();
+                foreach (var item in listAddress)
+                {
+                    if (item.IsDefault && id != null)
                     {
-                        ProductId = x.ProductId,
-                        Quantity = x.Quantity,
-                        Price = x.Price,
-                    }));
-                    order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
-                    order.TypePayment = req.TypePayment;
-                    if (User.Identity.GetUserId() == null)
-                    {
-                        order.IdUser = null;
+                        order.CustomerName = item.CustomerName;
+                        order.Phone = item.Phone;
+                        order.Address = item.Address;
+                        order.Email = item.Email;
+                        GetInfo.Email = item.Email;
                     }
-                    else
-                    {
-                        order.IdUser = User.Identity.GetUserId();
-                    }
-                    order.CreatedDate = DateTime.Now;
-                    order.ModifiedDate = DateTime.Now;
-                    order.CreatedBy = req.Phone;
-                    GetInfo.Email = req.Email;
-                    GetInfo.OrderInfo = order;
-                    Random rd = new Random();
-                    order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
-                    // gui mail khach hang
-                    switch (order.TypePayment)
-                    {
-                        case 3:
-                            return RedirectToAction("PaymentWithPaypal");
-                        case 4:
-                            return RedirectToAction("PaymentVNPay");
-                        case 5:
-                            return RedirectToAction("PaymentMomo");
-                        default:
-                            break;
-                    }
-                    SendMail(GetInfo.Email, cart, order);
-                    return RedirectToAction("CheckOutSuccess");
                 }
+                order.CustomerName = req.CustomerName;
+                order.Phone = req.Phone;
+                order.Address = req.Address;
+                order.Email = req.Email;
+                GetInfo.Email = req.Email;
+                cart.Items.ForEach(x => order.OrderDetails.Add(new OrderDetail
+                {
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                    Price = x.Price,
+                }));
+                order.TotalAmount = cart.Items.Sum(x => (x.Price * x.Quantity));
+                order.TypePayment = req.TypePayment;
+                if (User.Identity.GetUserId() == null)
+                {
+                    order.IdUser = null;
+                }
+                else
+                {
+                    order.IdUser = User.Identity.GetUserId();
+                }
+                order.CreatedDate = DateTime.Now;
+                order.ModifiedDate = DateTime.Now;
+                order.CreatedBy = req.Phone;
+                
+                GetInfo.OrderInfo = order;
+                Random rd = new Random();
+                order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+                // gui mail khach hang
+                switch (order.TypePayment)
+                {
+                    case 3:
+                        return RedirectToAction("PaymentWithPaypal");
+                    case 4:
+                        return RedirectToAction("PaymentVNPay");
+                    case 5:
+                        return RedirectToAction("PaymentMomo");
+                    default:
+                        break;
+                }
+                SendMail(GetInfo.Email, cart, order);
+                return RedirectToAction("CheckOutSuccess");
             }
             return Json(code);
         }
@@ -260,7 +276,7 @@ namespace CosmeticsStore.Controllers
             string orderInfo = null;
             string returnUrl = null;
             string notifyurl = null; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
-            
+
             IEnumerable<PaymentSetting> lst = db.PaymentSettings.OrderByDescending(x => x.Id);
             foreach (var item in lst)
             {
@@ -344,6 +360,7 @@ namespace CosmeticsStore.Controllers
             var code = new { Success = false, msg = "", code = -1, Count = 0 };
             var db = new ApplicationDbContext();
             var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
+
             if (checkProduct != null)
             {
                 ShoppingCart cart = (ShoppingCart)Session["Cart"];
@@ -369,9 +386,17 @@ namespace CosmeticsStore.Controllers
                     item.Price = (decimal)checkProduct.PriceScale;
                 }
                 item.TotalPrice = item.Quantity * item.Price;
-                cart.AddToCart(item, quantity);
-                Session["Cart"] = cart;
-                code = new { Success = true, msg = "Thêm sản phẩm thành công!", code = 1, Count = cart.Items.Count };
+                if (cart.CheckQuantityAddtoCart(checkProduct.Quantity, item, quantity))
+                {
+                    cart.AddToCart(item, quantity);
+                    Session["Cart"] = cart;
+                    code = new { Success = true, msg = "Thêm sản phẩm thành công!", code = 1, Count = cart.Items.Count };
+                }
+                else
+                {
+                    code = new { Success = false, msg = "", code = -1, Count = 0 };
+                }
+
             }
             return Json(code);
         }
@@ -413,6 +438,29 @@ namespace CosmeticsStore.Controllers
             {
                 cart.UpdateQuantity(id, quantity);
                 return Json(new { Success = true });
+            }
+            return Json(new { Success = false });
+        }
+        [HttpPost]
+        public ActionResult CheckQuantity(int id, int quantity)
+        {
+            List<Product> products = db.Products.ToList();
+
+            foreach (var itemProducts in products)
+            {
+                if (id == itemProducts.Id)
+                {
+                    if (quantity <= itemProducts.Quantity)
+                    {
+                        return Json(new { Success = true });
+                    }
+                    else
+                    {
+                        return Json(new { Success = false });
+                    }
+
+                }
+
             }
             return Json(new { Success = false });
         }
@@ -555,7 +603,7 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult PaymentVNPay()
         {
-            
+
             var order = new CosmeticsStore.Models.EF.Order();
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             cart.Items.ForEach(x => order.OrderDetails.Add(new OrderDetail

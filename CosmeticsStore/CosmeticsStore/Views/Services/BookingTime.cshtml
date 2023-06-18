@@ -185,7 +185,12 @@
         var email = '@ViewBag.email';
         var name = encodeURIComponent('@ViewBag.name');
         if (!selectedHour || !selectedDate) {
-            alert('Vui lòng chọn giờ và ngày đặt lịch!');
+            swal({
+                title: 'Thông báo',
+                text: 'Vui lòng chọn giờ và ngày đặt lịch!',
+                icon: 'warning',
+                button: 'Đóng'
+            });
             console.log(serviceId);
         }
         // Gọi API để đặt lịch
@@ -201,7 +206,12 @@
                     window.location.replace(confirmUrl);
                 }
                 else {
-                    alert('Bạn đã có lịch hẹn vào giờ này!')
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Bạn đã có lịch hẹn vào giờ này!',
+                        icon: 'warning',
+                        button: 'Đóng'
+                    });
                 }
         });
         }

@@ -129,7 +129,7 @@
             $.ajax({
                 url: '/admin/productimage/default',
                 type: 'POST',
-                data: { id: id },
+                data: {productId: @ViewBag.productId, id: id },
                 success: function (rs) {
                     if (rs.SuccesS) {
                         window.location.reload();

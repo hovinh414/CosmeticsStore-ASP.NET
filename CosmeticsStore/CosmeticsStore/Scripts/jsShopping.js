@@ -24,6 +24,14 @@
                         button: 'Đóng'
                     });
                 }
+                else {
+                    swal({
+                        title: 'Thông báo',
+                        text: 'Sản phẩm trong kho không đủ!',
+                        icon: 'warning',
+                        button: 'Đóng'
+                    });
+                }
             }
         });
     });
@@ -75,8 +83,10 @@
         e.preventDefault();
         var id = $(this).data("id")
         var quantity = $('#Quantity_' + id).val();
-        Update(id, quantity);
+        CheckQuantity(id, quantity)
+        
     })
+
 });
 
 function ShowCount() {
@@ -113,7 +123,27 @@ function Update(id, quantity) {
         }
     });
 }
-
+function CheckQuantity(id, quantity) {
+    $.ajax({
+        url: '/shoppingcart/CheckQuantity',
+        type: 'POST',
+        data: { id: id, quantity: quantity },
+        success: function (rs) {
+            if (rs.Success) {
+                Update(id, quantity);
+            }
+            else {
+                Update(id, (quantity - 1));
+                swal({
+                    title: 'Thông báo',
+                    text: 'Sản phẩm trong kho chỉ còn lại: ' + (quantity - 1) + ' sản phẩm!',
+                    icon: 'error',
+                    button: 'Đóng'
+                });
+            }
+        }
+    });
+}
 function LoadCart() {
     $.ajax({
         url: '/shoppingcart/Partial_Item_Cart',

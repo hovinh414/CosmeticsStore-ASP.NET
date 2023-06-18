@@ -240,6 +240,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\SettingHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -254,17 +255,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306101821357_AddTest.cs" />
-    <Compile Include="Migrations\202306101821357_AddTest.designer.cs">
-      <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppointmentViewModel.cs" />
     <Compile Include="Models\AppointmentWithCustomerViewModel.cs" />
     <Compile Include="Models\Common\Filter.cs" />
     <Compile Include="Models\Common\ThongKeTruyCap.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\EF\AddressBook.cs" />
     <Compile Include="Models\EF\Adv.cs" />
     <Compile Include="Models\EF\BookingDetails.cs" />
     <Compile Include="Models\EF\Bookings.cs" />
@@ -3443,6 +3440,9 @@
     <Content Include="Views\Services\ConfirmBooking.cshtml" />
     <Content Include="Views\Services\History.cshtml" />
     <Content Include="Views\Account\test.cshtml" />
+    <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\Address\Add.cshtml" />
+    <Content Include="Views\Address\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3461,11 +3461,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306101821357_AddTest.resx">
-      <DependentUpon>202306101821357_AddTest.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
