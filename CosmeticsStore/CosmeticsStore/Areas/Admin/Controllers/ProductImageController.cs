@@ -1,5 +1,6 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,18 +42,15 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             return Json(new { success = true });
         }
         [HttpPost]
-        public ActionResult Default(int id)
+        public ActionResult Default(int productId, int id)
         {
-            var item = db.ProductImages.Find(id);
-            if (item.IsDefault)
+            var items = db.ProductImages.Where(x => x.ProductId == productId);
+            foreach (var item in items)
             {
                 item.IsDefault = false;
-            }   
-            else
-            {
-                item.IsDefault = true;
             }
-
+            var add = db.ProductImages.Find(id);
+            add.IsDefault = true;
             db.SaveChanges();
             return Json(new { SuccesS = true });
         }
