@@ -17,9 +17,17 @@ using CosmeticsStore.Momo;
 using Newtonsoft.Json.Linq;
 using System.Security.Policy;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Diagnostics;
+using Twilio.Http;
 
 namespace CosmeticsStore.Controllers
 {
+    
     class GetInfo
     {
         public static string Email;
@@ -27,7 +35,13 @@ namespace CosmeticsStore.Controllers
     }
     public class ShoppingCartController : Controller
     {
+        private System.Net.Http.HttpClient _httpClient;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private string _apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+        public ShoppingCartController()
+        {
+            _httpClient = new System.Net.Http.HttpClient();
+        }
         // GET: ShoppingCart
         public ActionResult Index()
         {
@@ -88,7 +102,7 @@ namespace CosmeticsStore.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOut(OrderViewModel req)
+        public async Task<ActionResult> CheckOut(OrderViewModel req)
         {
 
             var code = new { Success = false, Code = -1 };
@@ -139,6 +153,14 @@ namespace CosmeticsStore.Controllers
                             break;
                     }
                     SendMail(GetInfo.Email, cart, order);
+                    string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
+                    string toAddress = req.Address;
+                    int serviceId = 53321;
+
+                    decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
+
+                    Debug.WriteLine("Phí vận chuyển: " + shippingFee.ToString("N0") + " VND");
+
                     return RedirectToAction("CheckOutSuccess");
                 }
             }
@@ -651,5 +673,114 @@ namespace CosmeticsStore.Controllers
 
             return View();
         }
+
+        public async Task<decimal> CalculateShippingFee(string fromAddress, string toAddress, int serviceId)
+        {
+            var apiKey = "47c6c1d4-0f65-11ee-8a8c-6e4795e6d902";
+            var fromDistrictId = await GetDistrictIdFromAddress(fromAddress);
+            var toDistrictId = await GetDistrictIdFromAddress(toAddress);
+            string[] partsFrom = fromDistrictId.Split('-');
+            string districtIdFrom = partsFrom[0];  // "3696"
+            string wardIdFrom = partsFrom[1];  // "90835"
+
+            string[] partsTo = toDistrictId.Split('-');
+            string districtIdTo = partsTo[0];  // "3696"
+            string wardIdTo = partsTo[1];  // "90835"
+
+                _httpClient.DefaultRequestHeaders.Add("token", apiKey);
+
+                var jsonPayload = $"{{ \"service_id\": {serviceId}, \"insurance_value\": 500000, \"coupon\": null, \"from_district_id\": {districtIdFrom}, \"to_district_id\": {districtIdTo}, \"to_ward_code\": \"20314\", \"height\": 15, \"length\": 15, \"weight\": 1000, \"width\": 15 }}";
+
+                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                var apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+                // Thay đổi _apiUrl thành apiUrl
+                
+                var response = await _httpClient.PostAsync(apiUrl, content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic responseData = JsonConvert.DeserializeObject(responseContent);
+                    decimal shippingFee = responseData.data.total;
+                    return shippingFee;
+                }
+                else
+                {
+                    throw new Exception($"Failed to calculate shipping fee. Error code: {response.StatusCode}");
+                }
+            
+        }
+
+
+        private async Task<string> GetDistrictIdFromAddress(string address)
+        {
+            var districtUrl = "https://online-gateway.ghn.vn/shiip/public-api/master-data/district";
+            var wardUrl = "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward";
+            var apiKey = "47c6c1d4-0f65-11ee-8a8c-6e4795e6d902";
+
+            using (var httpClient = new System.Net.Http.HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Token", apiKey);
+
+                // Lấy mã huyện từ địa chỉ
+                var districtPayload = JsonConvert.SerializeObject(new { address = address });
+                var districtContent = new StringContent(districtPayload, Encoding.UTF8, "application/json");
+                var districtResponse = await httpClient.PostAsync(districtUrl, districtContent);
+
+                if (districtResponse.IsSuccessStatusCode)
+                {
+                    var districtResponseContent = await districtResponse.Content.ReadAsStringAsync();
+                    dynamic districtData = JsonConvert.DeserializeObject(districtResponseContent);
+                    JArray data = districtData.data;
+                    string districtId = districtData.data[0]["DistrictID"].ToString();
+                    foreach (var item in data)
+                    {
+                        var keyword = "Quận";
+                        var segments = address.Split(',');
+                        foreach (var segment in segments)
+                        { 
+                            if (segment.Contains(keyword))
+                            {
+                                var district = segment.Trim();
+                                var districtName = item["DistrictName"].Value<string>();
+                                if (string.Equals(districtName, district, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    districtId = item["DistrictID"].Value<int>().ToString();
+                                    break;
+                                }
+                            }
+                        }
+                    
+                }
+                    // Lấy mã xã từ địa chỉ
+                    var wardPayload = $"{{ \"district_id\": {districtId} }}";
+                    var wardContent = new StringContent(wardPayload, Encoding.UTF8, "application/json");
+                    var wardResponse = await httpClient.PostAsync(wardUrl, wardContent);
+
+                    if (wardResponse.IsSuccessStatusCode)
+                    {
+                        var wardResponseContent = await wardResponse.Content.ReadAsStringAsync();
+                        dynamic wardData = JsonConvert.DeserializeObject(wardResponseContent);
+                        string wardId = wardData.data[0]["WardCode"].ToString();
+
+                        // Trả về mã huyện và xã
+                        return $"{districtId}-{wardId}";
+                    }
+
+                    else
+                    {
+                        throw new Exception($"Failed to retrieve ward ID. Error code: {wardResponse.StatusCode}");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Failed to retrieve district ID. Error code: {districtResponse.StatusCode}");
+                }
+            }
+        }
+
+
     }
+
 }
