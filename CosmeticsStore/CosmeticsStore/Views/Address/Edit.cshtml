@@ -4,13 +4,14 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Edit</h2>
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<h2>Chỉnh sửa địa chỉ</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div style="margin-top: 130px" class="form-horizontal">
         <h4 class="text-center">Thay đổi địa chỉ</h4>
         <hr />
