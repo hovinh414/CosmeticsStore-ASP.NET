@@ -18,7 +18,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <script>
-                        function OnBeginSub() {
+                        function OnBeginSub(rs) {
 
                         }
                         function OnSuccessSub(rs) {
@@ -26,7 +26,11 @@
                                 alert("Bạn đã đăng ký thành công");
                             }
                         }
-                        function OnFailureSub(rs) { }
+                        function OnFailureSub(rs) {
+                            if (rs.Success) {
+                                alert("aaa");
+                            }
+                        }
                     </script>
                     <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
                         @*@Html.TextBoxFor(x => x.Email, new {})*@
