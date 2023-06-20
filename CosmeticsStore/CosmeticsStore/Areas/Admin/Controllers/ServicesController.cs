@@ -154,7 +154,6 @@ namespace CosmeticsStore.Areas.Admin.Controllers
             string authToken = System.Configuration.ConfigurationManager.AppSettings["TwilioAuthToken"];
             string phoneNumber = appointment.Phone;
             phoneNumber = phoneNumber.TrimStart('0');
-
             phoneNumber = "+84" + phoneNumber;
 
 

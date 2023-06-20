@@ -72,7 +72,7 @@ namespace CosmeticsStore.Controllers
                     ViewBag.Script = message;
                 }
             }
-            BackgroundJob.Schedule(() => UpdateBookingStatus(), TimeSpan.FromMinutes(15));
+            BackgroundJob.Schedule(() => UpdateBookingStatus(), TimeSpan.FromMinutes(1));
             BackgroundJob.Schedule(() => UpdateBookingStatusForBan(), TimeSpan.FromMinutes(1));
 
             // Định cấu hình công việc lập lịch
