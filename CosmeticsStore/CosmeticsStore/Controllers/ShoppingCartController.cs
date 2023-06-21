@@ -27,10 +27,12 @@ using Twilio.Http;
 
 namespace CosmeticsStore.Controllers
 {
-    
+
     class GetInfo
     {
         public static string Email;
+        public static string toAddress;
+        public static decimal shippingFee;
         public static Models.EF.Order OrderInfo;
     }
     public class ShoppingCartController : Controller
@@ -70,11 +72,22 @@ namespace CosmeticsStore.Controllers
 
         public ActionResult Partial_Item_ThanhToan()
         {
+            string id = User.Identity.GetUserId();
+            var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
+            foreach (var item in listAddress)
+            {
+                if (item.IsDefault)
+                {
+                    GetInfo.toAddress = item.Address;
+                }
+
+            }
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             if (cart != null && cart.Items.Any())
             {
                 return PartialView(cart.Items);
             }
+
             return PartialView();
         }
         public ActionResult Partial_Item_Cart()
@@ -118,22 +131,31 @@ namespace CosmeticsStore.Controllers
             {
 
                 var order = new CosmeticsStore.Models.EF.Order();
-                foreach (var item in listAddress)
+                if (id != null)
                 {
-                    if (item.IsDefault && id != null)
+                    foreach (var item in listAddress)
                     {
-                        order.CustomerName = item.CustomerName;
-                        order.Phone = item.Phone;
-                        order.Address = item.Address;
-                        order.Email = item.Email;
-                        GetInfo.Email = item.Email;
+                        if (item.IsDefault)
+                        {
+                            order.CustomerName = item.CustomerName;
+                            order.Phone = item.Phone;
+                            order.Address = item.Address;
+                            order.Email = item.Email;
+                            GetInfo.Email = item.Email;
+                            GetInfo.toAddress = item.Address;
+                        }
+
                     }
                 }
-                order.CustomerName = req.CustomerName;
-                order.Phone = req.Phone;
-                order.Address = req.Address;
-                order.Email = req.Email;
-                GetInfo.Email = req.Email;
+                else
+                {
+                    order.CustomerName = req.CustomerName;
+                    order.Phone = req.Phone;
+                    order.Address = req.Address;
+                    order.Email = req.Email;
+                    GetInfo.Email = req.Email;
+                    GetInfo.toAddress = req.Address;
+                }
                 cart.Items.ForEach(x => order.OrderDetails.Add(new OrderDetail
                 {
                     ProductId = x.ProductId,
@@ -153,11 +175,24 @@ namespace CosmeticsStore.Controllers
                 order.CreatedDate = DateTime.Now;
                 order.ModifiedDate = DateTime.Now;
                 order.CreatedBy = req.Phone;
-                
+
                 GetInfo.OrderInfo = order;
                 Random rd = new Random();
                 order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
-                // gui mail khach hang
+                string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
+
+                int serviceId = 53321;
+                if (id != null)
+                {
+                    string toAddress = GetInfo.toAddress;
+                    decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
+                    GetInfo.shippingFee = shippingFee;
+                }
+                else
+                {
+                    
+                    GetInfo.shippingFee = 30000;
+                }
                 switch (order.TypePayment)
                 {
                     case 3:
@@ -169,14 +204,8 @@ namespace CosmeticsStore.Controllers
                     default:
                         break;
                 }
+
                 
-                string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
-                string toAddress = order.Address;
-                int serviceId = 53321;
-
-                decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
-
-                Debug.WriteLine("Phí vận chuyển: " + shippingFee.ToString("N0") + " VND");
                 SendMail(GetInfo.Email, cart, order);
                 return RedirectToAction("CheckOutSuccess");
             }
@@ -203,6 +232,7 @@ namespace CosmeticsStore.Controllers
             db.SaveChanges();
             var strSanPham = "";
             var thanhtien = decimal.Zero;
+            var phiVanChuyen = decimal.Zero;
             var TongTien = decimal.Zero;
             foreach (var sp in cart.Items)
             {
@@ -213,7 +243,8 @@ namespace CosmeticsStore.Controllers
                 strSanPham += "</tr>";
                 thanhtien += sp.Quantity * sp.Price;
             }
-            TongTien = thanhtien;
+            phiVanChuyen = GetInfo.shippingFee;
+            TongTien = thanhtien + phiVanChuyen;
             string contentCustomer = System.IO.File.ReadAllText(Server.MapPath("~/Content/templates/send2.html"));
             contentCustomer = contentCustomer.Replace("{{MaDon}}", order.Code);
             contentCustomer = contentCustomer.Replace("{{SanPham}}", strSanPham);
@@ -243,6 +274,7 @@ namespace CosmeticsStore.Controllers
                     break;
             }
             contentCustomer = contentCustomer.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
+            contentCustomer = contentCustomer.Replace("{{PhiVanChuyen}}", CosmeticsStore.Common.Common.FormatNumber(phiVanChuyen, 0));
             contentCustomer = contentCustomer.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));
             CosmeticsStore.Common.Common.SendMail("CosmeticsStore", "Đơn hàng #" + order.Code, contentCustomer.ToString(), email);
 
@@ -275,6 +307,7 @@ namespace CosmeticsStore.Controllers
                     break;
             }
             contentAdmin = contentAdmin.Replace("{{ThanhTien}}", CosmeticsStore.Common.Common.FormatNumber(thanhtien, 0));
+            contentAdmin = contentAdmin.Replace("{{PhiVanChuyen}}", CosmeticsStore.Common.Common.FormatNumber(phiVanChuyen, 0));
             contentAdmin = contentAdmin.Replace("{{TongTien}}", CosmeticsStore.Common.Common.FormatNumber(TongTien, 0));
             CosmeticsStore.Common.Common.SendMail("CosmeticsStore", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
             cart.ClearCart();
@@ -310,7 +343,7 @@ namespace CosmeticsStore.Controllers
                 returnUrl = item.ReturnUrlMomo;
                 notifyurl = item.NotifyurlMomo;
             }
-            string amount = ((int)order.TotalAmount).ToString();
+            string amount = ((int)(order.TotalAmount + GetInfo.shippingFee) ).ToString();
             string orderid = DateTime.Now.Ticks.ToString();//mã đơn hàng
             string requestId = DateTime.Now.Ticks.ToString();
             string extraData = "";
@@ -530,7 +563,7 @@ namespace CosmeticsStore.Controllers
             // Create amount object
             var amount = new Amount()
             {
-                currency = "USD",
+                currency = "VND",
                 total = (Convert.ToDouble(details.tax) + Convert.ToDouble(details.shipping) + Convert.ToDouble(details.subtotal)).ToString(),//tax + shipping + subtotal
                 details = details
             };
@@ -651,7 +684,7 @@ namespace CosmeticsStore.Controllers
             pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
             pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
-            pay.AddRequestData("vnp_Amount", ((int)order.TotalAmount * 100).ToString()); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
+            pay.AddRequestData("vnp_Amount", ((int)(order.TotalAmount + GetInfo.shippingFee) * 100).ToString()); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
             pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
             pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
@@ -735,29 +768,29 @@ namespace CosmeticsStore.Controllers
             string districtIdTo = partsTo[0];  // "3696"
             string wardIdTo = partsTo[1];  // "90835"
 
-                _httpClient.DefaultRequestHeaders.Add("token", apiKey);
+            _httpClient.DefaultRequestHeaders.Add("token", apiKey);
 
-                var jsonPayload = $"{{ \"service_id\": {serviceId}, \"insurance_value\": 500000, \"coupon\": null, \"from_district_id\": {districtIdFrom}, \"to_district_id\": {districtIdTo}, \"to_ward_code\": \"20314\", \"height\": 15, \"length\": 15, \"weight\": 1000, \"width\": 15 }}";
+            var jsonPayload = $"{{ \"service_id\": {serviceId}, \"insurance_value\": 500000, \"coupon\": null, \"from_district_id\": {districtIdFrom}, \"to_district_id\": {districtIdTo}, \"to_ward_code\": \"20314\", \"height\": 15, \"length\": 15, \"weight\": 1000, \"width\": 15 }}";
 
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-                var apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
-                // Thay đổi _apiUrl thành apiUrl
-                
-                var response = await _httpClient.PostAsync(apiUrl, content);
-                var responseContent = await response.Content.ReadAsStringAsync();
+            var apiUrl = "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+            // Thay đổi _apiUrl thành apiUrl
 
-                if (response.IsSuccessStatusCode)
-                {
-                    dynamic responseData = JsonConvert.DeserializeObject(responseContent);
-                    decimal shippingFee = responseData.data.total;
-                    return shippingFee;
-                }
-                else
-                {
-                    throw new Exception($"Failed to calculate shipping fee. Error code: {response.StatusCode}");
-                }
-            
+            var response = await _httpClient.PostAsync(apiUrl, content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic responseData = JsonConvert.DeserializeObject(responseContent);
+                decimal shippingFee = responseData.data.total;
+                return shippingFee;
+            }
+            else
+            {
+                throw new Exception($"Failed to calculate shipping fee. Error code: {response.StatusCode}");
+            }
+
         }
 
 
@@ -787,7 +820,7 @@ namespace CosmeticsStore.Controllers
                         var keyword = "Quận";
                         var segments = address.Split(',');
                         foreach (var segment in segments)
-                        { 
+                        {
                             if (segment.Contains(keyword))
                             {
                                 var district = segment.Trim();
@@ -799,8 +832,8 @@ namespace CosmeticsStore.Controllers
                                 }
                             }
                         }
-                    
-                }
+
+                    }
                     // Lấy mã xã từ địa chỉ
                     var wardPayload = $"{{ \"district_id\": {districtId} }}";
                     var wardContent = new StringContent(wardPayload, Encoding.UTF8, "application/json");
