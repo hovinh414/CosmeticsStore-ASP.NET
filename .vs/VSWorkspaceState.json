@@ -7,11 +7,12 @@
     "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin",
     "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin\\Views",
     "\\CosmeticsStore\\CosmeticsStore\\Areas\\Admin\\Views\\Services",
+    "\\CosmeticsStore\\CosmeticsStore\\Controllers",
     "\\CosmeticsStore\\CosmeticsStore\\Models",
     "\\CosmeticsStore\\CosmeticsStore\\Models\\EF",
     "\\CosmeticsStore\\CosmeticsStore\\Views",
     "\\CosmeticsStore\\CosmeticsStore\\Views\\Services"
   ],
-  "SelectedNode": "\\CosmeticsStore\\CosmeticsStore.sln",
+  "SelectedNode": "\\CosmeticsStore\\CosmeticsStore\\Controllers\\ShoppingCartController.cs",
   "PreviewInSolutionExplorer": false
 }

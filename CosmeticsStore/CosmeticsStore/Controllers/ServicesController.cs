@@ -1,25 +1,37 @@
 ﻿using CosmeticsStore.Models;
 using CosmeticsStore.Models.EF;
+using Geocoding;
+using Geocoding.Google;
 using Hangfire;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
+using Location = CosmeticsStore.Models.Location;
 
 namespace CosmeticsStore.Controllers
 {
     public class ServicesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private Branchs nearestBranch = new Branchs();
+        double longtitude = 0;
+        double latitude = 0;
         // GET: Services
         public ActionResult Index(string Searchtext, int? page)
         {
-            IEnumerable<Service> items = db.Services.OrderBy(x => x.Title);
+            IEnumerable<Models.EF.Service> items = db.Services.OrderBy(x => x.Title);
             var pageSize = 12;
             if (page == null)
             {
@@ -79,9 +91,10 @@ namespace CosmeticsStore.Controllers
             RecurringJob.AddOrUpdate(() => CheckCustomerBookingStatus(), Cron.Daily);
             return View(items);
         }
+
         public ActionResult SortByName(string Searchtext)
         {
-            IEnumerable<Service> items = db.Services.OrderBy(x => x.Title).ToList();
+            IEnumerable<Models.EF.Service> items = db.Services.OrderBy(x => x.Title).ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 char[] charArray = Searchtext.ToCharArray();
@@ -112,7 +125,7 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult SortByPrice(string Searchtext)
         {
-            IEnumerable<Service> items = db.Services.OrderBy(x => x.Price).ToList();
+            IEnumerable<Models.EF.Service> items = db.Services.OrderBy(x => x.Price).ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 char[] charArray = Searchtext.ToCharArray();
@@ -143,7 +156,7 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult SortByPriceGiam(string Searchtext)
         {
-            IEnumerable<Service> items = db.Services.OrderByDescending(x => x.Price).ToList();
+            IEnumerable<Models.EF.Service> items = db.Services.OrderByDescending(x => x.Price).ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 char[] charArray = Searchtext.ToCharArray();
@@ -174,7 +187,7 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult SortByNameZA(string Searchtext)
         {
-            IEnumerable<Service> items = db.Services.OrderByDescending(x => x.Title).ToList();
+            IEnumerable<Models.EF.Service> items = db.Services.OrderByDescending(x => x.Title).ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 char[] charArray = Searchtext.ToCharArray();
@@ -264,6 +277,18 @@ namespace CosmeticsStore.Controllers
 
         public ActionResult BookingTime()
         {
+            String lati = Request.Form["param1"];
+            String longti = Request.Form["param2"];
+            Debug.WriteLine("long:" + Request.Form["param1"]);
+            List<Branchs> branchs = db.Branchs.ToList();
+            if(lati == null || longti == null)
+            {
+                nearestBranch = FindNearestBranch(106.8286851, 10.8428402, branchs);
+            }
+            else
+            {
+                nearestBranch = FindNearestBranch(double.Parse(longti), double.Parse(lati), branchs);
+            }
             //dat lịch
             string userId = User.Identity.GetUserId();
             ViewBag.UserId = userId;
@@ -292,7 +317,8 @@ namespace CosmeticsStore.Controllers
             Debug.WriteLine(" Count: " + hoursForDays.Count());
             Debug.WriteLine(" IsPastTimne: " + hoursForDays[0][1].IsPastTime);
             ViewBag.HoursOfDay = hoursForDays;
-
+            ViewBag.Branch = nearestBranch.Location;
+            ViewBag.BranchId = nearestBranch.Id;
             return View();
         }
 
@@ -420,7 +446,122 @@ namespace CosmeticsStore.Controllers
             db.SaveChanges();
         }
 
-       
-            
-     }
+
+        public static Branchs FindNearestBranch(double longitudeSource, double latitudeSource, List<Branchs> branches)
+        {
+            List<string> addresses = branches.Select(b => b.Location).ToList();
+            string nearestAddress = FindNearestAddress(longitudeSource, latitudeSource, addresses);
+
+            return branches.FirstOrDefault(b => b.Location == nearestAddress);
+        }
+
+        public static string FindNearestAddress(double longitudeSource, double latitudeSource, List<string> addresses)
+        {
+            double nearestDistance = double.MaxValue;
+            string nearestAddress = string.Empty;
+
+            foreach (string address in addresses)
+            {
+                var location = GetLocationFromAddress(address);
+
+                if (location != null)
+                {
+                    var sourceLocation = new Location(latitudeSource, longitudeSource);
+                    double distance = CalculateDistance(sourceLocation, location);
+
+                    if (distance < nearestDistance)
+                    {
+                        nearestDistance = distance;
+                        nearestAddress = address;
+                    }
+                }
+            }
+
+            return nearestAddress;
+        }
+
+        private static Location GetLocationFromAddress(string address)
+        {
+            try
+            {
+                string encodedAddress = Uri.EscapeDataString(address);
+                string apiUrl = "https://nominatim.openstreetmap.org/search?format=geojson&q=" + encodedAddress;
+
+                using (HttpClient client = new HttpClient())
+                {       
+                    try
+                    {
+                        string jsonResult = SendHttpRequest(apiUrl);
+                        JObject result = JObject.Parse(jsonResult);
+
+                        JArray features = result["features"] as JArray;
+
+                        if (features != null && features.Count > 0)
+                        {
+                            double latitude = features[0]["geometry"]["coordinates"][1].Value<double>();
+                            double longitude = features[0]["geometry"]["coordinates"][0].Value<double>();
+
+                            return new Location(latitude, longitude);
+                        }
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        Debug.WriteLine("Lỗi khi gửi yêu cầu HTTP: " + ex.Message);
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception here
+            }
+
+            return null;
+        }
+
+        private static string SendHttpRequest(string url)
+        {
+            string responseContent = string.Empty;
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.UserAgent = "OSMDroid";
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    responseContent = reader.ReadToEnd();
+                }
+            }
+            catch (WebException ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+
+            return responseContent;
+        }
+
+
+        private static double CalculateDistance(Location location1, Location location2)
+        {
+            var dLat = (location2.Latitude - location1.Latitude) * Math.PI / 180.0;
+            var dLon = (location2.Longitude - location1.Longitude) * Math.PI / 180.0;
+
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(location1.Latitude * Math.PI / 180.0) * Math.Cos(location2.Latitude * Math.PI / 180.0) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var distance = 6371 * c;
+
+            return distance;
+        }
+
+
+
+    }
 }

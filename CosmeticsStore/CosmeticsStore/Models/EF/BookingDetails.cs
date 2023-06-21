@@ -20,6 +20,7 @@ namespace CosmeticsStore.Models.EF
         public decimal Price { get; set; }
         public string ServiceName { get; set; }
         public string ServiceDetail { get; set; }
+        public int BranchId { get; set; }
 
         public virtual Bookings Bookings { get; set; }
         public virtual Service Service { get; set; }

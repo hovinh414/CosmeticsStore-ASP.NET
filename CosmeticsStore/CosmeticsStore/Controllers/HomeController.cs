@@ -24,12 +24,9 @@ namespace CosmeticsStore.Controllers
         public async Task<ActionResult> Index()
         {
             string userId = User.Identity.GetUserId();
-            ViewBag.UserId = userId;       
+            ViewBag.UserId = userId;
             return View();
         }
-
-
-       
 
         public ActionResult Partial_Subcrise()
         {
@@ -73,7 +70,7 @@ namespace CosmeticsStore.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult BookAppointment(string selectedDate, string selectedHour, string name, string phone, string email, string serviceId)
+        public ActionResult BookAppointment(string selectedDate, string selectedHour, string name, string phone, string email, string serviceId, string branchId)
         {
             // Chuyển đổi giá trị hour thành kiểu DateTime
             DateTime bookingTime = DateTime.ParseExact(selectedDate + " " + selectedHour, "MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture);
@@ -106,8 +103,7 @@ namespace CosmeticsStore.Controllers
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     Status = "Chờ xác nhận",
-                    serviceId = serviceId
-
+                    serviceId = serviceId,
                 };
                 // Thêm đối tượng Booking vào database
                 db.Bookings.Add(booking);
@@ -121,8 +117,9 @@ namespace CosmeticsStore.Controllers
                         BookingId = code,
                         Price = service.Price,
                         ServiceDetail = service.Detail,
-                        ServiceName = service.Title
-                    };
+                        ServiceName = service.Title,
+                        BranchId = (int)Convert.ToInt32(branchId)
+                };
 
                     db.BookingDetails.Add(bookingDetails);
                     db.SaveChanges();
