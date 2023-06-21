@@ -69,22 +69,13 @@ namespace CosmeticsStore.Controllers
 
             return View();
         }
-
         public ActionResult Partial_Item_ThanhToan()
         {
-            string id = User.Identity.GetUserId();
-            var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
-            foreach (var item in listAddress)
-            {
-                if (item.IsDefault)
-                {
-                    GetInfo.toAddress = item.Address;
-                }
 
-            }
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             if (cart != null && cart.Items.Any())
             {
+                ViewBag.ship = 34000;
                 return PartialView(cart.Items);
             }
 
@@ -108,12 +99,31 @@ namespace CosmeticsStore.Controllers
             }
             return Json(new { Count = 0 }, JsonRequestBehavior.AllowGet);
         }
+        /*public async Task<decimal> ShippingFeeAsync()
+        {
+            decimal fee = 0;
+            string id = User.Identity.GetUserId();
+            var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
+            foreach (var item in listAddress)
+            {
+                if (item.IsDefault)
+                {
+                    string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
 
+                    int serviceId = 53321;
+                    string toAddress = item.Address;
+                    fee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
+                    return 1000;
+                }
+            }
+            return 20;
+        }*/
         public ActionResult Partial_CheckOut()
         {
             string id = User.Identity.GetUserId();
             var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
             ViewBag.InfoOrder = listAddress;
+            ViewBag.ship = 34000;
             return PartialView();
         }
         [HttpPost]
@@ -124,8 +134,6 @@ namespace CosmeticsStore.Controllers
             var code = new { Success = false, Code = -1 };
             string id = User.Identity.GetUserId();
             var listAddress = db.AddressBooks.Where(x => x.UserID.Contains(id));
-
-
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             if (cart != null)
             {
@@ -182,17 +190,11 @@ namespace CosmeticsStore.Controllers
                 string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
 
                 int serviceId = 53321;
-                if (id != null)
-                {
-                    string toAddress = GetInfo.toAddress;
-                    decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
-                    GetInfo.shippingFee = shippingFee;
-                }
-                else
-                {
-                    
-                    GetInfo.shippingFee = 30000;
-                }
+                string toAddress = GetInfo.toAddress;
+                decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
+                GetInfo.shippingFee = shippingFee;
+
+
                 switch (order.TypePayment)
                 {
                     case 3:
@@ -205,7 +207,7 @@ namespace CosmeticsStore.Controllers
                         break;
                 }
 
-                
+
                 SendMail(GetInfo.Email, cart, order);
                 return RedirectToAction("CheckOutSuccess");
             }
@@ -343,7 +345,7 @@ namespace CosmeticsStore.Controllers
                 returnUrl = item.ReturnUrlMomo;
                 notifyurl = item.NotifyurlMomo;
             }
-            string amount = ((int)(order.TotalAmount + GetInfo.shippingFee) ).ToString();
+            string amount = ((int)(order.TotalAmount + GetInfo.shippingFee)).ToString();
             string orderid = DateTime.Now.Ticks.ToString();//mã đơn hàng
             string requestId = DateTime.Now.Ticks.ToString();
             string extraData = "";
