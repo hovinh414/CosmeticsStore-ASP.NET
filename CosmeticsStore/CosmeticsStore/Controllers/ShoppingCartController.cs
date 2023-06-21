@@ -128,39 +128,6 @@ namespace CosmeticsStore.Controllers
                         order.Email = item.Email;
                         GetInfo.Email = item.Email;
                     }
-                    else
-                    {
-                        order.IdUser = User.Identity.GetUserId();
-                    }
-                    order.CreatedDate = DateTime.Now;
-                    order.ModifiedDate = DateTime.Now;
-                    order.CreatedBy = req.Phone;
-                    GetInfo.Email = req.Email;
-                    GetInfo.OrderInfo = order;
-                    Random rd = new Random();
-                    order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
-                    // gui mail khach hang
-                    switch (order.TypePayment)
-                    {
-                        case 3:
-                            return RedirectToAction("PaymentWithPaypal");
-                        case 4:
-                            return RedirectToAction("PaymentVNPay");
-                        case 5:
-                            return RedirectToAction("PaymentMomo");
-                        default:
-                            break;
-                    }
-                    SendMail(GetInfo.Email, cart, order);
-                    string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
-                    string toAddress = req.Address;
-                    int serviceId = 53321;
-
-                    decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
-
-                    Debug.WriteLine("Phí vận chuyển: " + shippingFee.ToString("N0") + " VND");
-
-                    return RedirectToAction("CheckOutSuccess");
                 }
                 order.CustomerName = req.CustomerName;
                 order.Phone = req.Phone;
@@ -202,6 +169,14 @@ namespace CosmeticsStore.Controllers
                     default:
                         break;
                 }
+                
+                string fromAddress = "Số nhà 10, Phường Trung Hoà, Quận Cầu Giấy, Hà Nội";
+                string toAddress = order.Address;
+                int serviceId = 53321;
+
+                decimal shippingFee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
+
+                Debug.WriteLine("Phí vận chuyển: " + shippingFee.ToString("N0") + " VND");
                 SendMail(GetInfo.Email, cart, order);
                 return RedirectToAction("CheckOutSuccess");
             }
