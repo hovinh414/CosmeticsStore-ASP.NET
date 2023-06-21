@@ -1,40 +1,12 @@
 ﻿
 @model IEnumerable<CosmeticsStore.Models.ShoppingCartItem>
 @using CosmeticsStore.Common
-<!-- CSS (Font, Vendor, Icon, Plugins & Style CSS files) -->
-<!-- Font CSS -->
-<!--<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">-->
-<!-- Vendor CSS (Bootstrap & Icon Font) -->
-<!--<link href="~/Content/assets/styles/bootstrap4/bootstrap.min.css" rel="stylesheet" />-->
-<!-- Plugins CSS (All Plugins Files) -->
-<!--<link href="~/Content/assets/styles/fancybox.min.css" rel="stylesheet" />
-<link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-<link href="~/Content/assets/styles/nice-select.css" rel="stylesheet" />
-<link href="~/Content/assets/styles/swiper-bundle.min.css" rel="stylesheet" />-->
-<!-- Style CSS -->
+
+
 <link href="~/Content/assets/styles/checkout_style.css" rel="stylesheet" />
 @if (Model != null && Model.Any())
 {
-    @*<h3>Giỏ Hàng <span style="float:right; position:relative"><small>@Model.Count()</small></span></h3>
-        var TongTien = decimal.Zero;
-        <div style="border:1px solid #808080">
-            <table class="table">
-                @foreach (var item in Model)
-                {
-                    TongTien += item.TotalPrice;
-                    <tr>
-                        <td>@item.ProductName</td>
-                        <td>@Common.FormatNumber(item.Price, 0)</td>
-                    </tr>
-                }
-                <tr>
-                    <td>Tổng Tiền</td>
-                    <td>@Common.FormatNumber(TongTien, 0)</td>
-                </tr>
-            </table>
-        </div>*@
+    
     var TongTien = decimal.Zero;
     <h2 class="title">Giỏ Hàng</h2>
 
@@ -59,22 +31,32 @@
                 </tr>
             }
         </tbody>
+
         <tfoot class="table-foot">
             <tr class="order-total">
                 <th style="font-weight:400px;font-size:14px">Tổng Tiền </th>
                 <th></th>
                 <th></th>
-                <td style="font-weight:400px;font-size:14px">@ViewBag.ship</td>
+                <td style="font-weight:400px;font-size:14px">@Common.FormatNumber(TongTien + ViewBag.ship, 0)đ</td>
             </tr>
         </tfoot>
-        <tfoot class="table-foot">
-            <tr class="order-total">
-                <th style="font-weight:400px;font-size:14px">Tổng Tiền </th>
+        <tfoot class="">
+            <tr class="">
+                <th style="font-weight:400px;font-size:14px">Thành tiền </th>
                 <th></th>
                 <th></th>
                 <td style="font-weight:400px;font-size:14px">@Common.FormatNumber(TongTien, 0)đ</td>
             </tr>
         </tfoot>
+        <tfoot class="">
+            <tr class="">
+                <th style="font-weight:400px;font-size:14px">Phí vận chuyển </th>
+                <th></th>
+                <th></th>
+                <td style="font-weight:400px;font-size:14px">@Common.FormatNumber(ViewBag.ship, 0)đ</td>
+            </tr>
+        </tfoot>
+
     </table>
 
 

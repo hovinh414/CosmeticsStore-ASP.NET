@@ -1,11 +1,7 @@
 ﻿@model CosmeticsStore.Models.OrderViewModel
 <link href="~/Content/assets/styles/checkout_style.css" rel="stylesheet" />
 
-@*<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.webp">*@
 
-<!-- CSS (Font, Vendor, Icon, Plugins & Style CSS files) -->
-<!-- Font CSS -->
-<!-- Style CSS -->
 @using (Ajax.BeginForm("CheckOut", "Shoppingcart", new AjaxOptions
 {
     HttpMethod = "POST",
