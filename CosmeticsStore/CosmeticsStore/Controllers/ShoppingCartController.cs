@@ -27,7 +27,7 @@ using Twilio.Http;
 
 namespace CosmeticsStore.Controllers
 {
-
+   
     class GetInfo
     {
         public static string Email;
@@ -45,8 +45,10 @@ namespace CosmeticsStore.Controllers
             _httpClient = new System.Net.Http.HttpClient();
         }
         // GET: ShoppingCart
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            decimal shippingFee = await ShippingFeeAsync();
+            TempData["ShippingFee"] = shippingFee;
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             if (cart != null && cart.Items.Any())
             {
@@ -71,11 +73,18 @@ namespace CosmeticsStore.Controllers
         }
         public ActionResult Partial_Item_ThanhToan()
         {
-
+            
             ShoppingCart cart = (ShoppingCart)Session["cart"];
             if (cart != null && cart.Items.Any())
             {
-                ViewBag.ship = 34000;
+                if (TempData["ShippingFee"] != null)
+                {
+                    ViewBag.ship = (decimal)TempData["ShippingFee"];
+                }
+                else
+                {
+                    ViewBag.ship = 34000;
+                }
                 return PartialView(cart.Items);
             }
 
@@ -99,7 +108,7 @@ namespace CosmeticsStore.Controllers
             }
             return Json(new { Count = 0 }, JsonRequestBehavior.AllowGet);
         }
-        /*public async Task<decimal> ShippingFeeAsync()
+        public async Task<decimal> ShippingFeeAsync()
         {
             decimal fee = 0;
             string id = User.Identity.GetUserId();
@@ -113,11 +122,11 @@ namespace CosmeticsStore.Controllers
                     int serviceId = 53321;
                     string toAddress = item.Address;
                     fee = await CalculateShippingFee(fromAddress, toAddress, serviceId);
-                    return 1000;
+                    return fee;
                 }
             }
-            return 20;
-        }*/
+            return fee;
+        }
         public ActionResult Partial_CheckOut()
         {
             string id = User.Identity.GetUserId();
